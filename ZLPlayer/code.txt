@@ -1,0 +1,35 @@
+	CTagHelper tag;
+		if(0 == tag.Link(mediaPath))
+		{
+			if(tag.GetTextTag(L"TIT2",0) > 0)
+				m.title = tag.GetTextTag(L"TIT2");
+
+			if(tag.GetTextTag(L"TALB",0) > 0)
+				m.amblum = tag.GetTextTag(L"TALB");
+
+			if(tag.GetTextTag(L"TPE1",0) > 0)
+				m.aritst = tag.GetTextTag(L"TPE1");
+		}
+		if(m.title.IsEmpty())
+		{
+			int start = CZStringHelper::LastIndexOf(mediaPath,L'\\');
+			int end = CZStringHelper::LastIndexOf(mediaPath,L'.');
+			if(start > 0 && end > start)
+			{
+				wchar_t * p = new wchar_t[end-start];
+				CZStringHelper::SubString(mediaPath,p,start+1,end-1);
+				p[end-start-1] = L'\0';
+				m.title.Format(L"%s",p);	
+				delete p;
+			}
+		}
+
+
+
+		//StringFormat sf;//(StringFormat.GenericDefault());
+		////sf.GenericDefault();
+		//sf.SetFormatFlags(sf.GetFormatFlags()|StringFormatFlags::StringFormatFlagsMeasureTrailingSpaces);
+		//graphics.MeasureString(lrcWord.lrcWord,lrcWord.lrcWord.GetLength(),
+		//	&font,drawSize,&sf,&drawSize);
+		//orgSize.Width -= 700;
+		//printf("c size:%d of %s\n",(int)drawSize.Width,lrcWord.lrcWord);

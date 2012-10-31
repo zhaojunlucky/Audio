@@ -1,0 +1,4 @@
+ZLPlayer End User License Agreement
+	Before to use this application, you must argee with the license agreement of the open source projects and ZLPlayer.
+	The open source projects include libfaad 2.7,libflac 1.2.1,libogg 1.2.2,libtta c++ 2.1,libvorbis 1.3.2,MAC_SDK 4.11,mpg123 1.13,tak 2.1,OptimFROG 4.910b,wavpack 4.60.1,mp4als RM23,libmp3lame,libjpg and libpng.You can find the license agreement of these open source projects by search engine and find in their home page,or you can get them by send email:zhaojunlucky@qq.com. 
+	ZPLayer is an audio player which designed and coded by me,I write it just for one of my dream.That for this,I will update this software permanently. I hope you like this software and if you have some good advice you can tell me by send me email:zhaojunlucky@qq.com. Have a fun! Good luck!

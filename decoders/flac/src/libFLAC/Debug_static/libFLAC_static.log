@@ -1,0 +1,83 @@
+﻿Build started 2011/7/7 9:54:34.
+     1>Project "E:\ZhaoJun\Documents\Visual Studio 2010\Projects\ZJSoft\Audio\decoders\flac\src\libFLAC\libFLAC_static.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Debug_static\libFLAC_static.lastbuildstate".
+       InitializeBuildStatus:
+         Touching "Debug_static\libFLAC_static.unsuccessfulbuild".
+       CustomBuild:
+         ia32/bitreader_asm.nasm:564: warning: label alone on a line without a colon might be in error
+         Performing Custom Build Tools
+         ia32/cpu_asm.nasm:88: warning: label alone on a line without a colon might be in error
+         ia32/cpu_asm.nasm:94: warning: label alone on a line without a colon might be in error
+         ia32/cpu_asm.nasm:111: warning: label alone on a line without a colon might be in error
+         ia32/cpu_asm.nasm:113: warning: label alone on a line without a colon might be in error
+         ia32/cpu_asm.nasm:117: warning: label alone on a line without a colon might be in error
+         Performing Custom Build Tools
+         ia32/fixed_asm.nasm:308: warning: label alone on a line without a colon might be in error
+         Performing Custom Build Tools
+         ia32/lpc_asm.nasm:1507: warning: label alone on a line without a colon might be in error
+         Performing Custom Build Tools
+         ia32/stream_encoder_asm.nasm:155: warning: label alone on a line without a colon might be in error
+         Performing Custom Build Tools
+       ClCompile:
+         D:\software\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\include /I..\..\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D FLAC__HAS_OGG /D FLAC__CPU_IA32 /D FLAC__HAS_NASM /D FLAC__USE_3DNOW /D "VERSION=\"1.2.0\"" /D FLAC__NO_DLL /D DEBUG /D FLAC__OVERFLOW_DETECT /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug_static\\" /Fd"Debug_static\vc100.pdb" /Gd /TC /wd4267 /wd4996 /analyze- /errorReport:prompt bitmath.c bitreader.c bitwriter.c cpu.c crc.c fixed.c float.c format.c lpc.c md5.c memory.c metadata_iterators.c metadata_object.c ogg_decoder_aspect.c ogg_encoder_aspect.c ogg_helper.c ogg_mapping.c stream_decoder.c stream_encoder.c stream_encoder_framing.c window.c
+         window.c
+         stream_encoder_framing.c
+         stream_encoder.c
+         stream_decoder.c
+         ogg_mapping.c
+         ogg_helper.c
+         ogg_encoder_aspect.c
+         ogg_decoder_aspect.c
+         metadata_object.c
+         metadata_iterators.c
+         memory.c
+         md5.c
+         lpc.c
+         format.c
+         float.c
+         fixed.c
+         crc.c
+         cpu.c
+         bitwriter.c
+         bitreader.c
+         Generating Code...
+         Compiling...
+         bitmath.c
+         Generating Code...
+       Lib:
+         D:\software\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\..\obj\debug\lib\libFLAC_static.lib" /NOLOGO ia32/bitreader_asm.obj
+         ia32/cpu_asm.obj
+         ia32/fixed_asm.obj
+         ia32/lpc_asm.obj
+         ia32/stream_encoder_asm.obj
+         Debug_static\bitmath.obj
+         Debug_static\bitreader.obj
+         Debug_static\bitwriter.obj
+         Debug_static\cpu.obj
+         Debug_static\crc.obj
+         Debug_static\fixed.obj
+         Debug_static\float.obj
+         Debug_static\format.obj
+         Debug_static\lpc.obj
+         Debug_static\md5.obj
+         Debug_static\memory.obj
+         Debug_static\metadata_iterators.obj
+         Debug_static\metadata_object.obj
+         Debug_static\ogg_decoder_aspect.obj
+         Debug_static\ogg_encoder_aspect.obj
+         Debug_static\ogg_helper.obj
+         Debug_static\ogg_mapping.obj
+         Debug_static\stream_decoder.obj
+         Debug_static\stream_encoder.obj
+         Debug_static\stream_encoder_framing.obj
+         Debug_static\window.obj
+         libFLAC_static.vcxproj -> E:\ZhaoJun\Documents\Visual Studio 2010\Projects\ZJSoft\Audio\decoders\flac\src\libFLAC\..\..\obj\debug\lib\libFLAC_static.lib
+       FinalizeBuildStatus:
+         Deleting file "Debug_static\libFLAC_static.unsuccessfulbuild".
+         Touching "Debug_static\libFLAC_static.lastbuildstate".
+     1>Done Building Project "E:\ZhaoJun\Documents\Visual Studio 2010\Projects\ZJSoft\Audio\decoders\flac\src\libFLAC\libFLAC_static.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.83

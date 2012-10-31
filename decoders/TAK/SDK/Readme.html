@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>TAK SDK</title>
+</head>
+
+<body>
+
+<h1>TAK SDK</h1>
+<p>
+Software Development Kit for TAK, (T)om's lossless (A)udio (K)ompressor.</p>
+<p>
+Version: TAK SDK 1.1.1, 2009-03-11</p>
+<p>
+Copyright 2007 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.
+</p>
+
+
+<h2>About</h2>
+<p>
+The SDK is intended to enable other developers to use TAK's technology in their
+own applications. It consists of a Dynamic Link Library for Microsoft Windows
+(DLL) as well as header files for Borland Delphi (Pascal) and C.</p>  
+<p>
+This version is limited to  decoding functions. Once it has stood the test of
+time in practical use, an extended version with encoding functions will follow.</p>
+<p>
+The library is compatible to the TAK versions 1.0 to 2.1.0.</p>  
+
+
+<h4>Files</h4>
+
+<ul>
+  <li>The &quot;Doc&quot; directory contains the documentation. The main file
+      is &quot;Sdk.html&quot;. </li>
+  <li>The &quot;Header&quot; directory contains the header files for the
+      decoder library &quot;tak_deco_lib.dll&quot;.</li>
+  <li>The &quot;Source&quot; directory contains parts of TAK's source code.</li>
+</ul>
+
+
+<h4>Links and contact information </h4>
+<p>
+My <a href="http://www.thbeck.de">homepage</a> provides up-to-date information
+about <a href="http://www.thbeck.de/Tak/Tak.html">TAK</a>, sadly only in German
+at present.</p>
+<p>
+If you want to contact me via e-mail, please keep in mind that I won't always
+have the time to answer.</p>
+<p>
+I am regularly active in the "Lossless Audio Compression" forum at
+<a href="http://www.hydrogenaudio.org/" title="Visit Hydrogen Audio">Hydrogenaudio</a>;
+therefore it is a good place to get information about TAK or ask questions.</p>
+
+  
+<h4>Thanks to...</h4>
+<p>
+Many thanks for the energetic collaboration go to</p>
+<ul>
+  <li>Holger Stenger, who tested parts of the library, created a *.lib and gave
+      good advice for interface improvements, and to</li>
+  <li>Thomas Weiler (alias Silversight at Hydrogenaudio.org), who fortunately
+      took pleasure in translating my often "longish" wording from German to
+      English, and to</li>
+  <li>Wieslaw Soltes (alias wisodev at Hydrogenaudio.org), who very quickly
+      wrote the first file decoding application based upon the SDK to verify
+	  it's function.</li>
+</ul>
+
+
+<h2>Terms of use </h2>
+
+<h4>License</h4>
+<p>
+This software is provided as FREEWARE, but only for private, non-commercial use.
+It's also free for educational and scientific use and for use in charity and
+humanitarian organisations.</p>
+<p>
+The use of this software in a commercial application is only allowed with prior
+written approval by the author (Thomas Becker).</p>
+
+<h4>Disclaimer of warranty</h4>
+<p>
+The software is provided &quot;as is&quot; without warranty of any kind. To the maximum
+extent permitted by applicable law, the author further disclaims all warranties,
+including without limitation any implied warranties of merchantability, fitness
+for a particular purpose, and non-infringement. The entire risk arising out of
+the use or performance of the product and documentation remains with recipient.</p>
+<p>
+To the maximum extent permitted by applicable law, in no event shall the author
+be liable for any consequential, incidental, direct, indirect, special,
+punitive, or other damages whatsoever (including, without limitation, damages
+for loss of business profits, business interruption, loss of business
+information, or other pecuniary loss) arising out of this agreement or the use
+of or inability to use the product, even if the author has been advised of
+the possibility of such damages.</p>
+
+
+<h4>Distribution</h4>
+<p>
+The software may be freely distributed provided that it is not modified and
+the original archive remains intact with all accompanying files, and provided
+that no fee is charged (except for any reasonable fees necessary to cover
+costs of distribution media).</p>
+<p>
+It is permitted to distribute the binary libraries (DLLs) separated from the
+rest of the SDK along with a compiled, non-commercial application, provided
+that the libraries used remain unmodified, discrete files with their original
+file names.</p>
+<p>
+For the end user, it is recommended to refer to the official download
+locations for up-to-date library modules. </p> 
+
+   
+<h1>History</h1>
+
+<h3>V1.1.1 / 9-03-11</h3>
+<p>
+Resources:</p>
+<ul>
+  <li>German documentation removed.</li>
+  <li>Source for TAK's container added.</li>
+</ul>
+<p>
+Interface changes:</p>
+<ul>
+  <li>New flag <i>tak_ssd_opt_CheckMd5</i> in the structure <i>TtakSSDOptions</i>
+      to enable the MD5 check of the decoded audio data.</li>
+</ul>
+
+
+<h3>V1.1.0 / 8-12-21</h3>
+<p>
+Interface changes (Adaptions for TAK 1.1.0):</p>
+<ul>
+  <li>Two constants for frame sizes (<i>Ttak_str_FrameSizeTypes</i>) removed:
+      <i>tak_FrameSizeType_6144</i> and <i>tak_FrameSizeType_12288</i>.</li>
+</ul>
+
+
+<h3>V1.0.6 / 8-03-11</h3>
+<p>
+The library &quot;tak_deco_lib.dll&quot; is no longer part of the SDK.</p>
+
+
+<h3>V1.0.5 / 7-12-05</h3>
+<p>
+Internal modifications of the bundled &quot;tak_deco_lib.dll&quot;
+(now V1.0.6):</p>
+<p>
+New features to support TAK 1.0.3:</p>
+<ul>
+  <li>The decoder had to be modified to guarantee error robustness (decoding
+      through errors) for files created by pipe encoding with the -ihs 
+	  (ignore header size) switch applied.</li>
+</ul>
+<p>
+Interface changes (Adaptions for TAK 1.0.3):</p>
+<ul>
+  <li>The <i>tak_Preset_xxx</i>-constants have been removed from the include
+      files. TAK's presets are now named purely numerical
+	  (no more Turbo, Fast...).</li>
+</ul>
+
+
+<h3>V1.0.4 / 7-11-05</h3>
+<p>
+Internal modifications and fixes of the bundled &quot;tak_deco_lib.dll&quot;
+(now V1.0.5):</p>
+<p>
+New features to support TAK 1.0.2:</p>
+<ul>
+  <li>Support for frame sizes of 512, 1024 and 2048 samples.</li>
+  <li>Support for the additional preset INSANE.</li>
+</ul>
+<p>
+Bug fixes:</p>
+<ul>
+  <li>The decoder is expected to process any (damaged) data without any
+      problems. But i have found and corrected two cases, where the decoder
+	  could crash. The chance for this was less than 1 : 1000 (for damaged
+	  files only!).</li> 
+  <li>In one place i used an invalid flag combination in a call of Windows' 
+      VirtualFree().</li> 
+</ul>
+<p>
+Interface changes (Adaptions for TAK 1.0.2):</p>
+<ul>
+  <li>Added constants for the new frame sizes (<i>Ttak_str_FrameSizeTypes</i>):
+      <i>tak_FrameSizeType_512</i> to <i>tak_FrameSizeType_12288</i>.</li>
+  <li>Added constant for the new preset INSANE (<i>TtakPresets</i>):
+      <i>tak_Preset_Insane</i>.</li>
+</ul>
+<p>
+Interface Compatibility:</p>
+<ul>
+  <li>The decoder functions <i>tak_SSD_GetStreamInfo</i> and 
+      <i>tak_SSD_GetEncoderInfo</i> may now return the new values for
+	  the frame size (<i>Ttak_str_FrameSizeTypes</i>) and the encoder
+	  preset/profile (<i>TtakPresets</i>) which have been introduced
+	  with TAK 1.0.2 (see &quot;Interface changes&quot;).</li>
+</ul>
+
+
+<h3>V1.0.3 / 7-04-28</h3>
+<p>
+Internal modifications and fixes of the bundled &quot;tak_deco_lib.dll&quot;
+(now V1.0.4):</p>
+<ul>
+  <li>The memory manager was not thread safe. Multithreaded applications using
+      more than one decoder instance simultaneously could crash. This was most
+     likely to happen with multi-core systems.</li> 
+  <li>Fix of a minor multithreading issue, which could cause suboptimal
+      performance and possibly crashes (in very rare cases). The fix itself
+      is not optimal performancewise; i will improve it when i have more time.</li> 
+</ul>
+
+
+<h3>V1.0.2 / 7-04-14</h3>
+<p>
+Internal modifications and fixes of the &quot;tak_deco_lib.dll&quot;
+(V1.0.2):</p>
+<ul>
+  <li>The APEv2 tag reading functions are a bit more tolerant when reading
+      invalid tag headers not following the official APEv2 specification.</li>
+  <li><i>tak_SSD_GetCurFrameBitRate()</i> reported wrong values when decoding high
+      resolution audio.</li>
+</ul>
+
+
+<h3>V1.0.1 / 7-04-10</h3>
+<p>
+First stable release.</p>
+
+
+</body>
+</html>

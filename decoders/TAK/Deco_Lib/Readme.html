@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>TAK Decoding Library</title>
+</head>
+
+<body>
+
+<h1>TAK Decoding Library</h1>
+<p>
+Decoding library for TAK, (T)om's lossless (A)udio (K)ompressor.</p>
+<p>
+Version: TAK_DECO_LIB.DLL V2.1.0 / 2011-01-08</p>
+<p>
+Copyright 2007 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.
+</p>
+
+
+<h2>About</h2>
+<p>
+This library is needed by some applications created by other developers, who
+used the TAK SDK to implement support for decoding and playback of TAK files.
+Please read the applications documentation, to find out, if it needs this
+library. For an update just copy the &quot;tak_deco_lib.dll&quot; file into
+the appropriate directory of the application.</p>  
+<p>
+Neither my own TAK applications nor my Winamp plugin need this library!</p>
+
+
+<h4>Links and contact information </h4>
+<p>
+My <a href="http://www.thbeck.de">homepage</a> provides up-to-date information
+about <a href="http://www.thbeck.de/Tak/Tak.html">TAK</a>, sadly only in German
+at present.</p>
+<p>
+If you want to contact me via e-mail, please keep in mind that I won't always
+have the time to answer.</p>
+<p>
+I am regularly active in the "Lossless Audio Compression" forum at
+<a href="http://www.hydrogenaudio.org/" title="Visit Hydrogen Audio">Hydrogenaudio</a>;
+therefore it is a good place to get information about TAK or ask questions.</p>
+  
+
+<h2>Terms of use </h2>
+
+<h4>License</h4>
+<p>
+This software is provided as FREEWARE, but only for private, non-commercial use.
+It's also free for educational and scientific use and for use in charity and
+humanitarian organisations.</p>
+<p>
+The use of this software in a commercial application is only allowed with prior
+written approval by the author (Thomas Becker).</p>
+
+<h4>Disclaimer of warranty</h4>
+<p>
+The software is provided &quot;as is&quot; without warranty of any kind. To the maximum
+extent permitted by applicable law, the author further disclaims all warranties,
+including without limitation any implied warranties of merchantability, fitness
+for a particular purpose, and non-infringement. The entire risk arising out of
+the use or performance of the product and documentation remains with recipient.</p>
+<p>
+To the maximum extent permitted by applicable law, in no event shall the author
+be liable for any consequential, incidental, direct, indirect, special,
+punitive, or other damages whatsoever (including, without limitation, damages
+for loss of business profits, business interruption, loss of business
+information, or other pecuniary loss) arising out of this agreement or the use
+of or inability to use the product, even if the author has been advised of
+the possibility of such damages.</p>
+
+
+<h4>Distribution</h4>
+<p>
+The software may be freely distributed provided that it is not modified and
+the original archive remains intact with all accompanying files, and provided
+that no fee is charged (except for any reasonable fees necessary to cover
+costs of distribution media).</p>
+<p>
+It is permitted to distribute the binary libraries (DLLs) separated from the
+rest of the SDK along with a compiled, non-commercial application, provided
+that the libraries used remain unmodified, discrete files with their original
+file names.</p>
+<p>
+For the end user, it is recommended to refer to the official download
+locations for up-to-date library modules. </p> 
+
+   
+<h1>History</h1>
+
+<h3>V2.1.0 / 11-01-08</h3>
+<p>
+Nothing new, just compiled using the latest source code.</p>
+
+
+<h3>V2.0.0 / 10-01-07</h3>
+<p>
+New features:</p>
+<ul>
+  <li>Support for the new codec introduced with TAK 2.0.</li>
+</ul>
+
+
+<h3>V1.1.2 / 9-07-27</h3>
+<p>
+Improvements:</p>
+<ul>
+  <li>Faster decoding and a smaller binary because of the optimizations in
+      TAK 1.1.2.</li>
+</ul>
+
+
+<h3>V1.1.1 / 9-03-11</h3>
+<p>
+New Features:</p>
+<ul>
+  <li>Support for MD5 verification.</li>
+</ul>
+<p>
+Modifications:</p>
+<ul>
+  <li>This version will no longer use seek tables contained in files created
+      with applications prior to TAK 1.1.1.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Smaller binary because of the optimizations in TAK 1.1.1.</li>
+</ul>
+
+
+<h3>V1.1.0 / 9-01-04</h3>
+<p>
+New Features:</p>
+<ul>
+  <li>Support for 192 Khz Audio.</li>
+  <li>Seeking without seek table.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Faster decoding because of the optimizations in TAK 1.1.0.</li>
+</ul>
+
+
+<h3>V1.0.7 / 8-03-11</h3>
+<p>
+Modifications:</p>
+<ul>
+  <li>Faster decoding because of the optimizations in TAK 1.0.4.</li>
+</ul>
+
+
+<h3>V1.0.6 / 7-12-14</h3>
+<p>
+Modifications:</p>
+<ul>
+  <li>The decoder had to be modified to guarantee error robustness (decoding
+      through errors) for files created by pipe encoding with the -ihs 
+	  (ignore header size) switch applied.</li>
+</ul>
+
+
+<h3>V1.0.5 / 7-11-05</h3>
+<p>
+New features:</p>
+<ul>
+  <li>Support for frame sizes of 512, 1024 and 2048 samples which have been
+      introduced with TAK V1.0.2.</li>
+  <li>Support for the additional preset INSANE introduced with TAK V1.0.2.</li>
+</ul>
+<p>
+Bug fixes:</p>
+<ul>
+  <li>The decoder is expected to process any (damaged) data without any
+      problems. But i have found and corrected two cases, where the decoder
+	  could crash. The chance for this was less than 1 : 1000 (for damaged
+	  files only!).</li> 
+  <li>In one place i used an invalid flag combination in a call of Windows' 
+      VirtualFree().</li> 
+</ul>
+<p>
+Interface Compatibility:</p>
+<ul>
+  <li>The decoder functions <i>tak_SSD_GetStreamInfo</i> and 
+      <i>tak_SSD_GetEncoderInfo</i> may now return the new values for
+	  the frame size (<i>Ttak_str_FrameSizeTypes</i>) and the encoder
+	  preset/profile (<i>TtakPresets</i>) which have been introduced
+	  with TAK 1.0.2.</li>
+</ul>
+
+
+<h3>V1.0.1 / 7-04-10</h3>
+<p>
+First stable release.</p>
+
+
+<h3>V1.0.4 / 7-04-21</h3>
+<p>
+Fixes:</p>
+<ul>
+  <li>Fix of a minor multithreading issue, which could cause suboptimal
+      performance and possibly crashes (in very rare cases). The fix itself is
+	  not optimal performancewise; i will improve it when i have more time.</li>
+</ul>
+
+
+<h3>V1.0.3 / 7-04-21</h3>
+<p>
+Fixes:</p>
+<ul>
+  <li>The memory manager was not thread safe. Multithreaded applications using
+      more than one decoder instance simultaneously could crash. This was most
+	  likely to happen with multi-core systems.</li>
+</ul>
+
+
+<h3>V1.0.2 / 7-04-14</h3>
+<p>
+Internal modifications and fixes:</p>
+<ul>
+  <li>The APEv2 tag reading functions are a bit more tolerant when reading
+      invalid tag headers not following the official APEv2 specification.</li>
+  <li><i>tak_SSD_GetCurFrameBitRate()</i> reported wrong values when decoding high
+      resolution audio.</li>
+</ul>
+
+
+</body>
+</html>

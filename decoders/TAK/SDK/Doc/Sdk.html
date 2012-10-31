@@ -1,0 +1,675 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>TAK SDK 1.1.1</title>
+</head>
+
+<body>
+
+<h1>TAK SDK 1.1.1</h1>
+<p>
+Software Development Kit for TAK, (T)om's lossless (A)udio (K)ompressor.</p>
+<p>
+Version: TAK SDK 1.1.1, 2009-03-11</p>
+<p>
+Copyright 2007 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.
+</p>
+<p>
+<b>The license and further important information can be found in the
+&quot;Readme.html&quot; file in the root directory.</b></p>
+
+  
+
+<h1>Content</h1>
+<p>
+<a href="#ImportantHints">Important advice </a></p>
+<p>
+<a href="#RefCommon">General definitions</a></p>
+<p>
+<a href="#RefAPE">APEv2-Tag (APE)</a></p>
+<p>
+<a href="#RefSSD">Seekable Stream Decoder (SSD)</a></p>
+
+
+<h1><a name="ImportantHints">Important advice </a></h1>
+
+<h2>Terms</h2>
+
+<h4>Position and size descriptions in samples</h4>
+<p>
+always have to be interpreted independently on the number of audio channels. With CD-Audio quality, for example, 44100 samples always corresponds to 1 second, no matter whether the file is mono or stereo.</p>
+
+<h4>User</h4>
+<p>
+In the following, <i>User</i> refers to the developer utilizing the SDK.</p>
+
+
+<h2>Interfaces</h2>
+ 
+<h4>Structures</h4>
+<p>
+Structures (record, struct) have to be packed; insertion of filling bytes for data alignment is not allowed.</p>
+<p>
+All current structures exclusively contain the data types Int32 and
+Int64. It should be possible to cope with activated alignment by replacing Int64 with two Int32 for low and high. Then all elements have a size of 4.</p>
+
+<h4>Function parameters </h4>
+<p>
+All function parameters are categorically checked by TAK
+(range exceedance, buffer sizes, Null references).</p>
+<p>
+All data is categorically copied to intern structures, thus they are not needed after a function call anymore (no references to external data)
+and can be destroyed.</p>
+
+<h4>Internal errors </h4>
+<p>
+The library still contains some debug code which is able to throw exceptions. These are not catched at present and can get through to the user layer, resulting in unattractive crashes...</p>
+<p>
+Work in progress...</p>
+
+
+
+<h2>Function results and error handling </h2>
+<p>
+Most functions return their process results as
+<a href="com_ref.html#TtakResult">TtakResult</a>, sometimes as
+<a href="#TtakBool">TtakBool</a>.</p>
+<p>
+<i>TtakResult</i> can take <a href="com_ref.html#tak_res_xxx">general</a> or
+object-specific (see <a href="ssd_ref.html#tak_res_ssd_xxx">Decoder</a>, for example)
+result values.</p>
+<p>Success is usually reported by means of <i>tak_res_Ok</i>.</p>
+<p>
+The other result values are divided into warnings, non-fatal and
+fatal errors.</p>
+<p>
+Warnings are:</p>
+<ul>
+<li> Some object results. For example, it is no error when the decoder cannot read optional metadata because of the container not holding any.</li>
+</ul>
+<p>
+Non-fatal errors are:</p>
+<ul>
+<li> Some object results. For example, the decoder can proceed even when single audio frames are damaged.</li>
+</ul>
+<p>
+Fatal errors are:</p>
+<ul>
+<li> All system errors (such as OutOfMemory).</li>
+  <li>All user errors (for example, invalid function parameters).</li>
+  <li>Most object results.</li>
+</ul>
+<p>
+Every object records non-fatal and fatal errors to a status variable which can be queried by the state function
+(<a href="ssd_ref.html#tak_SSD_State">tak_SSD_State</a>, for example).
+In case of multiple consecutive errors, the worst one is recorded.</p>
+<p>
+<b>Attention</b>: Warnings are provided by the respective function,
+but are not saved!</p>
+<p>
+For example,
+<a href="ssd_ref.html#tak_SSD_GetSimpleWaveDataDesc">tak_SSD_GetSimpleWaveDataDesc</a>
+can return the result <i>tak_res_ssd_MetaDataMissing</i>, but a following <a href="ssd_ref.html#tak_SSD_State">tak_SSD_State</a> call will nonetheless result in
+<i>tak_res_Ok</i>.</p>
+<p>
+Once a fatal error occurs, the affected object is locked.
+In this case, most object functions &quot;come back empty-handed&quot;, returning the code of the fatal error as a result. Only a few status functions are still available.</p>
+<p>
+Every object defines a Valid function, such as
+<a href="ssd_ref.html#tak_SSD_Valid">tak_SSD_Valid</a>, which returns <i>tak_true</i> in case no fatal error occurred.</p>
+
+
+
+<h1><a name="RefCommon">General definitions</a></h1>
+<p>
+General definitions not associated with a particular object.</p> 
+
+<h2>Reference</h2>
+
+<table class="ProcIdx" cellspacing="4" cellpadding="2">
+  <colgroup>
+   <col width="280">
+   <col width="500">
+  </colgroup>
+<tbody>
+
+<tr>
+ <td class="ProcIdxTitle">Elementary types</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakInt64">type TtakInt64</a></td>
+  <td class="ProcIdxDesc">
+  Signed integer type with 64 bits. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakInt32">type TtakInt32</a></td>
+  <td class="ProcIdxDesc">Signed integer type with 32 bits. </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakUInt32">type TtakUInt32</a></td>
+  <td class="ProcIdxDesc">Unsigned integer type with 32 bits. </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakBool">type TtakBool</a></td>
+  <td class="ProcIdxDesc">
+  Boolean type. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxTitle">Function results </td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakResult">type TtakResult</a></td>
+  <td class="ProcIdxDesc">
+  Function result and objekt status. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#tak_res_xxx">const tak_res_xxx</a></td>
+  <td class="ProcIdxDesc">
+  General result contants.  
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxTitle">Library</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#tak_InterfaceVersion">const tak_InterfaceVersion</a></td>
+  <td class="ProcIdxDesc">
+  Version of the library interface. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#tak_GetLibraryVersion">func tak_GetLibraryVersion</a></td>
+  <td class="ProcIdxDesc">
+  Provides library version information. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxTitle">System</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakCpuOptions">type TtakCpuOptions</a></td>
+  <td class="ProcIdxDesc">
+  Specifies CPU features for optimizations. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakCpuOptions">const tak_Cpu_xxx</a></td>
+  <td class="ProcIdxDesc">
+  Flags for CPU features and optimizations. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakStreamIoInterface">type TtakStreamIoInterface</a></td>
+  <td class="ProcIdxDesc">
+  Interface for external file access implementations. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxTitle">Audio format</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#tak_AudioFormat_xxx">const tak_AudioFormat_xxx</a></td>
+  <td class="ProcIdxDesc">
+  Specification of the audio data format. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakAudioFormat">type TtakAudioFormat</a></td>
+  <td class="ProcIdxDesc">
+  Specification of the audio format. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxTitle">Codecs and presets</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#tak_GetCodecName">func tak_GetCodecName</a></td>
+  <td class="ProcIdxDesc">
+  Provides the name of a codec. 
+  </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakPresets">type TtakPresets</a></td>
+  <td class="ProcIdxDesc">
+  Encoder presets. 
+ </td>
+</tr>
+
+<tr>
+  <td class="ProcIdxName"><a href="com_ref.html#TtakPresetEvaluations">type TtakPresetEvaluations</a></td>
+  <td class="ProcIdxDesc">
+    Preset evaluations.  
+  </td>
+</tr>
+
+<tr>
+  <td class="ProcIdxName"><a href="com_ref.html#TtakPresetEvaluations">const tak_PresetEval_xxx</a></td>
+  <td class="ProcIdxDesc">
+    Preset evaluation constants.  
+  </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxTitle">Stream / container</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#Ttak_str_EncoderInfo">type Ttak_str_EncoderInfo</a></td>
+  <td class="ProcIdxDesc">
+  Information about the used codec. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#TtakFrameSizeTypes">type TtakFrameSizeTypes</a></td>
+  <td class="ProcIdxDesc">
+  Frame size type. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#Ttak_str_SizeInfo">type Ttak_str_SizeInfo</a></td>
+  <td class="ProcIdxDesc">
+  Information about size parameters of the stream. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#Ttak_str_StreamInfo">type Ttak_str_StreamInfo</a></td>
+  <td class="ProcIdxDesc">
+  Summarizes all stream information necessary for decoding. 
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="com_ref.html#Ttak_str_SimpleWaveDataHeader">type Ttak_str_SimpleWaveDataHeader</a></td>
+  <td class="ProcIdxDesc">
+  Description of a Wave file's metadata blocks. 
+ </td>
+</tr>
+
+<tr>
+  <td class="ProcIdxName"><a href="com_ref.html#Ttak_str_MetaEncoderInfo">type Ttak_str_MetaEncoderInfo</a></td>
+  <td class="ProcIdxDesc">
+    Information about the used encoder.  
+  </td>
+</tr>
+
+</tbody>
+</table>
+
+
+
+<h1><a name="RefAPE">APEv2 tag (APE)</a></h1>
+<p>
+The <i>APEv2 tag object (APE)</i> allows access to APEv2 tag information
+contained in the stream. Tag objects are provided exclusively by other
+objects (decoder or encoder). The user cannot create any instances himself.</p> 
+<p>
+The implementation of reading and writing functions as well as validity rules are
+based on the format specification described in the 
+<a href="http://wiki.hydrogenaudio.org/index.php?title=APEv2_specification">Hydrogenaudio wiki</a>.</p>
+<p>
+Following terminology is used:</p>
+<ul>
+  <li><i>Tag</i> refers to the whole APEv2 structure.</li>
+  <li>The tag contains one or multiple <i>items</i> holding the actual information.</li>
+  <li>Every item consists of the following components: An explicit
+      <i>Key</i> for identification and one or multiple
+	  <i>values</i>, assigned to this key.</li>
+  <li>The <i>item type</i> specifies the type of the item value.</li>
+</ul>
+<p> 
+TAK's current implementation features following restrictions:</p>
+<ul>
+  <li>The structure has to be compatible  with the format version 2.000.</li>
+  <li>The total tag size is limited to 16 MBytes.</li>
+  <li>A tag can hold a maximum of  100 items.</li>
+  <li>The tag has to be at the end of the file.</li>
+</ul>
+
+
+<h2>Reference</h2>
+
+<h4>Methods and functions</h4>
+
+<table class="ProcIdx" cellspacing="4" cellpadding="2">
+   <colgroup>
+      <col width="280">
+      <col width="500">
+   </colgroup>
+<tbody>
+
+
+<tr>
+  <td class="ProcIdxTitle">Status functions</td>
+  <td class="ProcIdxTitle">Descriptions</td>
+</tr>
+
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_Valid">tak_APE_Valid</a></td>
+  <td class="ProcIdxDesc">
+    Shows whether a fatal error occurred or not.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_State">tak_APE_State</a></td>
+  <td class="ProcIdxDesc">
+    Provides the current error status or the worst error occurred so far, respectively.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_GetErrorString">tak_APE_GetErrorString</a></td>
+  <td class="ProcIdxDesc">Provides an english error text for an error code.  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_ReadOnly">tak_APE_ReadOnly</a></td>
+  <td class="ProcIdxDesc">
+    Returns the access mode.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_GetDesc">tak_APE_GetDesc</a></td>
+  <td class="ProcIdxDesc">
+    Provides information about the tag.  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_GetItemNum">tak_APE_GetItemNum</a></td>
+  <td class="ProcIdxDesc">
+    Returns the number of items.
+  </td>
+</tr>
+
+<tr>
+  <td class="ProcIdxTitle">Editing</td>
+  <td class="ProcIdxTitle">Descriptions</td>
+</tr>
+
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_GetIndexOfKey">tak_APE_GetIndexOfKey</a></td>
+  <td class="ProcIdxDesc">
+    Returns the index of an item key.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_GetItemDesc">tak_APE_GetItemDesc</a></td>
+  <td class="ProcIdxDesc">
+    Provides information about an item.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_GetItemKey">tak_APE_GetItemKey</a></td>
+  <td class="ProcIdxDesc">
+    Returns the ASCII-coded item key.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_GetItemValue">tak_APE_GetItemValue</a></td>
+  <td class="ProcIdxDesc">
+    Returns the UTF8-coded item value.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ape_ref.html#tak_APE_GetTextItemValueAsAnsi">tak_APE_GetTextItemValueAsAnsi</a></td>
+  <td class="ProcIdxDesc">
+    Provides the ANSI-coded value of a text item or selected values when the item has multiple values.
+  </td>
+</tr>
+
+</tbody>
+</table>
+
+
+
+<h1><a name="RefSSD">Seekable Stream Decoder (SSD)</a></h1>
+<p>
+The <i>Seekable Stream Decoder (SSD)</i> decodes audio data read from a file
+or by means of a <a href="com_ref.html#TtakStreamIoInterface">stream interface</a>.
+It supports sample-precise positioning and extracting of arbitrary parts of an
+audio file.</p> 
+
+
+<h2>Examples</h2>
+<p>
+Following program examples are available:</p>
+<p>
+<a href="ssd_ex1_pas.html">Example 1 in Pascal</a></p>
+<p>
+<a href="ssd_ex1_c.html">Example 1 in C</a></p>
+
+
+<h2>Reference</h2>
+
+<h4>Methods and functions</h4>
+
+<table class="ProcIdx" cellspacing="4" cellpadding="2">
+  <colgroup>
+   <col width="280">
+   <col width="500">
+  </colgroup>
+<tbody>
+
+<tr>
+ <td class="ProcIdxTitle">Create and destroy objects </td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_Create_FromFile">tak_SSD_Create_FromFile</a></td>
+  <td class="ProcIdxDesc">
+  Creates a decoder instance which decodes a file. 
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_Create_FromStream">tak_SSD_Create_FromStream</a></td>
+  <td class="ProcIdxDesc">
+  Creates a decoder instance which decodes an external stream.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_Destroy">tak_SSD_Destroy</a></td>
+  <td class="ProcIdxDesc">
+  Destroys a decoder instance.
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxTitle">Status functions</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_Valid">tak_SSD_Valid</a></td>
+  <td class="ProcIdxDesc">
+  Shows whether a fatal error occurred.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_State">tak_SSD_State</a></td>
+  <td class="ProcIdxDesc">
+  Returns the current error state, respectively the worst error occurred so far. 
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetStateInfo">tak_SSD_GetStateInfo</a></td>
+  <td class="ProcIdxDesc">Provides extended status information.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetErrorString">tak_SSD_GetErrorString</a></td>
+  <td class="ProcIdxDesc">
+  Provides an appropriate English error text for an error code.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetStreamInfo">tak_SSD_GetStreamInfo</a></td>
+  <td class="ProcIdxDesc">
+  Provides information about the stream.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetFrameSize">tak_SSD_GetFrameSize</a></td>
+  <td class="ProcIdxDesc">
+  Returns the frame size in samples.
+ </td>
+</tr>
+
+<tr>
+ <td class="ProcIdxTitle">Decode</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_Seek">tak_SSD_Seek</a></td>
+  <td class="ProcIdxDesc">
+  Sets read position.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_ReadAudio">tak_SSD_ReadAudio</a></td>
+  <td class="ProcIdxDesc">
+  Reads and decodes samples.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetReadPos">tak_SSD_GetReadPos</a></td>
+  <td class="ProcIdxDesc">
+  Returns the current read position in samples.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetCurFrameBitRate">tak_SSD_GetCurFrameBitRate</a></td>
+  <td class="ProcIdxDesc">
+  Returns the compressed bitrate of the last frame.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetSimpleWaveDataDesc">tak_SSD_GetSimpleWaveDataDesc</a></td>
+  <td class="ProcIdxDesc">
+  Provides a description of the Wave metadata.
+ </td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_ReadSimpleWaveData">tak_SSD_ReadSimpleWaveData</a></td>
+  <td class="ProcIdxDesc">
+  Reads Wave metadata.
+ </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetEncoderInfo">tak_SSD_GetEncoderInfo</a></td>
+  <td class="ProcIdxDesc">
+    Provides information about the used encoder.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName"><a href="ssd_ref.html#tak_SSD_GetAPEv2Tag">tak_SSD_GetAPEv2Tag</a></td>
+  <td class="ProcIdxDesc">
+    Provides a reference to the APEv2 tag object.
+  </td>
+</tr>
+
+
+</tbody>
+</table>
+
+
+<h4>Types</h4>
+
+<table class="ProcIdx" cellspacing="4" cellpadding="2">
+  <colgroup>
+   <col width="280">
+   <col width="500">
+  </colgroup>
+<tbody>
+
+<tr>
+ <td class="ProcIdxTitle">Type</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#TtakSeekableStreamDecoder">TtakSeekableStreamDecoder</a></td>
+  <td class="ProcIdxDesc"> 
+  Decoder instance.</td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#TtakSSDOptions">TtakSSDOptions</a></td>
+  <td class="ProcIdxDesc"> 
+  Options.</td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#TtakSSDDamageItem">TtakSSDDamageItem</a></td>
+  <td class="ProcIdxDesc"> 
+  Information about data errors which is transferred to the damage callback function.</td>
+</tr>
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#TSSDDamageCallback">TSSDDamageCallback</a></td>
+  <td class="ProcIdxDesc"> 
+  Callback function called when encountering data errors.</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<h4>Constants</h4>
+
+<table class="ProcIdx" cellspacing="4" cellpadding="2">
+  <colgroup>
+   <col width="280">
+   <col width="500">
+  </colgroup>
+<tbody>
+
+<tr>
+ <td class="ProcIdxTitle">Constant</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+ <td class="ProcIdxName"><a href="ssd_ref.html#tak_res_ssd_xxx">tak_res_ssd_xxx</a></td>
+  <td class="ProcIdxDesc"> 
+  SSD-specific errors and warnings.</td>
+</tr>
+
+</tbody>
+</table>
+
+
+   
+</body>
+</html>

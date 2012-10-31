@@ -1,0 +1,332 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>SSD program example 1 - Pascal</title>
+</head>
+
+<body>
+
+
+<h1>SSD program example 1 - Pascal</h1>
+<p>
+Copyright 2007 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.</p>
+
+<h4>Content</h4>
+<p>
+This example shows how the content of a complete TAK file is sequentially
+decoded and written to a new Wave file.</p>
+
+<h4>Important Notice</h4>
+<p>
+The example is intended primarily to illustrate the use of the relevant SDK functions. Accordingly the code is stripped down to a minimum. It includes neither proper dealing with errors nor appropriate resource protection.
+Furthermore, some help functions (writing to a Wave file, for example)
+are only placeholders without any implementation.</p>
+  
+ 
+<h2>Help functions </h2>
+<p>
+Partially placeholder functions without implementation.</p>
+<pre>
+procedure Proto (const ALine : String);</pre>
+<p>
+Writes the text line <i>ALine</i> to the screen or a file.</p>
+<pre>
+procedure Error (const AWhat : String);
+
+begin
+  Proto (AWhat);
+  HALT;  // Stop program execution.
+end;</pre>
+<p>
+Shows the error message <i>AWhat</i> and stops program execution.</p>
+<pre>
+procedure DecoError (ADecoder : TtakSeekableStreamDecoder);
+
+var
+  ErrorMsg   : Array[0..tak_ErrorStringSizeMax - 1] of Char;
+
+begin
+  tak_SSD_GetErrorString (tak_SSD_State (ADecoder), ErrorMsg, tak_ErrorStringSizeMax);
+  Error (ErrorMsg);
+end;</pre>
+<p>
+This procedure is called at any error, supplied the affected decoder object as a parameter. It does the following: </p>
+<ul>
+  <li>Determines error code using  <a href="ssd_ref.html#tak_SSD_State">tak_SSD_State</a>.</li>
+  <li>Calls <a href="ssd_ref.html#tak_SSD_GetErrorString">tak_SSD_GetErrorString</a>
+      in order to convert the error code to an English error text.</li>
+  <li>Shows the error text.</li>
+  <li>Stops program execution.</li>   
+</ul>
+<pre>
+procedure WriteToWave (ABuf     : Pointer;
+                       AByteNum : TtakInt32);</pre>
+<p>					  
+Writes <i>AByteNum</i> bytes out of <i>ABuf</i> to the Wave file.</p>
+<pre>
+procedure CreateWaveHeader (const AStreamInfo : Ttak_str_StreamInfo);</pre>
+<p>					  
+Creates a Wave header according to audio format and number of samples specified by <a href="com_ref.html#Ttak_str_StreamInfo">AStreamInfo</a> and writes it to the Wave file. </p>
+<pre>
+type
+  PByte_Arr = ^TByte_Arr;				      
+  TByte_Arr = Array[0..$7FFFFFFF] of Byte;</pre>
+<p>  
+Required for access to the content of a dynamically created buffer.</p> 
+  				      
+ 
+<h2>Main program </h2>
+<p>
+Note: This procedure calls a few functions explained in detail in the subsequent paragraphs.</p>
+<pre>
+procedure DecodeFile;
+
+var
+  Options      : TtakSSDOptions;
+  Decoder      : TtakSeekableStreamDecoder;
+  StreamInfo   : Ttak_str_StreamInfo;
+  WaveMetaDesc : Ttak_str_SimpleWaveDataHeader;
+  WaveMetaBuf  : PByte_Arr;
+
+begin
+  Options.Cpu   := tak_Cpu_Any;
+  Options.Flags := tak_ssd_opt_SequentialRead;
+
+  Decoder := tak_SSD_Create_FromFile ('d:\YourFilePath.tak', Options, Nil, Nil);
+  if Decoder <> Nil then begin
+    if tak_SSD_Valid (Decoder) = tak_True then begin
+      if tak_SSD_GetStreamInfo (ADecoder, StreamInfo) &lt;&gt; tak_res_Ok then
+        DecoError (Decoder);
+          { Can virtually never happen if the decoder was valid after
+            its construction...
+          }
+      ReadWaveMetaData (Decoder, WaveMetaDesc, WaveMetaBuf);
+      if WaveMetaBuf &lt;&gt; Nil then
+        WriteWaveMetaDataHead (WaveMetaDesc, WaveMetaBuf)
+          { If WaveMetaBuf &lt;&gt; Nil, the Wave metadata was
+            read successfully. 
+          }
+      else
+        CreateWaveHeader (StreamInfo);
+          { No Wave metadata available, we have to create an appropriate
+            Wave header. 
+          }
+      DecodeAudioData (StreamInfo);
+      if WaveMetaBuf &lt;&gt; Nil then begin
+        WriteWaveMetaDataTail (WaveMetaDesc, WaveMetaBuf);
+        DestroyWaveMetaData (WaveMetaDesc, WaveMetaBuf);
+      end;
+    end  
+    else
+      DecoError (Decoder);
+    tak_SSD_Destroy (Decoder);
+  end
+  else
+    Proto ('System error: Unable to create Decoder!'); 
+end;</pre>
+<p>
+First the <a href="ssd_ref.html#TtakSSDOptions">decoder options</a> are defined. The  <i>Cpu</i> field should always be set to <i>tak_Cpu_Any</i> for the decoder to use all available CPU features for optimizations. Features not available (such as SSE, for example) are deactivated automatically.</p>
+<p>
+The <i>Flags</i> field contains a combination of option constants.
+<i>tak_ssd_opt_SequentialRead</i> gives maximum performance if sequential file reading is used exclusively.</p>
+<p>
+By default, audio data of damaged frames is replaced with silence.
+If you want this data to be skipped, the <i>tak_ssd_opt_SkipDamagedFrames</i> flag is additionally required:</p>
+<pre>
+  Options.Flags := tak_ssd_opt_SequentialRead or tak_ssd_opt_SkipDamagedFrames;</pre>
+<p>
+It is recommended to offer an appropriate option to the end user of the software.</p>
+<p>
+Important notes:</p>
+<ul>
+  <li>The <i>tak_ssd_opt_SequentialRead</i> option prohibits seek operations
+      and thus is not appropriate for media player applications!</li>
+  <li>When a damaged file is decoded using the  <i>tak_ssd_opt_SkipDamagedFrames</i>
+      option, the created file contains less samples than the original file. As the original Wave header contains information about the file length, it cannot be used for the new, shorter file!</li> 
+</ul>
+<p> 
+The result of the decoder constructor
+<a href="ssd_ref.html#tak_SSD_Create_FromFile">tak_SSD_Create_FromFile</a> is only <i>Nil</i> if a serious system error occurred 
+(such as OutOfMemory). Because of this, after a successful construction it is additionally required to use <a href="ssd_ref.html#tak_SSD_Valid">tak_SSD_Valid</a>  to  test for decoder errors  <a href="ssd_ref.html#tak_SSD_Valid"></a> such as an error while opening the source file.</p>  
+<p>
+<a href="ssd_ref.html#tak_SSD_GetStreamInfo">tak_SSD_GetStreamInfo</a> reads the  <a href="com_ref.html#Ttak_str_StreamInfo">StreamInfo</a> containing some useful information that is required later on.</p>
+<p>
+After decoding is finished, 
+<a href="ssd_ref.html#tak_SSD_Destroy">tak_SSD_Destroy</a>
+destroys the decoder construct.</p>
+ 
+ 
+<h2>Reading Wave metadata </h2>
+<p>
+By default, the metadata block of a TAK file contains the original Wave file header  and - where applicable -  metadata attached to the audio data.
+Both will be read now.</p>
+ 
+<pre>
+procedure DestroyWaveMetaData (const ADesc : Ttak_str_SimpleWaveDataHeader;
+                               var   ABuf  : PByte_Arr);
+  { If <i>ABuf</i> &lt;&gt; Nil, the memory allocated by it is deallocated
+    according to the size information in <i>ADesc</i>. <i>ABuf</i>
+    is then set to Nil.
+  }
+  
+begin
+  if ABuf &lt;&gt; Nil then begin
+    FreeMem (ABuf, ADesc.HeadSize + ADesc.TailSize);
+    ABuf := Nil;
+  end;
+end;
+
+
+procedure ReadWaveMetaData (    ADecoder : TtakSeekableStreamDecoder;
+                            var ADesc    : Ttak_str_SimpleWaveDataHeader;
+                            var ABuf     : PByte_Arr);
+  { Reads the Wave metadata description in <i>ADesc</i> and the metadata itself
+    in <i>ABuf</i>. Success results in <i>ABuf</i> &lt;&gt; Nil after return.
+	
+    Possibly <i>ABuf</i> has to be deallocated later, using <i>DestroyWaveMetaData</i>. 
+  }
+
+begin   
+  ABuf := Nil;	  
+  if tak_SSD_GetSimpleWaveDataDesc (ADecoder, ADesc) = tak_res_Ok then begin
+    { The Wave metadata description was read successfully.
+    } 
+    GetMem (ABuf, ADesc.HeadSize + ADesc.TailSize);
+      { Allocate memory for metadata.
+      }
+    if tak_SSD_ReadSimpleWaveData (ADecoder, ABuf,
+                                   ADesc.HeadSize + ADesc.TailSize)
+       <> tak_res_Ok
+    then begin
+      { Reading metadata failed.
+      } 
+      if tak_SSD_Valid (ADecoder) <> tak_True then 
+         DecoError (ADecoder)
+           { Fatal error!
+           } 
+      else
+        DestroyWaveMetaData (ADesc, ABuf);
+          { We can continue, but we have to create
+            our own header.
+          }
+    end;	
+  end	
+  else
+  begin
+    { The Wave metadata description could not be read.
+    } 
+    if tak_SSD_Valid (ADecoder) <> tak_True then 
+      DecoError (ADecoder);
+        { The cause was a fatal error.
+        }
+  end;
+end</pre>
+<p>
+<a href="ssd_ref.html#tak_SSD_GetSimpleWaveDataDesc">tak_SSD_GetSimpleWaveDataDesc</a>
+reads the Wave metadata description from the stream. As this is optional, a failure not necessarily implies an error. If required, the function result sheds light on the reason for the failure.</p>
+<p>
+The <a href="com_ref.html#Ttak_str_SimpleWaveDataHeader">metadata description</a>
+<i> ADesc</i> contains the sizes for leading (header) and trailing
+metadata. The sum of these is the required size of the buffer
+<i>ABuf</i> which the metadata is written to, using
+<a href="ssd_ref.html#tak_SSD_ReadSimpleWaveData">tak_SSD_ReadSimpleWaveData</a>.</p>
+
+   
+<h2>Writing Wave metadata </h2>
+<p>   
+The following two procedures write the Wave header and, if required, trailing
+metadata to the destination file:</p>
+<pre>
+procedure WriteWaveMetaDataHead (const ADesc : Ttak_str_SimpleWaveDataHeader;
+                                       ABuf  : PByte_Arr);
+  { Writes the Wave header (if there is any) from <i>ABuf</i> to the Wave file.
+  }
+  
+begin
+  if ABuf &lt;&gt; Nil then
+    WriteToWave (ABuf, ADesc.HeadSize);
+end;
+
+
+procedure WriteWaveMetaDataTail (const ADesc : Ttak_str_SimpleWaveDataHeader;
+                                       ABuf  : PByte_Arr);
+  { Writes trailing metadata (if there is any) from <i>ABuf</i> to the Wave file.
+  }
+
+begin
+  if (ABuf &lt;&gt; Nil) and (ADesc.TailSize &lt;&gt; 0) then begin
+    WriteToWave (@ABuf^[ADesc.HeadSize], ADesc.TailSize);
+end;</pre>
+
+
+<h2>Decoding and outputting audio data </h2>
+<p>
+The audio data is sequentially decoded and written to the Wave file.</p>
+ 
+<pre>
+procedure DecodeAudioData (const AStreamInfo : Ttak_str_StreamInfo);
+
+var
+  SamplesPerBuf : TtakInt32;
+  SampleSize    : TtakInt32;
+  BufSize       : TtakInt32;
+  Audio         : PByte_Arr;
+  ReadNum       : TtakInt32;
+  OpResult      : TtakResult;
+
+begin
+  SamplesPerBuf := AStreamInfo.Sizes.FrameSizeInSamples;
+  SampleSize    := AStreamInfo.Audio.BlockSize;
+    { Frame / Sample size.
+    }
+  BufSize := SamplesPerBuf * SampleSize;
+    { Enough space to hold a decoded frame.
+    }
+  GetMem (Audio, BufSize);
+    { For optimum performance, the memory should be aligned to an integer
+      multiple of 4 or - even better - 8.
+    }
+</pre>
+<p>
+<a href="com_ref.html#Ttak_str_StreamInfo">AStreamInfo</a> contains some useful information which is copied to local variables for easier handling:</p>
+<ul>
+  <li>The frame size (in samples)  is copied from <i>FrameSizeInSamples</i> to
+      <i>SamplesPerBuf</i>.</li>
+  <li>The memory requirement of a sample  (across all channels) is copied from
+      <i>BlockSize</i> to <i>SampleSize</i>.</li>
+</ul>
+<p>
+If the stream is read sequentially, the highest speed can be achieved by reading the audio data frame by frame. The product of the frame size <i>SamplesPerBuf</i> and the sample size <i>SampleSize</i> is the appropriate size <i>BufSize</i> of the buffer memory <i>Audio</i> for read operations.</p>
+<p>
+On every iteration of the following loop a frame is decoded and the resulting audio data is written to the Wave file:</p>
+<pre>
+  ReadNum := 1;
+  while ReadNum > 0 do begin
+    OpResult := tak_SSD_ReadAudio (Decoder, Audio, SamplesPerBuf, ReadNum);
+    if  (OpResult &lt;&gt; tak_res_Ok)
+    and (OpResult &lt;&gt; tak_res_ssd_FrameDamaged) then 
+      DecoError (Decoder);
+    if ReadNum > 0 then
+      WriteToWave (Audio, ReadNum * SampleSize);
+  end;
+  
+  FreeMem (Audio, BufSize);
+end;</pre>
+<p><a href="ssd_ref.html#tak_SSD_ReadAudio">tak_SSD_ReadAudio</a> reads a maximum of <i>SamplesPerBuf</i> samples to the buffer <i>Audio</i>.
+<i>ReadNum</i> contains the number of samples actually read and can be less than <i>SamplesPerBuf</i>
+only when reading the last frame of the file.</p>
+<p>
+The result <i>tak_res_ssd_FrameDamaged</i> indicates that damaged audio data was skipped or replaced with silence. The decoder can proceed without problems nonetheless; it is up to the programmer whether decoding is cancelled in case of damaged frames. The example ignores them.</p>
+<p>  
+It is not necessary to record messages regarding damaged frames. A <a href="ssd_ref.html#tak_SSD_GetStateInfo">tak_SSD_GetStateInfo</a>
+call provides detailed <a href="ssd_ref.html#TtakSSDResult">status information</a>
+at any time, including damages.</p>
+
+
+              
+</body>
+</html>

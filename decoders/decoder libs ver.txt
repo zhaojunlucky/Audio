@@ -1,0 +1,16 @@
+faad 2.7
+flac 1.2.1
+libogg 1.2.2
+libtta c++ 2.1
+libvorbis 1.3.2
+MAC_SDK 4.11
+mpg123 1.13.4
+tak 2.1
+OptimFROG  4.910b
+wavpack 4.60.1
+mp4als RM23
+libmad 0.15.1b
+flac 手动lib
+
+
+更改ape语言选项

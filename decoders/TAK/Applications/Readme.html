@@ -1,0 +1,1734 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>TAK Applications</title>
+</head>
+
+<body>
+
+<h1>TAK Applications</h1>
+<p>
+(T)om's lossless (A)udio (K)ompressor.</p>
+<p>
+Version: TAK 2.1.0, 2011-01-08</p>
+<p>
+Copyright 2006 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.
+</p>
+
+
+<h2>Contents</h2>
+
+<h4>Chapters</h4>
+<ul>
+  <li><a href="#License">License</a></li>
+  <li><a href="#AboutTak">About TAK</a></li>
+  <li><a href="#TakSupport">Applications with TAK support</a></li>
+  <li><a href="#CompressGui">Compressing files with the GUI version</a></li>
+  <li><a href="#DecompressGui">Decompressing files with the GUI version</a></li>
+  <li><a href="#ViewFileInfo">Viewing file info with the GUI version</a></li>
+  <li><a href="#GeneralOptionsGui">General Options dialog</a></li>
+  <li><a href="#Takc">Command line version TAKC</a></li>
+  <li><a href="#History">History</a></li>
+</ul>
+
+<h4>Some prominent topics</h4>
+<ul>
+  <li><a href="#PipeEncoding">Pipe encoding</a></li>
+  <li><a href="#EncoOptSaveMetaData">Wave file meta data</a></li>
+  <li><a href="#DecoErrorLogFile">Decompressor error log file &quot;Tak_Deco_Error.txt&quot;</a></li>
+</ul>
+
+
+<h2><a name="License">License</a></h2>
+<p>
+This software is provided as FREEWARE, but only for private, non-commercial use.
+It's also free for educational and scientific use and for use in charity and
+humanitarian organisations.</p>
+
+
+<h2>Disclaimer of warranty</h2>
+<p>
+The software is provided &quot;as is&quot; without warranty of any kind. To the maximum
+extent permitted by applicable law, the author further disclaims all warranties,
+including without limitation any implied warranties of merchantability, fitness
+for a particular purpose, and non-infringement. The entire risk arising out of
+the use or performance of the product and documentation remains with recipient.</p>
+<p>
+To the maximum extent permitted by applicable law, in no event shall the author
+be liable for any consequential, incidental, direct, indirect, special,
+punitive, or other damages whatsoever (including, without limitation, damages
+for loss of business profits, business interruption, loss of business
+information, or other pecuniary loss) arising out of this agreement or the use
+of or inability to use the product, even if the author has been advised of
+the possibility of such damages.</p>
+
+
+<h2>Distribution</h2>
+<p>
+The Software may be freely distributed provided that it is not modified and
+the original archive remains intact with all accompanying files, and provided
+that no fee is charged (except for any reasonable fees necessary to cover
+costs of distribution media).</p>
+
+
+<h2>Contact</h2>
+<p>
+I am frequently active in the Lossless Audio Compression forum at
+<a href="http://www.hydrogenaudio.org/" title="Visit Hydrogen Audio">Hydrogen Audio</a>;
+a good place to ask questions regarding TAK.</p>
+<p>
+My homepage, <a href="http://www.thbeck.de/" title="Visit my homepage">www.thbeck.de</a>, contains some information about TAK, but unfortunately only in German.</p>
+<p>
+If you would like to contact me by email please be aware that I will not
+always have time to answer.</p>
+
+
+<h2>Thank you</h2>
+<p>
+Thank you to all the people who have supported the development of TAK, most of whom
+are members of <a href="http://www.hydrogenaudio.org/" title="Visit Hydrogen Audio">Hydrogen Audio</a>.</p>
+<p>
+Firstly, they have provided encouragement to build yet another lossless audio
+compressor. Otherwise I would have dropped the whole project!</p>
+<p>
+They helped to evaluate and optimize TAK. There have been
+13 releases over a period of 8 months before the alpha version, and all of them have been evaluated by
+those testers!</p>
+
+
+<h1><a name="AboutTak">About TAK</a></h1>
+<p>
+TAK is a lossless audio compressor, similar to FLAC, WavPack and Monkey's
+Audio. On average, lossless compression reduces the file size to about 50 percent
+of the original size; however the compression can vary between approximately
+30 and 70 percent, depending on the file.
+Decompression restores a bit identical copy of the original audio data
+(that's why we call it lossless).</p>
+<p>
+My goal was to develop a compressor which combines good compression with
+optimal decoding speeds. On average, the current implementation should match
+the compression efficiency of Monkey's Audio High, while achieving decompression
+speeds similar to FLAC.</p>
+
+
+<h2>Features</h2>
+<ul>
+  <li><b>Good compression</b>. The strongest mode is on par with
+      Monkey's Audio High and OptimFrog Normal. With classical music, jazz or 
+	  speech the compression is often significantly better. This classification
+	  is based upon the evaluation of hundreds of files of different genres; 
+	  it may not be the case for every file that you compress.</li>
+  <li><b>Fast compression speed</b>. Currently I know of no other compressor
+      which compresses faster than TAK's 0, 1 and 2 modes, while providing
+	  similar compression ratios.</li>
+  <li><b>Very fast decompression speed</b>. The decoding speeds achieved are
+      similar to those achieved by FLAC.</li>
+  <li><b>Multi-core encoder</b>. The encoder creates up to four threads to
+      utilize multiple cpu cores.</li> 
+  <li><b>Support for any common audio format</b> (not fully implemented).</li>
+  <li><b>Streaming support</b>. An info frame, which contains all
+      the information required to decompress a file, is inserted
+      into the compressed audio data every 2 seconds.</li>
+  <li><b>Error tolerance</b>. A single bit error will never
+	  affect more than 250 ms of the audio data, as the compressed data is being stored in
+      independent frames no more than that duration. The decoder is able to
+	  decompress even badly damaged files, by removing corrupt frames or replacing them with silence.</li>
+  <li><b>Error detection</b>. Each single frame is protected by a 24-bit
+       checksum (CRC). Optionally a MD5 checksum of the raw (unencodeded) audio
+       can be added.</li>
+  <li><b>Fast and sample accurate seeking</b>.</li>
+  <li><b>Meta data</b>. A flexible and extensible structure in which to embed non audio
+      data.</li>
+  <li>A <b>Winamp</b> and a <b>Foobar</b> plugin are available.</li>
+  <li>A <b>SDK</b> for other developers is available.</li>
+</ul>
+
+
+<h2>Missing features</h2>
+<p>
+Some important features are missing in this release.
+Please find below my current to-do list (in order of my current priority):</p>
+
+<ul>
+  <li>Store cover art in APEv2 tags.</li>
+  <li>Raw audio data files as input for the encoder.</li>
+  <li>Option to decode only a specific part of a file.</li>
+  <li>Unicode support.</li>
+  <li>Even more speed and better compression.</li>
+  <li>Applications for other operating systems than Windows.</li>
+  <li>TAK files as input for the encoder for transcoding purposes.</li>
+  <li>Multi channel audio.</li>
+  <li>A german version.</li>
+</ul>
+
+
+<h2>Supported file formats</h2>
+<p>
+Only Wave for now.</p>
+<p>
+As the streaming format is only partially implemented, and because some
+less common formats need some more fine tuning and verification, only a subset
+of the possible audio formats are supported in this version: Sample rates
+from 8000 to 192000 Hz. Bit depths of 8, 16 or 24. Channels: Mono or Stereo.</p>
+<p>
+The final implementation should support 8 to 24 bits per sample and up to 16
+Channels.</p>
+<p>
+Wave files may be up to 4 GB in size (to be exact: 4 GB minus 15 bytes for now).
+Unfortunately some applications partition the audio data in chunks of
+2 GB size, if the source data is bigger than 2 GB. This is against the Wave file
+format standard and currently not supported by TAK.</p>
+
+
+<h2>Tagging</h2>
+<p>
+While TAK now supports tagging on its own (APEv2 located at the end of the file),
+it still does not support unicode characters on the command line.</p>
+<p>
+Please note, the current decompressor will throw an error message if you have
+prepended tags to the beginning of the file.  This may be fixed in later
+releases.</p>
+
+
+<h2>GUI and command line version</h2>
+<p>
+The archive contains two versions of TAK:</p>
+<ul>
+  <li><b>Tak.exe</b> is the dialog oriented GUI (Graphical User Interface) version.</li>
+  <li><b>Takc.exe</b> is the command line version.</li>
+</ul>
+
+
+<h1><a name="TakSupport">Applications with TAK support</a></h1>
+
+<h3><a href="http://exactaudiocopy.org">Exact Audio Copy (EAC)</a> - Audio grabber</h3>
+<p>
+Can save the audio data as TAK files. Guides:</p>
+<ul>
+  <li><a href="http://wiki.hydrogenaudio.org/index.php?title=EAC_and_TAK">EAC and TAK</a>
+       at Hydrogenaudio.org</li> 
+</ul>
+
+<h3><a href="http://www.foobar2000.org">Foobar2000</a> - Audio player</h3>
+<p>
+Encoding, decoding, tagging and playback. Guides and plugins:</p>
+<ul>
+  <li><a href="http://wiki.hydrogenaudio.org/index.php?title=TAK">TAK Wiki</a>
+      at hydrogenaudio.org</li>
+  <li>Playback plugin: <a href="http://fb2k.org/show.php?id=222">Foosion's foobar2000 stuff (TAK Decoder)</a></li>
+</ul>
+	
+<h3><a href="http://germanixsoft.de">GermaniX Transcoder</a></h3>
+<p>Transcoding.</p>
+
+
+<h3><a href="http://www.mp3tag.de">Mp3tag</a> - Tag Editor</h3>
+<p>Supports TAK since V 2.38.</p>
+
+
+<h3><a href="http://www.quinnware.com/index.php">Quintessential Player</a> - Media Player</h3>
+<p>Playback of TAK files. Requires this 
+<a href="http://www.quinnware.com/list_plugins.php?type=input">plugin</a>.</p>
+
+
+<h3><a href="http://etree.org/shnutils/shntool">shntool</a></h3>
+<p>Processing and analysis of (compressed) WAVE-audio files.</p>
+	 
+	 
+<h3><a href="http://www.winamp.com">Winamp</a> - Media Player</h3>
+<p>Playback of TAK files. Requires my Winamp plugin.</p>
+
+	 
+<h3><a href="http://support.xmplay.com">XMPlay</a> - Audio Player</h3>
+<p>Playback of TAK files. Requires my Winamp plugin.</p>
+
+
+<h3><a href="http://xrecode.com">xrecode II</a></h3>
+<p>Transcoding.</p>
+
+
+<h1><a name="CompressGui">Compressing files with the GUI version</a></h1>
+
+<h2>File management</h2>
+<p>
+Compression creates files with the same name as the source, but with the
+extension '.tak':</p>
+<pre>
+    Sample.wav -> Sample.tak</pre>
+<p>
+By default existing files will not be overwritten.</p>
+
+
+<h2>Quick tour</h2>
+
+<ul>
+  <li>Use &quot;Add files&quot; to select the files to compress. This
+      does not work cumulatively; further selections will replace the previous
+	  selection.</li>
+  <li>&quot;Compress&quot; starts the compression process. &quot;Stop&quot; cancels the
+      process. Use &quot;Test&quot; to compress the files without creating any
+	  output - useful if you just want to check the potential compression
+	  ratio.</li>
+</ul>
+
+
+<h4>Warnings and errors</h4>
+<p>
+If there are any problems with a file you will see a short message following the
+file name:</p>
+
+<table class="ProcIdx" cellspacing="4" cellpadding="2">
+   <colgroup>
+      <col width="250">
+      <col width="500">
+   </colgroup>
+<tbody>
+
+<tr>
+  <td class="ProcIdxTitle">Message</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+  <td class="ProcIdxName">Meta data too big</td>
+  <td class="ProcIdxDesc">
+    The non-audio wave file meta data was bigger than 1 MByte, and could not be
+	stored in the file. The audio data itself is intact.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Audio format not supported</td>
+  <td class="ProcIdxDesc">
+    The current encoder implementation cannot handle the source audio format.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Wave file not supported</td>
+  <td class="ProcIdxDesc">
+    My wave file reader was not able to parse the wave container, or
+	the source file structure is damaged.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Error reading source</td>
+  <td class="ProcIdxDesc">
+    A source I/O error occurred.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Error writing destination</td>
+  <td class="ProcIdxDesc">
+    A destination I/O error occurred.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Verify failed!</td>
+  <td class="ProcIdxDesc">
+    This will only happen with Verify enabled. Possible reasons: A bug in the
+	encoder, or instable hardware.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Already exists</td>
+  <td class="ProcIdxDesc">
+    The destination file already exists, and you have not specified the
+	Overwrite option.
+  </td>
+</tr>
+
+</tbody>
+</table>
+
+
+<h2>Options</h2>
+<p>
+The <i>Options</i> dialog lets you choose <i>encoder options</i> like the 
+preset, which determines compression efficiency, encoding and decoding
+speed. Furthermore you can modify <i>stream properties</i> and specify 
+<i>output options</i> like for instance the destination directory.</p>
+
+
+<h2>Encoder options</h2>
+<p align="center">
+<img src="EncoderOptions.gif" width="644" height="513" alt="Encoder options"></p>
+
+
+<h3><a name="EncoOptPreset">Presets</a></h3>
+<p>
+The table contains 15 rows. Each is representing one encoder <i>preset</i>,
+which affects compression efficiency, encoding and decoding speed. You select
+a preset with a mouse click.</p>
+<p>
+Each preset selects a set of internal encoder options. Some of them  affect
+only the encoding speed, the others also the decoding speed.</p>
+<p>
+Slower decoding usually means higher hardware requirements (memory size and/or
+cpu power) for a playback device. Some devices may be too weak to support
+the more demanding internal encoder options. But any option, which only
+affects the encoding speed and complexity, is always applicable.</p>
+<p>
+Therefore each preset consists of two components:</p>
+<ul>
+  <li>The <i>profile</i> selects internal encoder options which affect both
+      encoding and decoding speed. Profiles are declared as a number
+	  from 0 to 4 (fastest to strongest).</li>
+  <li>The <i>evaluation level</i> selects only internal encoder options,
+      which have no effect on the decoding speed. The evaluation levels
+	  are named Standard, Extra and Max and abbreviated as s, e and m 
+	  (fastest to strongest).</li>
+</ul>
+<p>
+Presets are beeing declared as a combination of the profile and the abbreviated
+evaluation level (if not specified <i>Standard</i> is beeing used): <i>0</i> is the
+fastest, <i>4m</i> the strongest setting.</p> 
+<p>
+Put a -p in front of the preset and you get the corresponding command line
+parameter for TAKC, which is also used in the table as name for the preset.</p>
+<p>  
+A hardware manufacturer supporting TAK has only to specify the strongest
+profile it's hardware can decode, because the evaluation level does not
+affect the hardware requirements.</p> 
+<p>
+Hint: If you want higher compression and fast encoding, and are able to accept
+some decrease in decoding speed, it is usually preferable to select a higher
+profile instead of increasing the evaluation level.</p>
+
+<h4>Comparison</h4>
+<p>
+The table contains results from my primary test file set to give you an idea of
+the effect of profiles and evaluation levels on compression efficiency, encoding
+and decoding speed. Depending on your files and system you may get quite
+different results!</p>
+<p>
+The data in columns 2 to 4 is always relative to the currently selected preset:</p>
+<p>
+<i>Compression difference</i> tells you, how much better (positive values) or
+worse (negative values) the other presets performed. Example: if 2 is
+selected (Default), you can see, that 4 + MAX achieved 1.00 percent better
+compression on my file set. Percentage values always refer to the original,
+uncompressed file size.</p>
+<p>
+<i>Encoding/Decoding speed</i>: How much faster / slower are the other presets
+on encoding / decoding.</p>
+
+
+<h3>Verify</h3>
+<p>
+With Verify enabled, any compressed frame is subsequently decompressed and then
+compared to the original data. This reduces encoding speed, but is useful for
+the more paranoid among us!</p>
+
+
+<h2>Details</h2>
+<p>
+The <i>Details</i> dialog let's you modify some internal encoder options.</p>
+ 
+<p align="center">
+<img src="EncoderDetails.gif" width="276" height="255" alt="Encoder details"></p>
+
+
+<h3><a name="EncoOptFrameSizeLimit">Frame Size Limit</a></h3>
+<p>
+The Frame size is defined as samples per channel. The encoder first calculates
+the frame size for the preset's <i>Frame Duration</i> and then compares the
+resulting sample count with the <i>Frame Size Limit</i> value. If it's bigger,
+it will be limited. An Example:</p>  
+<p>
+Profile 0 is using a <i>Frame Duration</i> of 94 ms. CD-Audio has a sample rate
+of 441000. 44100 * 0.094 = 4145 samples. This value is bigger than the profile's
+<i>Frame Size Limit</i> and will therefore be limited to 4096.</p>
+<p>
+Caution: if you increase the frame size limit, you are breaking the profile's
+specification! Some hardware players may not have enough memory to decode the
+bigger frames. Decreasing the frame size usually reduces the compression
+efficiency.</p>  
+<p>
+There is only one situation where you are advised to change the frame size
+limit: If you want to encode files generated by the high quality LossyWav-
+preprocessor, Tak's frame size has to match the preprocessors frame size 
+(usually 512 samples). For more information about LossyWave please read those
+threads at Hydrogenaudio.org: 
+<a href="http://www.hydrogenaudio.org/forums/index.php?s=&showtopic=55522&view=findpost&p=498179">Near-lossless / lossy FLAC, An idea & MATLAB implementation</a>  
+and
+<a href="http://www.hydrogenaudio.org/forums/index.php?s=&showtopic=56129&view=findpost&p=504087">lossyWAV Development, WAV bit reduction by 2BDecided</a>.
+</p>
+<p>
+Another warning: <i>Frame Size Limit's</i> of 512, 1024 and 2048 can not be
+decoded by TAK applications and libraries prior to V1.0.2!</p> 
+
+
+<h2>Stream</h2>
+
+<p align="center">
+<img src="EncoStreamOptions.gif" width="644" height="513" alt="Stream options"></p>
+
+
+<h4><a name="EncoOptSaveMetaData">Wave file meta data</a></h4>
+<p>
+When decompressing TAK always generates a bit identical copy of the audio data
+of the original wave file. Nevertheless, the resulting wave file may be
+different from the original!</p>
+<p>
+This is because a wave file contains not only raw audio data, but also
+some header structures describing the audio format, and sometimes additional
+data which is not needed for the playback - for instance meta information
+created by the application that created the original wave.</p>
+<p>
+Even if there is no additional (dropped) information besides the wave header,
+the wave file created by the decoder can be different from the original.
+This is because there are several different ways to create a valid wave header
+describing the same audio format. TAK may use an alternative to the
+creator of the original wave.</p>
+<p>
+All this does not affect the validity of the audio data itself. It will always
+be bit identical to the original!</p>
+<p>
+By default TAK will store up to 1 MByte of non-audio data into the compressed
+file. This guarantees a bit identical reproduction of the whole wave file,
+including the non-audio data.</p>
+
+<h3><a name="EncoOptSaveMetaData">Maximum size</a></h3>
+<p>
+Specify a maximum size for the meta data. If it is bigger, it will not be
+be copied into the TAK file.</p>
+
+<h3><a name="EncoOptAddMd5">Add MD5</a></h3>
+<p>
+Check this option if you want TAK to calculate a MD5 checksum of the raw 
+(unencoded) audio data excluding headers or other meta data contained in the
+source file. The MD5 will be stored in the meta data section of the compressed
+file. Depending on the preset, the calculation may result in a noticable slow
+down of the encoding process.</p>
+<p>
+Why you may want to add an MD5:</p>
+<ul>
+  <li>It's an approved standard to identify audio files. Here it serves as a
+      fingerprint of the audio data. Some software is using it to check your
+	  file collection for duplicates.</li>
+  <li>On decoding TAK will optionally calculate an MD5 of the decoded audio data
+      and compare it with the checksum stored in the compressed file. If the
+	  checksums don't match, something went wrong. I wouldn't regard this as very
+	  useful, because TAK is already protecting each single frame with a CRC24
+	  checksum. The MD5 will add little to the error detection capability.</li>
+</ul>
+
+
+<h2>Output</h2>
+
+<p align="center">
+<img src="EncoOutputOptions.gif" width="644" height="513" alt="Output options"></p>
+
+
+
+<h3>Destination</h3>
+<p>
+Where should the compressed files be stored:</p>
+<ul>
+  <li>in the same directory as the <i>source</i> files, or</li>
+  <li>in a <i>user-specified</i> directory. After selecting this option you
+      can select <i>Browse</i> to select the directory. <br />
+      NB: The selection dialog is a
+	  bit different from the standard Windows dialogs. The treeview does not
+	  show plus symbols, which can usually be clicked to show directories
+	  located within the parent folder. Here you have to perform a
+	  double click on the directory name to open it.</li>
+</ul>
+
+
+<h3><a name="EncoOptOverwrite">!!! Overwrite existing TAK files !!!</a></h3>
+<p>
+Enable this option to overwrite already existing TAK files; otherwise they
+will be skipped. You will not be asked for a confirmation!</p>
+
+
+<h4><a name="EncoOptProtocol">Protocol</a></h4>
+<p>
+TAK can save information about the compression process in the protocol
+file &quot;Tak_Enco_Proto.txt&quot;, which will be created in the output
+directory.</p>
+
+<h3>Level</h3>
+<p>
+What should be stored into the protocol file:</p>
+<ul>
+  <li><i>Off</i>: Don't generate a protocol file.</li>
+  <li><i>Result</i>: Save a copy of the screen output.</li>
+  <li><i>Result &amp; Diagnostics</i>: Save results and settings.
+      Not supported in public releases.</li>
+</ul>
+
+
+<h3>Append</h3>
+<p>
+Append new protocol data to an existing protocol file, instead of overwriting it.</p>
+
+
+
+<h1><a name="DecompressGui">Decompressing files with the GUI version</a></h1>
+
+
+<h2>File management</h2>
+<p>
+Decompression creates files with the same name as the source and the extension
+'.wav':</p>
+<pre>
+    Sample.tak -> Sample.wav</pre>
+<p>
+By default existing files will not be overwritten.</p>
+
+
+<h2>Quick tour</h2>
+
+<ul>
+  <li>Use &quot;Add files&quot; to select the files to decompress. This
+      does not work cumulatively; further selections will replace the previous
+	  selection.</li>
+  <li>&quot;Decompress&quot; starts the decompression process. &quot;Stop&quot; cancels
+      the process. Use &quot;Test&quot; to decompress the files without creating
+	  any output - useful if you just want to check file integrity.</li>
+</ul>
+
+
+<h4>Warnings and errors</h4>
+<p>
+If there are any problems with a file you will see a short message following the
+file name:</p>
+
+<table class="ProcIdx" cellspacing="4" cellpadding="2">
+   <colgroup>
+      <col width="250">
+      <col width="500">
+   </colgroup>
+<tbody>
+
+<tr>
+  <td class="ProcIdxTitle">Message</td>
+  <td class="ProcIdxTitle">Description</td>
+</tr>
+
+<tr>
+  <td class="ProcIdxName">Invalid Stream-ID</td>
+  <td class="ProcIdxDesc">
+    The Stream-ID (indicating that this is a TAK file) at the beginning of the
+	file is damaged, but everything else is intact.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Stream info damaged</td>
+  <td class="ProcIdxDesc">
+    The stream info meta data is damaged, but everything else is intact.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Meta data damaged</td>
+  <td class="ProcIdxDesc">
+    One or more of the meta data structures are damaged, but the audio data
+	is intact.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Stream structure damaged</td>
+  <td class="ProcIdxDesc">
+    The stream part containing the audio data had errors, but the audio
+	data itself is intact.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Frame(s) damaged</td>
+  <td class="ProcIdxDesc">
+    At least one audio data frame is damaged.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Undecodable</td>
+  <td class="ProcIdxDesc">
+    Too many errors. The file cannot be decoded (it possibly isn't a TAK-file).
+	Occasionally it is worth trying again, with the <i>Restore wave file meta
+	data</i>-option	disabled.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Audio format not supported</td>
+  <td class="ProcIdxDesc">
+    The file has been created with a newer encoder, which is able to handle
+	more audio formats than the decoder you are using.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Incompatible version</td>
+  <td class="ProcIdxDesc">
+    The file has been created with a newer encoder, which uses compression
+	methods not supported by the decoder you are using.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Error reading source</td>
+  <td class="ProcIdxDesc">
+    A source I/O error occurred.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Error writing destination</td>
+  <td class="ProcIdxDesc">
+    A destination I/O error occurred.
+  </td>
+</tr>
+<tr>
+  <td class="ProcIdxName">Already exists</td>
+  <td class="ProcIdxDesc">
+    The destination file already exists and you have not specified the
+	Overwrite option.
+  </td>
+</tr>
+
+</tbody>
+</table>
+
+
+<h2>Options</h2>
+<p>
+The <i>Options</i> dialog gives you access to a few decoder options.</p>
+
+<p align="center">
+<img src="DecoOptions.gif" width="636" height="458" alt="Decoder options"></p>
+
+
+<h3>Destination</h3>
+<p>
+Where should the decompressed files be stored:</p>
+<ul>
+  <li>in the same directory as the <i>source</i> files or</li>
+  <li>in a <i>user-specified</i> directory. After selecting this option you
+      can press <i>Browse</i> to select the directory.<br />
+      NB: The selection dialog is a
+	  bit different from the standard Windows dialogs. The treeview does not
+	  show plus symbols, which can usually be clicked to show directories
+	  located within the parent folder. Here you have to perform a
+	  double click on the directory name to open it.</li>
+</ul>
+
+
+<h3>!!! Overwrite existing wave files !!!</h3>
+<p>
+Enable this option to overwrite already existing wave files; otherwise they
+will be skipped. You will not be asked for a confirmation!</p>
+
+
+<h3>Restore wave file meta data</h3>
+<p>
+Enable this option to write the non-audio meta data of the original wave file
+into the decompressed file.</p>
+<p>
+This only works if the compressed file has been created with the encoder option
+&quot;Save wave file meta data&quot; enabled, and the meta data was not
+larger than 1 MByte.</p>
+
+
+<h3>Check Md5</h3>
+<p>
+Enable this option if you want TAK to calculate a <a href="#EncoOptAddMd5">MD5</a>
+checksum of the decoded audio data and compare it with the one stored in the
+compressed file.</p>
+<p>
+This only works if the compressed file has been created with the encoder option
+&quot;Add Md5&quot; enabled.</p>
+<p>
+Depending on the preset, the calculation may result in a noticable slow
+down of the decoding process.</p>
+
+
+<h2>Error handling</h2>
+<p>
+How should errors caused by damaged files be handled?</p>
+<p>
+<b>Important</b>: You will sometimes have to disable the
+&quot;Restore wave file meta data&quot; option to decode a damaged file!</p>
+
+
+<h3>Files</h3>
+<p>
+Select <i>Skip</i>, if you don't want to decompress damaged files. If you
+select <i>Recover</i> TAK will attempt to recover as much of the audio data
+as possible.</p>
+
+
+<h3>Frames</h3>
+<p>
+Specify what should be done if the decompressor finds a damaged block of audio
+data within the file:</p>
+
+<ul>
+  <li><i>Skip</i> the damaged data. Nothing is inserted between the
+      previous and the next intact audio data frames. This is likely to
+	  generate a clicking sound when playing.</li>
+  <li><i>Mute</i> replaces the damaged data with a frame of silence.</li>
+</ul>
+
+
+<h3>Save error log</h3>
+<p>
+If enabled, an error log is saved to the file
+&quot;Tak_Deco_Error.txt&quot;.</p>
+
+
+<h4>Protocol</h4>
+<p>
+TAK can save information about the decompression process in the protocol
+file &quot;Tak_Deco_Proto.txt&quot;, which will be created in the output
+directory.</p>
+
+<h3>Level</h3>
+<p>
+What should be stored into the protocol file:</p>
+<ul>
+  <li><i>Off</i>: Don't generate a protocol file.</li>
+  <li><i>Result</i>: Save a copy of the screen output.</li>
+</ul>
+
+
+
+<h1><a name="GeneralOptionsGui">General Options dialog</a></h1>
+<p>
+The <i>General Options</i> dialog gives you access to options which affect
+several or all program functions.</p>
+
+<p align="center">
+<img src="GeneralOptions.gif" width="287" height="305" alt="General options"></p>
+
+
+<h3><a name="GeneralOptProcessing">Processing</a></h3>
+
+
+<h4><a name="GeneralOptThreadNum">Threads</a></h4>
+<p>
+If your cpu has multiple cores, you may speed up processing if you let TAK
+distribute the work among several threads. By default only 1 thread is created.
+Currently multithreading is only supported by the encoder.</p>
+<p>
+Some hints:</p>
+<ul>
+  <li>You will only notice a speed up, if the processing isn't limited by
+      another factor like hard disk speed.</li>
+  <li>It doesn't make sense to create more threads than the cpu has cores.
+      Sometimes it may be advantegous not to use all cores.</li>
+  <li>Usually you will only benefit from physical cores. Hyperthreading 
+      doesn't work well for the codec. Hyperthreading can only be advantegous,
+      if the threads are doing different things, or more specifically using
+      different execution units of the physical core (for instance Integer-,
+      floating point or MMX-calculations). But the codec's threads will most
+      of the time require the same execution ports. So you only get a penalty
+      for the overhead of the hyperthreading management.</li>
+</ul>     
+
+
+<h4><a name="GeneralOptLowPriority">Low Priority</a></h4>
+<p>
+Execute with low priority. Nice for background processing.</p>
+
+
+<h3><a name="GeneralOptCpuOpt">Optimizations</a></h3>
+<p>
+Most cpus support additional instruction sets which can be used to speed up
+the processing. By default TAK will atomatically use any available instruction
+set it can take advantage of. You may restrict TAK to use only specific
+instruction sets:</p> 
+<ul>
+  <li><i>None:</i> Use plain Pascal code. This code is not even really
+      optimized. It mainly serves as a reference to check the assembler
+      optimizations against.</li>
+  <li><i>MMX:</i> Use MMX</li>
+  <li><i>SSSE3:</i> Use MMX and SSSE3</li>
+</ul>
+<p>
+Usually there is no reason to override the automatic selection.</p>  
+
+
+<h1><a name="DecoErrorLogFile"></a>Decompressor error log file</h1>
+<p>
+This section describes the content of the Decompressor error log file
+&quot;Tak_Deco_Error.txt&quot;.</p>
+<p>
+An entry is created for each damaged file:</p>
+
+<pre>
+--- 41_30sec_No head - No tail.tak ---
+
+Result
+  Audio data damaged
+
+Stream components
+  File-ID damaged
+  StreamInfo damaged
+  Meta data damaged
+  First frame not found
+
+Audio data
+  Size in samples:     1323001
+  Damaged samples:       12523
+    Muted samples:       12523
+    Cut   samples:           0
+  Damaged blocks :           2
+
+Damaged data blocks
+
+No       Position    Size
+       1           0        4134
+       2     1314612        8389
+</pre>
+<p>
+Sections:</p>
+<ul>
+  <li>The overall <i>result</i>.</li>
+  <li>Info about damages of non-audio <i>stream components</i>.</li>
+  <li>An overview of damages of the <i>audio data</i>.</li>
+  <li>A detailed list of <i>damaged data blocks</i> in the audio data.</li>
+</ul>
+
+
+<h4>Audio data</h4>
+<p>
+contains:</p>
+<ul>
+  <li>The stream <i>size in samples</i> including damaged samples. Important:
+      If the stream components section contains the error 
+	  &quot;Audio size unknown&quot;, this value maybe inaccurate. Can only
+	  happen if the file has been created via pipe encoding and with the -ihs
+	  switch applied.</li>
+  <li>The count of <i>damaged samples</i>.</li>
+  <li>Damaged samples can be <i>muted</i> (replaced with silence) or <i>cut</i> 
+     (taken out of the file).</li>
+  <li>The count of <i>damaged blocks</i> which have been skipped. Each
+      block contains one or more undecodable frames.</li>
+</ul>
+
+
+<h4>Damaged data blocks</h4>
+<p>
+contains a list of defective data blocks. Each block is characterized  by it's
+<i>position</i> and <i>size</i> within the decompressed (wave) file in samples.
+With this information it is easy to find the affected file parts within an
+audio editor.</p>
+
+
+<h1><a name="ViewFileInfo">Viewing file info with the GUI version</a></h1>
+<p>
+This command will show you some useful information about compressed TAK files,
+which can optionally be written to a protocol file. Operation is nearly 
+identical to decompressing files.</p>
+<p>
+Example output for one file:</p>
+<pre>
+=== waiting.tak ===============================================
+
+  File size:                     2.19 MB
+  Header size:                   0.24 KB
+    Unused:                      0.00 KB
+  Compression:                  64.46 %
+  Samples per channel:         888832
+  File duration:                20.15 sec
+  Frame duration:                 125 ms
+  Seek table:              Yes
+  Audio format:            PCM, 44100 Hz, 16 Bits, 2 Channels
+  Codec:                   2 Integer 24 bit (TAK 2.0)
+  Encoder:                 V 2.0.0, -p2
+  Wave file meta data:     Header 44, Footer 0 Bytes
+  MD5:                     00c29080dc2892f24b712b86fea12f87
+  APEv2-Tag:               No
+  Status:                  Ok
+</pre> 
+<p>
+Items:</p>
+<ul>
+  <li>The compressed <i>File size</i> in MByte (1024 * 1024 Bytes).</li>
+  <li>The <i>Header size</i> in KByte (1024 Bytes). The Header contains
+      meta data structures and the seek table.</li>
+  <li>The size of <i>Unused</i> data in the header in KByte. Currently can only
+      be non-zero if the file has been created via pipe encoding.</li>
+  <li>The <i>Compression</i> ratio in percent of the original file size.</li>
+  <li>The count of <i>Samples per channel</i>.</li>
+  <li>The <i>File duration</i> in seconds.</li>
+  <li>The <i>Frame duration</i> in milliseconds. A single bit error will
+      never affect more of your audio data.</li>
+  <li>Contains the file a since V1.1.1 obsolete <i>Seek table</i>?.</li>
+  <li>A description of the<i> Audio format</i>.</li>
+  <li>The <i>Codec</i> used to compress the file.</li>
+  <li>Information about the <i>Encoder</i>, which compressed this file: Encoder
+      version and preset. For files generated with TAK 1.0 the evaluation level
+	  is unknown.</li>
+  <li>The sizes of leading and trailing <i>Wave file meta data</i> in bytes.</li>
+  <li>If available, the <i>MD5</i> checksum of the raw audio data.</li>
+  <li>If available, the size and item count of the <i>APEv2-Tag</i> located at
+      the end of the file.</li>
+  <li><i>Status</i>: Ok or an error message.</li>
+</ul>
+
+
+<h2>Options</h2>
+<p>
+The <i>Options</i> dialog lets you choose the information to show:</p>
+<ul>
+  <li><i>Any information</i> creates the output above.</li>
+  <li><i>Encoder</i> outputs only the encoder version and the preset.</li>
+  <li><i>Wave meta data</i> outputs only the wave meta data sizes.</li>
+  <li><i>Md5</i> outputs only the MD5 checksums.</li>
+</ul>
+<p>
+If you check the <i>Save protocol</i> option, any output will be saved to
+a protocol file named &quot;Tak_Info_Proto.txt&quot; located in the source
+file directory.</p> 
+
+
+
+<h1><a name="Takc">Command line version TAKC</a></h1>
+
+<h2><a name="cmdParameters"></a>Parameters</h2>
+<pre>
+TAKC -mode [-p# -fsl# -wm# -md5 -ihs -v -overwrite -fim# -l# -silent -w]
+           [-lp -tn# -cpu# -tt #] infile [outfile]
+
+-mode      -e encode, -d decode, -t test decode, -te test encode,
+           -fi file information
+-p#        select encoder preset #: 0-4 (fastest to strongest, default is 2).
+           Append E/M (-p2m) to increase the evaluation level to Extra/Max.
+           pMax is a synonym for the strongest setting.
+-fsl#      Set the frame size limit to # samples per channel. Valid values:
+             512, 1024, 2048, 4096, 8192, 16384. Up to 8192 for -cLW
+-wm#       Control saving(encode)/restoring(decode) of wave file meta data:
+             0 = disable
+             1 = enable and use default values for maximum size (default)
+             46 to 1048576 = enable and set maximum size (encoding only)
+-md5       add (encoding) / verify (decoding) MD5 of the raw wave data
+-ihs       ignore (wave) header size entry (pipe encoding only)
+-v         verify encoded frames (when encoding)
+-overwrite overwrite existing output files (without confirmation!)
+-fim#      select file information mode #
+             0 = any information (default)
+             1 = encoder
+             2 = wave meta data
+             3 = MD5
+-l#        select log file level #
+             0 = no log file (default)
+             1 = log results
+             Append A (-l1a) to append new results to an existing file.
+-silent    silent operation: Write nothing to StdOut/the screen.
+-w         wait for enter key when finished
+-lp        Execute with low priority. Nice for background processing.
+-tn#       Use # threads for encoding (1-4, default is 1).
+-cpu#      Use (up to) the # cpu instruction set optimizations.
+             None  = Use plain Pascal code
+             MMX   = Use MMX
+             SSSE3 = Use MMX and SSSE3
+             By default any available instruction set is used.
+-tt #      Add textual tag item #, where # is a key/value pair: "key=value",
+           for instance "TITLE=A nice song". "key=@file" will read the value
+           from the text(!) file "file" in the source directory.
+infile     Specify file or directory (Dir\*) to be processed.
+           - selects StdIn (encoding only, requires outfile specification).
+outfile    Specify output file or directory (Dir\*).
+           - selects StdOut (decoding only, requires infile specification).
+</pre>
+
+
+<h3>-mode</h3>
+<p>
+What should the program do:</p>
+<ul>
+  <li>-e: Encode (compress) files.</li>
+  <li>-d: Decode (decompress) files.</li>
+  <li>-t: Test files. Files are decoded to check their integrity, but no
+      output file is created.</li>
+  <li>-te: Test-encode files. Check the potential compression ratio, but do not
+      create an output file.</li>
+  <li>-fi: <a href="#ViewFileInfo">Show file information</a>.</li>
+</ul>
+
+
+<h3>-p#</h3>
+<p>
+Select an encoder <a href="#EncoOptPreset">preset</a>. Default is -p2.</p>
+
+ 
+<h3>-fsl#</h3>
+<p>
+Set the <a href="#EncoOptFrameSizeLimit">Frame Size Limit</a> to one of the
+listed values.</p>
+
+
+<h3><a name="CmdOpt_wm">-wm#</a></h3>
+<p>
+Specify 1/0 to enable(default)/disable saving(encode)/restoring(decode) of
+non-audio wave file meta data. Please read the description of the GUI version
+for the options <a href="#EncoOptSaveMetaData">Wave file meta data</a> and
+<i>Restore wave file meta data</i>.</p>
+<p>
+On encoding you may also specify a maximum size (46 to 1,048,576 bytes) for the
+meta data, for example:</p>
+<pre>
+-wm1024</pre>
+<p>
+limits the meta data size to 1024 Bytes. If it is bigger, it will be ignored.</p>
+<p>
+The default value selected by -wm1 depends on the encoding mode:</p>
+<ul>
+  <li>When encoding from a <i>file</i> the maximum size is set to 1,048,576 bytes.</li>
+  <li>When encoding from a <i>pipe without the -ihs switch</i> applied the
+      maximum size is set to 46 bytes.</li>
+  <li>When encoding from a <i>pipe with the -ihs switch</i> applied no meta
+      data can be saved.</li>
+</ul>
+
+
+<h3><a name="CmdOpt_Md5">-md5</a></h3>      
+<p>
+On encoding (-e): Calculate a <a href="#EncoOptAddMd5">MD5</a> checksum of the
+raw audio data and store it in the compressed file.</p>
+<p>
+On decoding (-d, -t): Calculate a <a href="#EncoOptAddMd5">MD5</a> checksum of
+the decoded audio data and compare it with the Md5 stored in the compressed
+file.</p>
+
+
+<h3><a name="CmdOpt_ihs">-ihs</a></h3>       
+<p>
+Ignore the (wave) header size entry in the source file. Only valid when 
+<a href="#PipeEncoding">pipe encoding</a>.</p>
+
+
+<h3>-v</h3>
+<p>
+Enables Verify: Any compressed frame is subsequently decompressed and
+then compared to the original data. This reduces encoding speed,
+but is useful for the more paranoid among us!</p>
+
+
+<h3>-overwrite</h3>
+<p>
+By default already existing output files will not be overwritten. Specify
+this option to enable overwriting. You will not be asked for a confirmation!</p>
+
+
+<h3>-fim#</h3>
+<p>
+Select the <a href="#ViewFileInfo">file information</a> to show.</p>
+
+
+<h3>-l#</h3>
+<p>
+Specify the <a href="#EncoOptProtocol">log (protocol) file</a> level.</p>
+
+
+<h3>-silent</h3>    
+<p>
+Silent operation: Write nothing to StdOut/the screen.</p>
+
+
+<h3>-tn#</h3>    
+<p>
+Use # <a href="#GeneralOptThreadNum">threads</a> for encoding.</p>
+
+
+<h3>-cpu#</h3>
+<p>
+Use (up to) the # cpu instruction set <a href="#GeneralOptCpuOpt">optimizations</a>.</p>
+
+
+<h3>-tt #</h3>
+<p>
+Some remarks:</p>
+<p>
+Tagging is only available when encoding.</p>
+<p>
+TAK does not distinguish between upper and lower case in the keys; therfore
+&quot;key&quot; and &quot;KEY&quot; are equivalent.</p>
+<p>
+You may assign multiple values to the same key:</p>
+<pre>
+-tt "Artist=One" -tt "ARTIST=Two"</pre>
+<p>
+will create a tag item with the key &quot;Artist&quot; and the value 
+&quot;One Two&quot;. The notation of the first appearance of the key is beeing
+used. Multiple values are beeing separated by zero bytes as defined in the APEv2
+specification.</p>
+<p>
+Item values are not allowed to be empty.</p>
+
+       
+<h3>infile</h3>
+<p>
+Depending on the selected mode the program automatically appends the proper
+extension to the file spec: &quot;.wav&quot; when encoding, &quot;.tak&quot;
+when decoding.</p>
+<p>
+Examples for encoding:</p>
+<pre>
+d:\VocComp_Data\Sample</pre>
+<p>
+Compress file &quot;Sample.wav&quot; in the directory &quot;d:\VocComp_Data&quot;.</p>
+<pre>
+d:\VocComp_Data\*</pre>
+<p>
+Compress any file with the extension &quot;.wav&quot; in the directory
+&quot;d:\VocComp_Data&quot;.</p>
+<pre>
+*</pre>
+<p>
+Compress any file with the extension &quot;.wav&quot; in the current directory.</p>
+<pre>
+-</pre>
+<p>
+Read the data to compress from StdIn. See <a href="#PipeEncoding">pipe encoding</a>
+for more information.</p>
+
+
+<h3>outfile</h3>
+<p>
+The optional outfile specification works the same way as infile.</p>
+<p>
+Specify &quot;-&quot; to enable pipe decoding: The decoded data is beeing
+written to StdOut. Currently there are some <a href="#KnownIssues">minor issues</a>
+with pipe decoding.</p> 
+<p>
+Not every in-/outfile spec combination is valid: if you are using wildcards for
+the infile, you cannot specify an individual filename as outfile. With pipe
+decoding you have to specify an individual infile.</p>
+
+
+<h2>Exit codes</h2>
+<p>
+The following exit codes may be returned:</p>
+
+<h3>0 = Success</h3>
+<p>
+No errors.</p>
+
+<h3>1 = Invalid parameter(s)</h3>
+<p>
+One or more of the command line parameters are invalid.</p>
+
+<h3>2 = Operation error</h3>
+<p>
+The requested operation failed. Currently nearly any failure is beeing reported
+as error including the detection of damaged audio data when decoding, even if
+the file could be partially decoded.</p>
+<p>
+Only exception: If a file is beeing compressed and the wave meta data is too big
+to be copied into TAK's meta data, the resulting warning is not beeing reported
+as error.</p>
+<p>
+Probably later program versions will differentiate warnings (code 2) and errors
+(code 3).</p>
+ 
+ 
+<h2><a name="PipeEncoding">Pipe encoding</a></h2>
+
+<h4>What it is good for</h4>
+<p>
+Usually TAK reads the data to be encoded from a wave file. Sometimes this is
+not the best way:</p>
+<ul>
+  <li>If you use another application to convert a file from another format than
+      wave into the TAK format, the application first has to convert the data
+	  into a temporary wave file and then has to call the TAK command line version
+	  to encode the wave file.</li>
+  <li>The same is required if you are ripping a cd. First rip and then encode.</li>
+</ul>
+<p>
+This method requires some disk space for the temporary wave file and reading and
+writing of this file will cost some time.</p>
+<p>
+Those disadvantages can be avoided if the application supports <i>pipe encoding</i>:
+In this context pipe means a direct connection between two applications. The
+application writes the data to encode into one end of the pipe and TAK reads
+it from the other.</p>
+<p>
+Currently the pipe data has to be in the wave file format. Later TAK versions
+will also support raw data streams.</p>
+
+
+<h4>Basic usage</h4>
+<p>
+To activate pipe encoding you have to specify a minus as source file and an
+outfile specification is obligatory:</p>
+<pre>
+takc -e - Outfile</pre>
+
+   
+<h4>Some complications</h4>
+<p>
+Because the pipe can only be read sequentially and it's final size is unknown,
+TAK can not know in advance, if there will be some (rare) additional wave meta
+data at the end of the file. Since wave meta data is beeing stored into TAK's 
+meta data structures in the file header and this has to be created when encoding
+starts, TAK has to reserve sufficient space to hold the meta data it might
+encounter at the end of the file. If the space is too small, the meta data can
+not be stored, if it is too big, we are wasting some space and the compression
+will be not optimal.</p>
+<p>
+You may use the -wm option to control the size of the reserved space:</p>
+<pre>
+takc -e -wm46 - Outfile</pre>
+<p>
+reserves 46 Bytes which is also the default setting for pipe encoding. This is
+only sufficient for the simpliest wave file header, but will waste nearly no
+space.</p>
+<p>
+A similar problem arises if the other application does not know the final sample
+count of the audio data. This can happen, if the audio data is simultaneously
+beeing ripped from a cd or if the data is beeing converted from a format which
+doesen't provide an accurate size information before the whole decoding is done.
+In both cases the other application can not write an accurate sample count into
+the wave header which is beeing sent to TAK.</p>
+<p>
+You have to tell TAK to ignore this size entry by adding the ignore-header-size
+switch to the command line:</p>
+<pre>
+takc -e -ihs - Outfile</pre>
+<p>
+The -wm switch can not be used in combination with the -ihs switch. If the
+header data is invalid, it's useless to save it.</p>
+
+
+<h4>Some recommendations for Foobar2000</h4>
+<p>
+You have to create an encoder preset to use pipe encoding with Foobar2000.
+Here an example of a preset i created for Foobar2000 V0.9.4.5:</p>
+ 
+<p align="center">
+<img src="FoobarPipeEncoding.gif" width="555" height="537" alt="Foobar pipe encoding"></p>
+<p>
+Some remarks:</p>
+<ul>
+  <li>The Encoder path (&quot;C:\Programme\Foobar2000\Takc.exe&quot;) has
+      to point to your &quot;Takc.exe&quot;.</li>
+  <li>You may change the preset selection &quot;-p3&quot; in 
+      &quot;Parameters&quot; to your preset of choice.</li>
+  <li>Since lossless files have a variable bitrate, the bitrate value of
+      800 kbps is only an estimate.</li>
+</ul>
+<p>If you are using Foobar2000 V1.1 and above please read 
+   <a href="http://www.foobar2000.org/releasenotes/11">New component installation scheme</a></p>
+
+   
+<h1><a name="History">History</a></h1>
+
+<h3>V2.1.0 / 11-01-08</h3>
+<p>
+This release brings speed optimizations and multi core support for the encoder.
+The dedicated LossyWav-codec that was available in the beta releases has been
+removed. 
+</p>
+<p>
+Improvements:</p>
+<ul>
+  <li>Encoding speed improvements of about 10 to 20 percent (depends on preset
+      and cpu) for cpus with the SSSE3 instruction set. Since SSSE3 (note the
+      three 'S') isn't supported by AMD, only Intel users will benefit from
+      those optimizations.</li>
+  <li>The encoder now creates up to four threads to utilize multiple cpu cores.
+      Specify the thread number in the General Options dialog of the GUI-version
+	  or with the -tn option of the command line version. By default only one
+      thread is created. You will only notice a speed up, if the encoding speed
+	  isn't already limited by the performance of your drives.</li> 
+</ul>
+<p>
+Modifications:</p>
+<ul>
+  <li>Added the -cpu# switch to the command line version, which lets you control
+      some cpu optimizations.</li>
+  <li>The file info function now also shows the name of the codec used to
+      compress the file.</li>
+  <li>Moved the verify-option from the details-dialog to the general compression
+      options dialog.</li>
+  <li>All dialogs with an Add-files-option locked the source folder until the
+      dialog was closed. Hopefully this is no longer the case.</li>	    
+</ul>
+<p>
+<a name="KnownIssues">Known issues:</a></p>
+<ul>
+  <li>If you use pipe decoding and the application reading the pipe is beeing
+      terminated before the whole file has been read, TAKC may get into an
+	  endless loop and has to be manually killed with the task manager. I don't
+	  think this is a big issue but i will try to fix it in one of the next
+	  versions. BTW: Big  thanks to <i>shnutils</i> for testing the pipe
+	  decoding!</li>
+  <li>There seem to be some compatibility issues with pipe decoding to some
+      other applications (&quot;crc1632.exe&quot; has been reported). I will
+	  try to fix it in the next release.</li>
+</ul>
+ 
+
+<h3>V2.0.0 / 10-01-07</h3>
+<p>
+This release introduces a new file format, which can not be decoded by earlier
+versions of Tak, Takc, in_tak and tak_deco_lib! But surely it can decode files
+created by any earlier version. 
+</p>
+<p>
+Improvements:</p>
+<ul>
+  <li>Slightly better compression of CD-Audio for any preset (ranging from 0.09
+      to 0.37 percent for my primary test corpus).</li>
+  <li>More than 2 percent better compression for my 8-bit test corpus.</li>
+  <li>More than 1.5 percent better compression for my 192 KHz / 24-bit test corpus.</li>
+  <li>Up to 0.45 percent better compression for my LossyWav test corpus.</li>
+  <li>Higher encoding speed for any basic preset (without addditional evaluation
+      level), higher decoding speed for any preset. Depending on the cpu
+	  up to 11 percent faster encoding for -p0 and up to 15 percent faster
+	  decoding for -p3 compared with V1.1.2.</li>
+  <li>While the new codec is smaller than the previous one, the binaries are a
+      bit bigger because the decoder for the old file format takes up about 18 KB.</li>
+  <li>The file format is prepared to support some more future improvements.</li> 
+</ul>
+<p>
+Modifications:</p>
+<ul>
+  <li>Added xrecode II to the list of applications with TAK support in the
+      readme file.</li>
+</ul>
+	  	  
+
+<h3>V1.1.2 / 9-07-27</h3>
+<p>
+New Features:</p>
+<ul>
+  <li>Tagging support for the command line encoder.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Depending on preset and cpu up to 10 percent faster encoding and decoding
+      compared with V1.1.1.</li>
+  <li>Slightly faster encoding and decoding of LossyWav files.</li>
+  <li>Slightly faster encoding and decoding if MMX is disabled and the pure
+      pascal code is beeing used.</li>  
+  <li>Removed some more assembler routines and simplified a lot of code. The
+      binaries are again smaller now.</li>
+</ul>
+<p>
+Fixes:</p>
+<ul>
+  <li>The new filter introduced in V1.1.1 revealed a bug in the encoder, which
+      resulted in suboptimal performance especially when compressing 
+	  LossyWav-files with the presets -p3 or -p4 (BTW: It doesn't make sense to
+      go higher than -p2m when compressing LossyWav-files...).</li>	  
+</ul>
+<p>
+<a name="KnownIssues">Known issues:</a></p>
+<ul>
+  <li>If you use pipe decoding and the application reading the pipe is beeing
+      terminated before the whole file has been read, TAKC may get into an
+	  endless loop and has to be manually killed with the task manager. I don't
+	  think this is a big issue but i will try to fix it in one of the next
+	  versions. BTW: Big  thanks to <i>shnutils</i> for testing the pipe
+	  decoding!</li>
+  <li>There seem to be some compatibility issues with pipe decoding to some
+      other applications (&quot;crc1632.exe&quot; has been reported). I will
+	  try to fix it in the next release.</li>
+</ul>
+	  	  
+
+<h3>V1.1.1 / 9-03-11</h3>
+<p>
+New Features:</p>
+<ul>
+  <li>In very rare cases the presets -p3 and -p4 could compress much worse than
+      the lower presets. A new filter in the encoder will nearly eliminate this
+	  annoying effect. It can also increase the average compression by a tiny
+	  (&lt;= 0.05 percent) amount.</li>
+  <li>Creation and verification of MD5 checksums of the raw audio data. The file
+      info command can show you the MD5.</li>
+  <li>Option to lower the process priority. Nice for background processing.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Up to 9 KB smaller binaries. Although i have removed a lot of the
+      assembler optimizations, the speed is still very close to the
+	  previous version.</li>
+  <li>Further clean up of the Code.</li>
+</ul>
+<p>
+Modifications:</p>
+<ul>
+  <li>Support for seek tables removed. The new version will neither add seek
+      tables to newly encoded files nor use seek tables contained in files
+	  created with older program versions. Important: Seeking in files without
+	  seek table is only supported since V1.1.0. Please update the WinAmp plugin
+	  and/or the decoding library for full seeking support in media players.</li>	  
+  <li>There is a new metadata object which contains position and size of the
+      last frame in the stream. This info is useful for seeking and tag
+	  detection.</li>
+</ul>
+	  	  
+
+<h3>V1.1.0 / 9-01-04</h3>
+<p>
+New Features:</p>
+<ul>
+  <li>Support for 192 Khz Audio.</li>
+  <li>Seeking without seek table.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Encoding and decoding speed improvements of about 3 percent for presets
+      p0 and p1 on my system. Also some decoding speedup for p2.</li>
+  <li>Fixed a bug in the encoder that resulted in suboptimal compression of
+      some loud files and especially high resolution audio. Some files may
+      gain about 0.05 percent of compression. Not much, but it comes without
+      any speed penality.</li>
+  <li>Further clean up of the Code.</li>
+</ul>
+<p>
+Modifications:</p>
+<ul>
+  <li>I hope you don't mind but i always had the feeling 5 presets are enough.
+      Therefore i dropped the appropriately 'Insane' named preset -p5 and
+      instead made presets 3 and 4 stronger. Okay, new -p4 will nevertheless be
+      slightly weaker than old -p5, because i have reduced the maximum
+      predictor count from 256 to 160. Before doing this i performed a detailed
+      analysis of predictor count * compression * speed. There are not many
+      files which benefit from such high predictor orders. Two of my file sets
+      contain many of such files, but even they will only loose about 0.10
+      percent compression. Not a big loss if in exchange you get nearly half
+      the decoding (cpu power) requirements.</li>
+  <li>Removed option to modify the <i>Prefilter sensitivity</i>.</li>	  
+</ul>
+	  	  
+
+<h3>V1.0.4 / 8-03-11</h3>
+<p>
+New Features:</p>
+<ul>
+  <li>Support for <i>pipe decoding</i>.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Decoding speed improvements of 7 (preset 5) to 13 (preset 0)
+      percent on my system.</li>
+  <li>Modification of the presets -p0 and -p1 to make them even faster:
+	  -p0 is now encoding 17, -p1 10 percent faster on my system.</li>
+  <li>I have replaced some of the Delphi libraries with own code. This will
+      help a later translation to standard C, which can't use delphi libraries.
+      A nice side effect: Most of the binaries are much smaller now.</li>
+  <li>The Readme file now contains links to software with TAK support and to
+      some guides.</li>
+</ul>
+<p>
+Modifications:</p>
+<ul>
+  <li>The read buffer used to decode presets -p0 to -p3 is considerably smaller
+      now. In most cases this should improve the decoding speed.</li>
+</ul>
+	  
+	  	  
+<h3>V1.0.3b / 7-12-16</h3>
+<p>
+Fixed a bug in the GUI version (&quot;Tak.exe&quot;):</p>
+<ul>
+  <li>If the maximum size of the wave file meta data was set to 0, the
+      compressor stopped with an &quot;Error writing destination&quot; error.
+	  </li>
+</ul>
+	  
+	  	  
+<h3>V1.0.3 / 7-12-14</h3>
+<p>
+New Features:</p>
+<ul>
+  <li>Support for <i>pipe encoding</i>.</li>
+  <li>New command line switch <i>-ihs</i> (ignore header size) for pipe encoding.</li>
+  <li>New command line option <i>-sts</i> (set seek table size) for pipe encoding.</li>
+  <li>New command line switch <i>-silent</i> (silent operation).</li>
+  <li>The command line option <i>-wm</i> now let's you specify a maximum size for
+      the wave meta data.</li>
+  <li>New command line switch <i>-pMax</i> to select the strongest encoder preset.</li>
+  <li>The file info function shows you how much space (if any) in the header is
+      beeing wasted because of pipe encoding.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Tiny compression improvements for the presets 0 to 2, rarely also for the
+      stronger presets. The average improvement for my test corpus is about
+	  0.05 percent. Not much, but it comes without a significant speed
+	  penality.</li>
+  <li>Small decoding speed improvements of 4 (preset 5) to 8 (preset 0)
+      percent on my system.</li>
+  <li>The Readme file now contains a simple contents section with links to
+      the most relevant topics. There is also a new section about pipe encoding.
+	  If you want to use it, please read the text...</li>
+</ul>
+<p>
+Modifications:</p>
+<ul>
+  <li>The decoder had to be modified to guarantee error robustness (decoding
+      through errors) for files created by pipe encoding with the -ihs 
+	  (ignore header size) switch applied.</li>
+  <li>Some modifications of the decoding error log file 
+      (&quot;Tak_Deco_Error.txt&quot;).</li>
+  <li>In TAK 1.0.2 there was no difference between the presets -p4/p4e and
+      -p5/-p5e. This irritated some users. Now they are slightly different.</li>
+  <li>Command line: The alternative syntax (-pT to -pI) for the preset
+      specification is no longer supported. Now -p0 to -p5 is obligatory.</li>	  
+  <li>GUI: The buttons for preset and evaluation level selection have been 
+      removed from the encoder options dialog. Please use the comparison 
+      table instead.</li>
+  <li>GUI: Moved the <i>Verify</i> switch from the general encoder options to 
+      the details dialog.</li>
+  <li>GUI: The <i>Save wave file meta data</i> switch has been removed from the
+      encoder output options sheet. Please use the <i>Wave file meta data - 
+	  Maximum Size</i> setting on the stream options sheet instead.</li>
+  <li>Because of an update of my Delphi compiler the binaries are now about
+      35 KB bigger.</li>
+</ul>
+<p>
+Fixed:</p>
+<ul>
+  <li>Some applications crashed if they tried to redirect the output of the
+      command line version. This seems to have been caused by a bug in the
+	  Delphi runtime library. Now i am accessing the console directly, what
+	  hopefully avoids this trouble.</li>
+</ul>
+	  
+	  	  
+<h3>V1.0.2 / 7-11-05</h3>
+<p>
+New preset configuration:</p>
+<ul>
+  <li>Most of the presets have been modified to speed them up and to reduce the
+      decoding requirements. Usually they are more than 50 percent faster while
+	  loosing only about 0.3 percent of compression efficiency.</li>	    
+  <li>The fastest preset TURBO (-p0) is now using 8 instead of 16 predictors and
+      compresses (on average) nevertheless better than FLAC -8 (with 12
+	  predictors). The reduced cpu requirements should guarantee that this
+	  preset can be decoded on any hardware device capable to playback FLAC -8
+	  (maybe even -5).</li>
+  <li>Because of the insertion of the new TURBO preset we now have 6 instead
+      of 5 presets: -p0 to -p5. The strongest setting is now -p5m and it's 
+	  called INSANE.</li>
+  <li>The maximum frame size (samples per channel) is now limited as follows:
+      4096 for TURBO and FAST, 8192 for NORMAL, HIGH and EXTRA, 16384 for
+	  INSANE. This way the specification of the memory requirements of the
+	  decoder is more accurate.</li>
+</ul>
+<p>
+New Features:</p>
+<ul>
+  <li>You can now manually set the frame size to 512, 1024 or 2048 samples
+      to match the frame size of the LossyWav/LossyFlac preprocessor developed
+	  by the Hydrogenaudio.org-Members 2Bdecided, Nick C. and halb27. 
+	  But caution: Frame sizes of 512, 1024 and 2048 are not backwards
+	  compatible and can not be decoded by TAK applications and libraries
+      prior to V1.0.2!</li>
+  <li>The Prefilter can now be disabled by the user.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>The strongest compression mode -p5m (aka -p4m in V1.0.1) is now encoding
+      62 percent faster on my system and is on average loosing only 0.01 percent
+	  compression!</li>
+  <li>Tiny overall speed improvements.</li>	  
+  <li>Better compression of some low passed files and files coming from lossy
+      sources (especially low and medium constant bitrate). Up to more than
+	  1 % for presets Turbo, Fast and Normal, up to 0.3 precent for High, Extra
+	  and Insane. This comes without any significant speed penality.</li>
+  <li>Modification of the file read function of the decoder. It's now reading
+      the file in smaller blocks. This will hopefully increase the decoding
+	  speed of high resolution audio, which seems to be suffering from the
+	  io system of V1.0.1.</li>
+  <li>The memory requirements have been reduced. Depending on the preset the
+      encoder is now using 2 to 3 times, the encoder 1.5 to 2.5 times less
+	  memory. This may slightly improve the speed on some cpus. But i did it
+	  primarily to prepare later hardware implementations.</li>
+  <li>Considerable parts of the source code have been partially rewritten or
+      simplified. It's in no way important for the current users (well, like
+	  any modification it might even introduce bugs...), but it's part of the
+	  preparation of a later source code release. It's only one more step
+	  into this direction, there is still much more to do. As always, i can't
+	  tell you a release date.</li>
+</ul>
+<p>
+Fixed:</p>
+<ul>
+  <li>The file info function was rounding the file duration to the nearest
+      second. Now it's correctly displaying the fraction with 2 decimal places.
+      (30.53 instead of 36.00 seconds).</li>
+  <li>When compressing 96 Khz audio with preset HIGH, preset EXTRA has been
+      stored into the encoder meta data. This had no effect on the decoding
+      or data integrity, but the file info function and media players will
+	  display the wrong preset.</li>
+  <li>The decoder is expected to process any (damaged) data without any problems.
+      But i have found and corrected two cases, where the decoder could crash.
+      The chance for this was less than 1 : 1000 (for damaged files only!).</li>
+  <li>In one place i used an invalid flag combination in a call of Windows' 
+      VirtualFree().</li>  
+</ul>
+
+
+<h3>V1.0.1 / 7-04-14</h3>
+<p>
+Features:</p>
+<ul>
+  <li>Some speed optimizations of encoder and decoder. Depending on the preset
+      and your cpu you may see improvements of 2 to 10 percent (if your hard
+	  disk is fast enough). Most affected: Encoding and decoding of presets
+	  Turbo and Fast, decoding of presets High and Extra.</li>
+  <li>Removed the access to internal encoder options. Reintroduced the
+      additional evaluation level EXTRA as compensation.</li>
+  <li>Added a dynamic comparison table to illustrate the effect of presets and
+      evaluation levels on compression efficiency, encoding and decoding
+	  speed.</li>
+  <li>Added a meta data structure to hold encoder version, preset and
+      evaluation level used for compression. Because of rounding errors
+	  the addition of this handful of bytes can cause 0.01 percent worse
+	  compression be reported (compared to TAK 1.0).</li>
+  <li>Added a new command to show selected information about a compressed
+      file.</li>
+  <li>The command line version now indicates errors via the exit code.
+      I always thought i already had done this...</li>
+  <li>Even better error tolerance of the decoder.</li>
+</ul>
+<p>
+Fixed:</p>
+<ul>
+  <li>GUI: When compressing/decompressing the selection of a drives root
+      directory as user specified output destination caused an error.</li>
+  <li>It was theoretically possible, that when decoding some verify or source io
+      errors had not been reported properly.</li>
+  <li>One tester send me a very special file which could not be encoded; the
+      encoder stopped with an error message. The fact, that nobody before
+	  reported such problems, confirms, that this file generated a very special
+	  conndition. Fortunately TAK still contains much self check code (which
+	  is slowing it down a bit), which detected this error condition and throw
+	  the error message. This bug affected only the encoder; if your files have
+	  been encoded without the encoder reporting an error, they are fine.</li>
+</ul>
+
+
+<h3>V1.0 / 7-01-23</h3>
+<p>
+Fixed:</p>
+<ul>
+  <li>Decoding with the command line version: if you specified wildcards for
+      the file selection and the source directory contained only 1 TAK file,
+	  the decoder always threw the message 'File already exists'. Even worse:
+	  using the overwrite option in this situation led to deletion of the
+	  compressed source file!</li>
+  <li>Usually the decoder ignores any data appended to the file end of the
+      compressed file (for instance APEv2 tags). But it failed, if the file
+	  size was an integer multiple of the frame size (in samples).</li>
+</ul>
+<p>
+Both bugs affected only the decoder, therefore there is no need to re-encode TAK files
+created with beta 2.</p>
+
+
+</body>
+</html>

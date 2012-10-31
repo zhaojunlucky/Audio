@@ -1,0 +1,2 @@
+You must instal DirectX End-User Runtime before launch the application.
+Visit http://www.microsoft.com/downloads/en/details.aspx?FamilyID=2da43d38-db71-4c1b-bc6a-9b6652cd92a3&displayLang=en to download!

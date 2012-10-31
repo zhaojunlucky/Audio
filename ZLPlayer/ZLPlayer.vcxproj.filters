@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\LRC">
+      <UniqueIdentifier>{87922677-cf72-4165-b96c-0764293ad8a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LRC\h">
+      <UniqueIdentifier>{d33d2951-adfe-4867-aa6e-fda1799d72b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LRC\cpp">
+      <UniqueIdentifier>{01fa5d26-eb8b-432a-83f1-c6cb9ae14e37}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\ZLPlayer.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ZLPlayer.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+    <None Include="res\TNext.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\TNextDisable.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\TPause.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\TPlayDisable.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\TPlayNormal.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\TPrevious.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\TPreviousDisable.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\List.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ListHover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ListPress.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Play.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Pause.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Next.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Previous.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Apply.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="code.txt" />
+    <None Include="res\coverSelect.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\koala.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ZLPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLPlayerDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZTaskBarHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZParseCommandLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZUITools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZOptionsDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZFileChooseDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HotKeyHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LRCBase.h">
+      <Filter>Header Files\LRC\h</Filter>
+    </ClInclude>
+    <ClInclude Include="ZLyricDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdioFileEx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZSetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectoryUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ZLPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZLPlayerDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZTaskBarHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZParseCommandLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZUITools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZOptionsDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZFileChooseDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HotKeyHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LRCBase.cpp">
+      <Filter>Header Files\LRC\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="ZLyricDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdioFileEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZSetting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectoryUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZLPlayer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

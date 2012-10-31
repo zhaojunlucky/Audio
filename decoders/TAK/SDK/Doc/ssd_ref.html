@@ -1,0 +1,678 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>SSD Reference</title></head>
+
+<body>
+
+<h1>SSD Reference</h1>
+<p>
+Copyright 2007 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.</p>
+
+
+<h2>Methods and Functions</h2>
+
+<h3><a name="tak_SSD_Create_FromFile">function tak_SSD_Create_FromFile</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_Create_FromFile (      ASourcePath     : PChar;
+                                  const AOptions        : TtakSSDOptions;
+                                        ADamageCallback : TSSDDamageCallback;
+                                        ACallbackUser   : Pointer): TtakSeekableStreamDecoder; cdecl;</pre>
+<p>										
+C:</p>
+<pre>
+TtakSeekableStreamDecoder
+  tak_SSD_Create_FromFile (const char *           ASourcePath,
+                           const TtakSSDOptions * AOptions,
+                           TSSDDamageCallback     ADamageCallback,
+                           void *                 ACallbackUser);</pre>
+										
+<p>										
+This opens the file <i>ASourcePath</i> (maximum of <i>tak_MaxPathLen</i> 
+characters without trailing 0!) and creates an appropriate decoder which is
+returned as the function result and used as a context parameter for the
+following functions. </p>
+<p>
+Afterwards, the decoder's operational readiness should categorically be tested by means of  
+<a href="#tak_SSD_Valid">tak_SSD_Valid</a>! The function result will only be <i>nil</i> when a serious system error (like OutOfMemory) occurred. </p>
+<p>
+<i>AOptions</i> specifies options.</p>
+<p>
+<i>ADamageCallback</i> and <i>ACallbackUser</i> are optional and thus may also be
+<i>nil</i>.</p>
+<p>
+<i>ADamageCallback</i> is called each time the decoder skips an erroneous
+data block. The information transferred along the way can be used to create an error list.</p>
+<p>
+<i>ACallbackuser</i> is arbitrary user data transferred during each call of a callback as user context information, for example.</p>
+<p>
+If a damage summary is sufficient, it is easier to call <a href="#tak_SSD_GetStateInfo">tak_SSD_GetStateInfo</a>
+once at the end of a file.</p>
+<p>
+See also:</p>
+<p>
+<a href="#TtakSSDOptions">TtakSSDOptions</a>,
+<a href="#TSSDDamageCallback">TSSDDamageCallback</a>,
+<a href="#TtakSeekableStreamDecoder">TtakSeekableStreamDecoder</a></p>
+
+
+<h3><a name="tak_SSD_Create_FromStream">function tak_SSD_Create_FromStream</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_Create_FromStream (      ASourceStream     : PtakStreamIoInterface;
+                                          ASourceStreamUser : Pointer;
+                                    const AOptions          : TtakSSDOptions;
+                                          ADamageCallback   : TSSDDamageCallback;
+                                          ACallbackUser     : Pointer) : TtakSeekableStreamDecoder; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakSeekableStreamDecoder
+  tak_SSD_Create_FromStream (const TtakStreamIoInterface * ASourceStream,
+                             void *                        ASourceStreamUser,
+                             const TtakSSDOptions *        AOptions,
+                             TSSDDamageCallback            ADamageCallback,
+                             void *                        ACallbackUser);</pre>
+<p>
+Apart from the fact that the data due to decoding is read by means of the <i>ASourceStream</i> interface, this works like <a href="#tak_SSD_Create_FromFile">tak_SSD_Create_FromFile</a>. <i>ASourceStreamUser</i> contains arbitrary user data which is transferred as a parameter each time an interface function is called.</p>
+<p>
+Currently, the SSD uses the following functions of the interface:</p>
+<pre>
+      CanRead
+      CanWrite
+      CanSeek
+      Read
+      Seek
+      GetLength</pre>
+<p>
+See also:</p>
+<p>
+<a href="com_ref.html#TtakStreamIoInterface">TtakStreamIoInterface</a></p>
+
+
+<h3><a name="tak_SSD_Destroy">procedure tak_SSD_Destroy</a></h3>
+<p>
+Pascal:</p>
+<pre>
+procedure tak_SSD_Destroy (ADecoder : TtakSeekableStreamDecoder); cdecl;</pre>
+<p>
+C:</p>
+<pre>
+void tak_SSD_Destroy(TtakSeekableStreamDecoder ADecoder);</pre>
+<p>
+Destroys <i>ADecoder</i> and deallocates all allocated resources.</p>
+
+
+<h3><a name="tak_SSD_Valid">function tak_SSD_Valid</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_Valid (ADecoder : TtakSeekableStreamDecoder) : TtakBool; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakBool tak_SSD_Valid (TtakSeekableStreamDecoder ADecoder);</pre>
+<p>Returns <i>tak_True</i> if no fatal error occurred. Then further read access can take place.</p>
+
+
+<h3><a name="tak_SSD_State">function tak_SSD_State</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_State (ADecoder : TtakSeekableStreamDecoder) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_SSD_State (TtakSeekableStreamDecoder ADecoder);</pre>
+<p>
+Returns the current error state, respectively the worst error occurred so far.</p>
+<p>
+See also:</p>
+<p>
+<a href="com_ref.html#tak_res_xxx">tak_res_xxx</a>,
+<a href="#tak_res_ssd_xxx">tak_res_ssd_xxx</a></p>
+
+
+<h3><a name="tak_SSD_GetStateInfo">function tak_SSD_GetStateInfo</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetStateInfo (    ADecoder : TtakSeekableStreamDecoder;
+                               var AInfo    : TtakSSDResult) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_SSD_GetStateInfo (TtakSeekableStreamDecoder ADecoder,
+                                 TtakSSDResult *           AInfo);</pre>
+<p>
+Provides extended status information in <i>AInfo</i>.</p>
+<p>
+With valid parameters, the result is always <i>tak_res_Ok</i>.</p>
+<p>
+<b>Attention</b>: Every <a href="#tak_SSD_Seek">seek</a> resets the following fields
+in <i>AInfo</i> to 0:</p>
+<pre>
+    ReadSampleNum
+    DamagedSampleNum
+    SkippedDataBlockNum</pre>
+<p>
+See also:</p>
+<p>
+<a href="#TtakSSDResult">TtakSSDResult</a></p>
+
+
+<h3><a name="tak_SSD_GetErrorString">function tak_SSD_GetErrorString</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetErrorString (AError      : TtakResult;
+                                 AString     : PChar;
+                                 AStringSize : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_SSD_GetErrorString (TtakResult AError,
+                                   char *     AString,
+                                   TtakInt32  AStringSize);</pre>
+<p>
+Provides an English error text for <i>AError </i>in <i>AString</i>. <i>AStringSize</i> contains the size of <i>AString</i> in Bytes
+and should be at least <i>tak_ErrorStringSizeMax</i>.</p>
+<p>
+With valid parameters, the result is always <i>tak_res_Ok</i>.</p>
+
+
+<h3><a name="tak_SSD_GetStreamInfo">function tak_SSD_GetStreamInfo</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetStreamInfo (    ADecoder : TtakSeekableStreamDecoder;
+                                var AInfo    : Ttak_str_StreamInfo) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_SSD_GetStreamInfo (TtakSeekableStreamDecoder ADecoder,
+                                  Ttak_str_StreamInfo *     AInfo);</pre>
+<p>
+Provides stream information in <i>AInfo</i>.</p>
+<p>
+See also:</p>
+<p>
+<a href="com_ref.html#Ttak_str_StreamInfo">Ttak_str_StreamInfo</a></p>
+
+
+<h3><a name="tak_SSD_GetFrameSize">function tak_SSD_GetFrameSize</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetFrameSize (ADecoder : TtakSeekableStreamDecoder) : TtakInt32; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakInt32 tak_SSD_GetFrameSize (TtakSeekableStreamDecoder ADecoder);</pre>
+<p>
+Returns the frame size (in samples) or -1, if a fatal error occurred.</p>
+
+
+<h3><a name="tak_SSD_Seek">function tak_SSD_Seek</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_Seek (ADecoder   : TtakSeekableStreamDecoder;
+                       ASamplePos : TtakInt64) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_SSD_Seek (TtakSeekableStreamDecoder ADecoder,
+                         TtakInt64                 ASamplePos);</pre>
+<p>
+Sets the read position on sample position <i>ASamplePos</i> for following <a href="#tak_SSD_ReadAudio">tak_SSD_ReadAudio</a> calls.</p>
+<p>
+<i>ASamplePos</i> must be a value between 0 and (stream length - 1).</p>
+<p>
+Currently seeking only works if the obligatory seek table
+is undamaged and data integrity is preserved, meaning no file parts have been removed and no nonsense has been inserted into the file.</p>
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_ssd_FrameDamaged</p>
+<p class="ParDesc1">
+   Damaged audio data was found. This is no fatal error!</p>
+   
+
+<h3><a name="tak_SSD_ReadAudio">function tak_SSD_ReadAudio</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_ReadAudio (    ADecoder   : TtakSeekableStreamDecoder;
+                                ASamples   : Pointer;
+                                ASampleNum : TtakInt32;
+                            var AReadNum   : TtakInt32) : TtakResult; cdecl;</pre>
+<p>							
+C:</p>
+<pre>
+TtakResult tak_SSD_ReadAudio (TtakSeekableStreamDecoder ADecoder,
+                              void *                    ASamples,
+                              TtakInt32                 ASampleNum,
+                              TtakInt32 *               AReadNum);</pre>
+<p>
+Reads up to <i>ASampleNum</i> samples to <i>ASamples</i>. <i>AReadNum</i>
+contains the number of samples actually read. <i>AReadNum</i> can be less than <i>ASampleNum</i> only at the end of the file.</p>
+<p>
+The audio data format complies to common Wave file conventions;
+each sample only takes up as many bytes as necessary to save the sample bits.
+Samples up to 8 bits are unsigned, the rest is signed. Multiple channels are
+interleaved sample by sample.</p>
+ 
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_Ok</p>
+<p class="ParDesc1">
+   Even when <i>AReadNum</i> = 0, in case no error occurred!</p>
+   
+<p class="ParName">tak_res_ssd_FrameDamaged</p>
+<p class="ParDesc1">
+   Damaged audio data was read. This is no fatal error!</p>
+<p>
+If a file is read sequentially from the beginning, it might be faster to read
+exactly one frame per function call. You can query the frame size using
+<a href="#tak_SSD_GetFrameSize">tak_SSD_GetFrameSize</a>.</p>
+
+
+<h3><a name="tak_SSD_GetReadPos">function tak_SSD_GetReadPos</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetReadPos (ADecoder : TtakSeekableStreamDecoder) : TtakInt64; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakInt64 tak_SSD_GetReadPos (TtakSeekableStreamDecoder ADecoder);</pre>
+<p>
+Returns current read position in samples. The next
+<a href="#tak_SSD_ReadAudio">tak_SSD_ReadAudio</a> call reads from this position on.</p>
+<p>
+The result is -1 in case a fatal error occurred.</p>
+
+
+<h3><a name="tak_SSD_GetCurFrameBitRate">function tak_SSD_GetCurFrameBitRate</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetCurFrameBitRate (ADecoder : TtakSeekableStreamDecoder) : TtakInt32; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakInt32 tak_SSD_GetCurFrameBitRate (TtakSeekableStreamDecoder ADecoder);</pre>
+<p>
+Returns the compressed bit rate (bits per second) of the last read frame or -1 in case a fatal error occurred.</p>
+
+
+<h3><a name="tak_SSD_GetSimpleWaveDataDesc">function tak_SSD_GetSimpleWaveDataDesc</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetSimpleWaveDataDesc (    ADecoder : TtakSeekableStreamDecoder;
+                                        var ADesc    : Ttak_str_SimpleWaveDataHeader) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_SSD_GetSimpleWaveDataDesc (TtakSeekableStreamDecoder       ADecoder,
+                                          Ttak_str_SimpleWaveDataHeader * ADesc);</pre>
+<p>
+Reads the description of the  Wave metadata
+- provided the container holds any - to <i>ADesc</i>.</p>
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_ssd_MetaDataMissing</p>
+<p class="ParDesc1">
+   The stream does not contain any Wave metadata.</p>
+   
+<p class="ParName">tak_res_ssd_MetaDataDamaged</p>
+<p class="ParDesc1">
+   The Wave metadata is damaged.</p>
+<p>
+See also:</p>
+<p>
+<a href="com_ref.html#Ttak_str_SimpleWaveDataHeader">Ttak_str_SimpleWaveDataHeader</a></p>
+   
+
+<h3><a name="tak_SSD_ReadSimpleWaveData">function tak_SSD_ReadSimpleWaveData</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_ReadSimpleWaveData (ADecoder : TtakSeekableStreamDecoder;
+                                     ABuf     : Pointer;
+                                     ABufSize : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_SSD_ReadSimpleWaveData (TtakSeekableStreamDecoder ADecoder,
+                                       void *                    ABuf,
+                                       TtakInt32                 ABufSize);</pre>
+<p>
+Reads leading and trailing
+Wave metadata - provided the container holds any - to <i>ABuf</i>. <i>ABufSize</i> has to hold the size of <i>ABuf</i>.</p>
+<p>
+The metadata size has to be queried beforehand, using
+<a href="#tak_SSD_GetSimpleWaveDataDesc">tak_SSD_GetSimpleWaveDataDesc</a>.</p>
+<p>
+The header is at the beginning of<i> ABuf</i> and is
+<a href="com_ref.html#Ttak_str_SimpleWaveDataHeader">Ttak_str_SimpleWaveDataHeader.HeadSize</a>
+bytes of size, with <i>TailSize</i> bytes for attached metadata following.</p>
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_ssd_MetaDataMissing</p>
+<p class="ParDesc1">
+   The stream does not contain any Wave metadata.</p>
+   
+<p class="ParName">tak_res_ssd_MetaDataDamaged</p>
+<p class="ParDesc1">
+   The Wave metadata is damaged.</p>
+
+
+<h3><a name="tak_SSD_GetEncoderInfo">function tak_SSD_GetEncoderInfo</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetEncoderInfo (    ADecoder : TtakSeekableStreamDecoder;
+                                 var AInfo    : Ttak_str_MetaEncoderInfo) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_SSD_GetEncoderInfo (TtakSeekableStreamDecoder   ADecoder,
+                                   Ttak_str_MetaEncoderInfo  * AInfo);</pre>
+<p>
+Provides information about the used encoder.</p>
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_ssd_MetaDataDamaged</p>
+<p class="ParDesc1">
+   This metadata is damaged.</p>
+   
+<p>
+<b>Attention</b>: Files created with TAK 1.0 actually do not contain any
+metadata information about the encoder. However, the decoder reconstructs
+the metadata if possible: In case a file does not contain encoder metadata
+information, 1.0.0 (for TAK 1.0) is used as encoder version. The preset is
+gathered from the StreamInfo. As there is no possibility to assign the preset
+evaluation in TAK 1.0, it is always set to <i>tak_PresetEval_Standard</i>.
+Therefore applications should show an &quot;Unknown&quot; preset evaluation
+if the encoder version is 1.0.0.</p>
+<p>
+See also:</p>
+<p>
+<a href="com_ref.html#Ttak_str_MetaEncoderInfo">Ttak_str_MetaEncoderInfo</a></p>
+
+
+<h3><a name="tak_SSD_GetAPEv2Tag">function tak_SSD_GetAPEv2Tag</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_SSD_GetAPEv2Tag (ADecoder : TtakSeekableStreamDecoder) : TtakAPEv2Tag; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakAPEv2Tag tak_SSD_GetAPEv2Tag (TtakSeekableStreamDecoder ADecoder);</pre>
+<p>
+Provides a reference to the APEv2 tag object of the decoder or <i>Nil</i>
+(or <i>NULL </i>resp.) if ADecoder is <i>Nil</i> (or <i>NULL</i> resp.).</p>
+<p>
+Before using the tag object its validity has to be checked!</p>
+<p>
+At the first call of this function the tag is read from the file into the
+memory for further use, so consecutive function calls do not perform any
+access to the file.</p>
+<p>
+See also:</p>
+<p>
+<a href="ape_ref.html#TtakAPEv2Tag">TtakAPEv2Tag</a></p>
+
+
+<h2>Types</h2>
+
+<h3><a name="TtakSeekableStreamDecoder">TtakSeekableStreamDecoder</a></h3>
+<p>
+Decoder instance.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakSeekableStreamDecoder = Pointer;</pre>
+<p>
+C:</p>
+<pre>
+typedef void * TtakSeekableStreamDecoder;</pre>
+
+  
+<h3><a name="TtakSSDOptions">TtakSSDOptions</a></h3>
+<p>
+Options.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakSSDOptions = packed record
+    Cpu   : TtakCpuOptions;
+    Flags : TtakInt32;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct TtakSSDOptions {
+    TtakCpuOptions Cpu;
+    TtakInt32      Flags;
+} TtakSSDOptions;</pre>
+<p>  
+Fields:</p>
+  
+<p class="ParName">Cpu</p>
+<p class="ParDesc1">
+   Which CPU optimizations shall be used?
+   tak_Cpu_Any for best performance.
+   See also <a href="com_ref.html#TtakCpuOptions">TtakCpuOptions</a>.</p>
+
+<p class="ParName">Flags</p>
+<p class="ParDesc1">
+   Options as <i>tak_ssd_opt_xxx-Flags</i>.</p>
+<p>
+Following values can be used as <i>Flags</i>:</p>
+
+<p class="ParName">tak_ssd_opt_OpenWriteable</p>
+<p class="ParDesc1">
+   Open the source file as writeable.</p>
+<p class="ParDesc1">
+   Not yet implemented. May probably be used for writing tags later.</p>
+   
+<p class="ParName">tak_ssd_opt_BufferInput</p>
+<p class="ParDesc1">
+   Shall read operations be buffered?</p>
+<p class="ParDesc1">
+   Current recommendation: This should NOT be used!</p>
+<p class="ParDesc1">
+   Earlier TAK versions categorically buffered, but tests of the current decoder showed no speed advantages over inactive buffering. This option only remains for other test systems' potential problems with inactive buffering.</p>
+   
+<p class="ParName">tak_ssd_opt_SequentialRead</p>
+<p class="ParDesc1">
+   Sequential audio data reading only, allowing the decoder to use a few optimizations, but prohibiting seek operations.</p>
+   
+<p class="ParName">tak_ssd_opt_SkipDamagedFrames</p>
+<p class="ParDesc1">
+   By default, audio data of damaged frames is replaced with silence. If this option is activated, damaged frames are skipped.</p>
+<p class="ParDesc1">
+   As this option requires <i>tak_ssd_opt_SequentialRead</i>, no seek operation is possible in this mode.</p>
+  
+<p class="ParName">tak_ssd_opt_CheckMd5</p>
+<p class="ParDesc1">
+   If the source file contains a MD5 checksum of the original raw audio data,
+   the decoder will calculate the MD5 of the decoded data and compare it with
+   the checksum stored in the file when the whole file has been decoded. If the
+   checksums don't match, the state is set to <i>tak_res_ssd_FrameDamaged</i>.</p>
+<p class="ParDesc1">
+   As this option requires <i>tak_ssd_opt_SequentialRead</i>, no seek operation is possible in this mode.</p>
+  
+  
+<h3><a name="TtakSSDDamageItem">TtakSSDDamageItem</a></h3>
+<p>  
+Information about data errors which is transferred to the
+<a href="#TSSDDamageCallback">DamageCallback</a> function.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  PtakSSDDamageItem = ^TtakSSDDamageItem;
+  TtakSSDDamageItem = packed record
+    SamplePosition : TtakInt64;
+    SampleSize     : TtakInt64;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct TtakSSDDamageItem {
+    TtakInt64 SamplePosition;
+    TtakInt64 SampleSize;
+} TtakSSDDamageItem, *PtakSSDDamageItem;</pre>
+<p>
+Fields:</p>
+
+<p class="ParName">SamplePosition</p>
+<p class="ParName">SampleSize</p>
+<p class="ParDesc1">
+   <i>SampleSize</i> undecodable samples from
+   <i>SamplePosition</i> on.</p>
+  
+  
+<h3><a name="TSSDDamageCallback">TSSDDamageCallback</a></h3>  
+<p>  
+Callback function called on every occurrence of a data error.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TSSDDamageCallback = procedure (AUser   : Pointer;
+                                  ADamage : PtakSSDDamageItem); cdecl;</pre>
+<p>
+C:</p>
+<pre>
+typedef void (*TSSDDamageCallback)(void *            AUser,
+                                   PtakSSDDamageItem ADamage);</pre>
+<p>
+See also:</p>
+<p>
+<a href="#TtakSSDDamageItem">TtakSSDDamageItem</a></p>
+	
+		
+<h3><a name="TtakSSDResult">type TtakSSDResult</a></h3>
+<p>
+Extended status information.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakSSDResult = packed record
+    OpenResult          : TtakResult;
+    SumResult           : TtakResult;
+    StreamSampleNum     : TtakInt64;
+    ReadSampleNum       : TtakInt64;
+    DamagedSampleNum    : TtakInt64;
+    SkippedDataBlockNum : TtakInt32;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct TtakSSDResult {
+    TtakResult OpenResult;
+    TtakResult SumResult;
+    TtakInt64  StreamSampleNum;
+    TtakInt64  ReadSampleNum;
+    TtakInt64  DamagedSampleNum;
+    TtakInt32  SkippedDataBlockNum;
+} TtakSSDResult;</pre>
+  
+<p>
+Fields:</p>
+
+<p class="ParName">OpenResult</p>
+<p class="ParDesc1">
+   Not defined.</p>
+
+<p class="ParName">SumResult</p>
+<p class="ParDesc1">
+   Worst error occurred so far, thus matching the result of <a href="#tak_SSD_State">tak_SSD_State</a>.</p>
+
+<p class="ParName">StreamSampleNum</p>
+<p class="ParDesc1">
+   File size in samples, according to StreamInfo.</p>
+
+<p class="ParName">ReadSampleNum</p>
+<p class="ParDesc1">
+   Total number of output samples.</p>
+
+<p class="ParName">DamagedSampleNum</p>
+<p class="ParDesc1">
+   Number of damaged samples out of <i>ReadSampleNum</i>.</p>
+
+<p class="ParName">SkippedDataBlockNum</p>
+<p class="ParDesc1">
+   Number of undecodable and skipped data blocks, each one containing at least one, possibly multiple frames.</p>
+
+   
+<h2>Constants</h2>
+
+<h3><a name="tak_res_ssd_xxx">tak_res_ssd_xxx</a></h3>
+<p>
+Decoder-specific errors and warnings.</p>
+<p>Hierarchy: Higher values = worse.</p>
+<p>
+Warnings:</p>
+
+<p class="ParName">tak_res_ssd_MetaDataMissing</p>
+<p class="ParDesc1">
+   The requested metadata is optional and could not be found in the container.</p>
+   
+<p>
+Errors:</p>
+
+<p class="ParName">tak_res_ssd_MetaDataDamaged</p>
+<p class="ParDesc1">One or more metadata structures are damaged.</p>
+   
+<p class="ParName">tak_res_ssd_FrameDamaged</p>
+<p class="ParDesc1">
+   One or more audio frames could not be decoded or the MD5 check failed.</p>
+   
+<p class="ParName">tak_res_ssd_ErrorFirst</p>
+<p class="ParDesc1">
+   Codes &gt;= this value are errors.</p>
+   
+<p>   
+Fatal errors:</p>
+  
+<p class="ParName">tak_res_ssd_SourceIoError</p>
+<p class="ParDesc1">Error while reading the source file.</p>
+   
+<p class="ParName">tak_res_ssd_IncompatibleVersion</p>
+<p class="ParDesc1">
+   The file was created with a newer program version using methods this library does not support.</p>
+   
+<p class="ParName">tak_res_ssd_Undecodable</p>
+<p class="ParDesc1">
+   The source file is no TAK file or it is too heavily damaged for decoding a single audio frame.</p>
+   
+<p class="ParName">tak_res_ssd_FatalErrorFirst</p>
+<p class="ParDesc1">
+   Codes &gt;= this value are fatal errors.</p>
+   
+   
+   
+</body>
+</html>

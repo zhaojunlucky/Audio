@@ -1,0 +1,50 @@
+Final release of TAK 2.1.0 ((T)om's lossless (A)udio (K)ompressor)
+
+It consists of:
+
+- TAK Applications 2.1.0 in "\Applications".
+- TAK Winamp plugin 2.1.0 in "\WinAmp".
+- TAK Software Development Kit 1.1.1 in "\SDK".
+- TAK Decoding library 2.1.0 in "\Deco_Lib".
+
+Each folder contains a Readme file with licence and other important
+information.
+
+Release date: 2011-01-08
+
+Copyright 2006 by Thomas Becker, D-49080 Osnabrück.
+All rights reserved.
+
+
+License
+
+This software is provided as FREEWARE, but only for private,
+non-commercial use. It's also free for educational and scientific
+use and for use in charity and humanitarian organisations.
+
+
+Disclaimer of warranty
+
+The software is provided "as is" without warranty of any kind. To
+the maximum extent permitted by applicable law, the author further
+disclaims all warranties, including without limitation any implied
+warranties of merchantability, fitness for a particular purpose,
+and non-infringement. The entire risk arising out of the use or
+performance of the product and documentation remains with recipient.
+
+To the maximum extent permitted by applicable law, in no event shall
+the author be liable for any consequential, incidental, direct,
+indirect, special, punitive, or other damages whatsoever (including,
+without limitation, damages for loss of business profits, business
+interruption, loss of business information, or other pecuniary loss)
+arising out of this agreement or the use of or inability to use the 
+product, even if the author has been advised of the possibility of
+such damages.
+
+
+Distribution
+
+The Software may be freely distributed provided that it is not
+modified and the original archive remains intact with all accompanying
+files, and provided that no fee is charged (except for any reasonable
+fees necessary to cover costs of distribution media).

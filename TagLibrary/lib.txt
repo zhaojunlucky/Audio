@@ -1,0 +1,17 @@
+..\lib\jasper_d.lib
+..\lib\jbig_d.lib
+..\lib\libdcr_d.lib
+..\lib\libpsd_d.lib
+..\lib\mng_d.lib
+..\lib\tiff_d.lib
+..\lib\cximage_d.lib
+
+
+
+..\lib\jasper.lib
+..\lib\jbig.lib
+..\lib\libdcr.lib
+..\lib\libpsd.lib
+..\lib\mng.lib
+..\lib\tiff.lib
+..\lib\cximage.lib

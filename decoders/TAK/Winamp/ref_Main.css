@@ -1,0 +1,213 @@
+/* DATEI: selfhtml.css */
+
+/* Wenn die Schriftgroessen von SELFHTML fuer Sie schwer lesbar sind */
+/* und Sie SELFHTML lokal lesen, benennen Sie diese Datei */
+/* um in selfnormal.css */
+/* und benennen Sie die Datei selfnosize.css im src-Verzeichnis */
+/* um in selfhtml.css */
+
+
+
+/* --- Überschriften ------------------------------------------------ */
+
+h1,h2,h3,h4,p,ul,ol,li,div,td,th,address,blockquote,nobr,b,i {
+  font-family:Verdana,sans-serif; 
+  }
+ 
+  /* --- Text Ebene 1 ---  */
+  
+h1 {
+  font-size:26px; 
+  margin-top:32px; 
+  margin-bottom:12px; 
+  }
+
+  /* --- Text Ebene 2 ---  */
+  
+h2 {
+  font-size:21px; 
+  margin-bottom:12px; 
+  }
+
+  /* --- Prozeduren, Typen, Konstanten usw. ---  */
+  
+h3 {
+  font-size:16px;
+  background-color:#F0F0F0;
+  padding:4px;
+  margin-top:20px;
+  margin-bottom:12px; }
+
+  /* --- Parameternamen, Text Ebene 3 ---  */
+  
+h4 {
+  font-size:14px;
+  margin-top:12px;
+  margin-bottom:8px; }
+
+  
+  
+/* --- Textkörper --------------------------------------------------- */
+
+p,ul,ol,li,div,td,th,address,blockquote { font-size:14px; }
+
+p { margin-top:0px;
+    margin-bottom:10px;
+  } 
+
+
+
+/* --- Code --------------------------------------------------------- */
+
+pre {
+  margin-left:20px;
+  font-family:Courier New,Courier;
+  font-size:13px;
+  color:#0000C0; }
+
+  
+
+/* --- ItemListe ---------------------------------------------------- */
+  
+  /* --- Tabelle --- */
+  
+table.ItemList { 
+  margin-top:0px;
+  margin-bottom:8px;
+  margin-left:20px;
+  table-layout:fixed;
+  border-style:none }
+
+  /* --- Itemname in Spalte 1 --- */
+    
+.ItemNameCell { 
+  vertical-align:top;
+  }
+
+  
+  
+/* --- ProcIndex ---------------------------------------------------- */
+  
+  /* --- Tabelle --- */
+  
+table.ProcIdx { 
+  margin-top:0px;
+  margin-bottom:8px;
+  margin-left:10px;
+/*  table-layout:fixed;*/
+  border-style:none;
+  border-collapse:separate;
+  }
+
+  /* --- Titelzeile --- */
+    
+.ProcIdxTitle { 
+  vertical-align:top;
+  background-color:#D0D0D0;
+  font-weight:bold;
+  }
+
+  /* --- Name in Spalte 1 --- */
+    
+.ProcIdxName { 
+  vertical-align:top;
+  background-color:#F0F0F0;
+  }
+
+  /* --- Beschreibung in Spalte 2 --- */
+    
+.ProcIdxDesc { 
+  vertical-align:top;
+  background-color:#F0F0F0;
+  }
+
+  
+  
+/* --- Parameterbeschreibungstabelle -------------------------------- */
+  
+  /* --- Tabelle --- */
+  
+table.ParDesc { 
+  margin-top:0px;
+  margin-bottom:8px;
+  margin-left:20px;
+  table-layout:fixed;
+  border-style:none }
+
+  /* --- Parametername in Spalte 1 --- */
+    
+.ParNameCell { 
+  vertical-align:top;
+  color:#0000C0; 
+  }
+
+  
+  
+/* --- Topics ------------------------------------------------------- */
+
+  /* --- Topicliste ---  */
+  
+p.TopicList { 
+  margin-left:20px; 
+  }
+  
+  
+    
+/* --- Parameterbeschreibung ---------------------------------------- */
+
+  /* --- Parametername (Titelzeile) ---  */
+  
+p.ParName { 
+  margin-top:0px;
+  margin-bottom:0px; 
+  margin-left:20px; 
+  font-style:italic;
+  }  
+  
+  /* --- Beschreibungstext Ebene 1 ---  */
+  
+p.ParDesc1 {
+  margin-top:0px;
+  margin-bottom:10px;
+  margin-left:40px;   
+  margin-right:40px; 
+  }  
+
+  /* --- Beschreibungstext Ebene 2 ---  */
+  
+p.ParDesc2 {
+  margin-left:60px; 
+  margin-right:40px; 
+  }  
+
+  /* --- Beschreibungstabelle Ebene 2 ---  */
+  
+table.ParDesc2 { 
+  margin-top:0px;
+  margin-left:60px;
+  border-style:none;
+  }
+
+    
+li { margin-top:3px; }
+
+code,kbd,tt { font-family:Courier New,Courier; color:#0000C0; }
+
+var { font-style:normal; color:#0000C0; }
+
+blockquote,cite { font-style:italic; }
+
+pre.normal { color:#000000; }
+
+/*
+a:link { color:#6002ca; text-decoration:underline; }
+
+a:visited { color:#772200; text-decoration:underline; }
+
+a:active { color:#000000; text-decoration:none; }
+*/
+a.an { text-decoration:none; }
+
+.unicode { font-size:15px; font-family:Arial Unicode MS,Arial,sans-serif }
+
+

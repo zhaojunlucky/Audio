@@ -1,0 +1,482 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>APE Referenz</title>
+</head>
+
+<body>
+
+<h1>APE Reference</h1>
+<p>
+Copyright 2007 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.</p>
+
+
+<h2>Methods and functions</h2>
+
+<h3><a name="tak_APE_Valid">function tak_APE_Valid</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_Valid (ATag : TtakAPEv2Tag) : TtakBool; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakBool tak_APE_Valid (TtakAPEv2Tag ATag);</pre>
+<p>
+Returns <i>tak_True</i> if no fatal error occurred. Then the object is ready
+for further use.</p>
+
+
+<h3><a name="tak_APE_State">function tak_APE_State</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_State (ATag : TtakAPEv2Tag) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_APE_State (TtakAPEv2Tag ATag);</pre>
+<p>
+Provides the current error status, respectively the worst error occurred so far.</p>
+<p>
+See also:</p>
+<p>
+<a href="com_ref.html#tak_res_xxx">tak_res_xxx</a>,
+<a href="#tak_res_ape_xxx">tak_res_ape_xxx</a></p>
+
+
+<h3><a name="tak_APE_GetErrorString">function tak_APE_GetErrorString</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_GetErrorString (AError      : TtakResult;
+                                 AString     : PChar;
+                                 AStringSize : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_APE_GetErrorString (TtakResult AError,
+                                   char *     AString,
+                                   TtakInt32  AStringSize);</pre>
+<p>
+Provides an english error text for <i>AError </i>in <i>AString</i>. 
+<i>AStringSize</i> contains the size of <i>AString</i> in Bytes
+and should be at least <i>tak_ErrorStringSizeMax</i>.</p>
+<p> 
+With valid parameters, the result is always <i>tak_res_Ok</i>.</p>
+
+
+<h3><a name="tak_APE_ReadOnly">function tak_APE_ReadOnly</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_ReadOnly (ATag : TtakAPEv2Tag) : TtakBool; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakBool tak_APE_ReadOnly (TtakAPEv2Tag ATag);</pre>
+<p>
+Returns <i>tak_True</i> if the tag cannot be modified.</p>
+
+
+<h3><a name="tak_APE_GetDesc">function tak_APE_GetDesc</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_GetDesc (    ATag  : TtakAPEv2Tag;
+                          var ADesc : TtakAPEv2TagDesc) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_APE_GetDesc (TtakAPEv2Tag       ATag,
+                            TtakAPEv2TagDesc * ADesc);</pre>
+<p>
+Provides information about the tag in <i>ADesc</i>.</p>
+<p>
+See also:</p>
+<p>
+<a href="#TtakAPEv2TagDesc">TtakAPEv2TagDesc</a></p>
+
+
+<h3><a name="tak_APE_GetItemNum">function tak_APE_GetItemNum</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_GetItemNum (ATag : TtakAPEv2Tag) : TtakInt32; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakInt32 tak_APE_GetItemNum (TtakAPEv2Tag ATag);</pre>
+<p>
+Returns the item count or -1 in case a fatal error occurred.</p>
+
+
+<h3><a name="tak_APE_GetIndexOfKey">function tak_APE_GetIndexOfKey</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_GetIndexOfKey (    ATag : TtakAPEv2Tag;
+                                    AKey : PChar;
+                                var AIdx : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_APE_GetIndexOfKey (TtakAPEv2Tag ATag,
+                                  const char * AKey,
+                                  TtakInt32  * AIdx);</pre>
+<p>
+Provides the index of the item with the key <i>AKey</i> in <i>AIdx</i>.
+<i>AKey</i> has to be coded in ASCII and null-terminated. All item functions
+require the particular item to be specified by its index (its position in
+the item list).</p> 
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_tag_NotAvail</p>
+<p class="ParDesc1">
+   There is no item with this key.</p>
+   
+
+<h3><a name="tak_APE_GetItemDesc">function tak_APE_GetItemDesc</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_GetItemDesc (    ATag  : TtakAPEv2Tag;
+                                  AIdx  : TtakInt32;
+                              var ADesc : TtakAPEv2ItemDesc) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_APE_GetItemDesc (TtakAPEv2Tag        ATag,
+                                TtakInt32           AIdx,
+                                TtakAPEv2ItemDesc * ADesc);</pre>
+<p>
+Provides information about the item at the index <i>AIdx</i> in <i>ADesc</i>.</p>
+<p>
+See also:</p>
+<p>
+<a href="#TtakAPEv2ItemDesc">TtakAPEv2ItemDesc</a></p>
+
+
+<h3><a name="tak_APE_GetItemKey">function tak_APE_GetItemKey</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_GetItemKey (    ATag     : TtakAPEv2Tag;
+                                 AIdx     : TtakInt32;
+                                 AKey     : PChar;
+                                 AMaxSize : TtakInt32;
+                             var ASize    : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_APE_GetItemKey (TtakAPEv2Tag  ATag,
+                               TtakInt32     AIdx,
+                               char *        AKey,
+                               TtakInt32     AMaxSize,
+                               TtakInt32 *   ASize);</pre>
+<p>
+Provides in <i>AKey</i> the key of the item at the index <i>AIdx</i>, 
+null-terminated and coded in ASCII. <i>AMaxSize</i> specifies the size of 
+<i>AKey</i> in bytes. <i>ASize</i> provides the minimum space required to 
+hold the key.</p>
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_tag_BufferTooSmall</p>
+<p class="ParDesc1">
+   <i>AKey</i> is too small and undefined.</p>
+
+
+<h3><a name="tak_APE_GetItemValue">function tak_APE_GetItemValue</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_GetItemValue (    ATag     : TtakAPEv2Tag;
+                                   AIdx     : TtakInt32;
+                                   AValue   : Pointer;
+                                   AMaxSize : TtakInt32;
+                               var ASize    : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_APE_GetItemValue (TtakAPEv2Tag  ATag,
+                                 TtakInt32     AIdx,
+                                 void *        AValue,
+                                 TtakInt32     AMaxSize,
+                                 TtakInt32 *   ASize);</pre>
+<p>
+Copies the UTF8-coded value of the item at the index <i>AIdx</i> to
+<i>AValue</i>. <i>AMaxSize</i> specifies the size of <i>AValue</i> in
+bytes. <i>ASize</i> provides the minimum space required to hold the item value.</p>
+<p>
+If only <i>ASize</i> has to be detected, <i>Nil</i> (or <i>NULL</i>, 
+respectively) must be provided as <i>AValue</i>.</p>
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_tag_BufferTooSmall</p>
+<p class="ParDesc1">
+   <i>AValue</i> is too small and undefined.</p>
+
+
+<h3><a name="tak_APE_GetTextItemValueAsAnsi">function tak_APE_GetTextItemValueAsAnsi</a></h3>
+<p>
+Pascal:</p>
+<pre>
+function tak_APE_GetTextItemValueAsAnsi (    ATag            : TtakAPEv2Tag;
+                                             AIdx            : TtakInt32;
+                                             AValueIdx       : TtakInt32;
+                                             AValueSeparator : Char;
+                                             AValue          : PChar;
+                                             AMaxSize        : TtakInt32;
+                                         var ASize           : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_APE_GetTextItemValueAsAnsi (TtakAPEv2Tag  ATag,
+                                           TtakInt32     AIdx,
+                                           TtakInt32     AValueIdx,
+                                           char          AValueSeparator,
+                                           char *        AValue,
+                                           TtakInt32     AMaxSize,
+                                           TtakInt32 *   ASize);</pre>
+<p>
+Copies one selected or all values of the text item at the index <i>AIdx</i> to 
+<i>AValue</i> as a null-terminated ANSI string. <i>AMaxSize</i> specifies the
+size of <i>AValue</i> in bytes. <i>ASize</i> returns the minimum size required
+for holding the item value(s).</p>
+<p>
+If only <i>ASize</i> has to be detected, <i>Nil</i> (or <i>NULL</i>, 
+respectively) must be provided as <i>AValue</i>.</p>
+<p>
+In case a text item has multiple values, the desired value can be selected by
+means of <i>AValueIdx</i>. The number of values can be detected using
+<a href="#tak_APE_GetItemDesc">tak_APE_GetItemDesc</a>.</p>
+<p>
+If -1 is given as <i>AValueIdx</i>, all values are joined and <i>AValueSeparator</i>
+(must not be 0!) is used as a separator.</p>
+<p>
+If an item has only one value, the results of the
+<i>AValueIdx</i> 0 and -1 are identical.</p>
+
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_tag_InvalidType</p>
+<p class="ParDesc1">
+   The item is not a text item.</p>
+
+<p class="ParName">tak_res_tag_BufferTooSmall</p>
+<p class="ParDesc1">
+   <i>AValue</i> is too small. Only <i>AMaxSize - 1</i> characters and the
+   trailing 0 have been written. If <i>AMaxSize</i> is 0, nothing has been
+   written.</p>
+
+
+   
+<h2>Types</h2>
+
+<h3><a name="TtakAPEv2Tag">type TtakAPEv2Tag</a></h3>
+<p>
+APEv2 tag instance.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakAPEv2Tag = Pointer;</pre>
+<p>
+C:</p>
+<pre>
+typedef void * TtakAPEv2Tag;</pre>
+
+
+<h3><a name="TtakAPEv2ItemType">type TtakAPEv2ItemType</a></h3>
+<p>
+Specifies the type of an APEv2 item.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakAPEv2ItemType = TtakInt32;</pre>
+<p>
+C:</p>
+<pre>
+typedef TtakInt32 TtakAPEv2ItemType;</pre>
+<p>
+Following values are possible:</p>
+
+<p class="ParName">tak_apev2_ItemType_Text</p>
+<p class="ParName">tak_apev2_ItemType_Binary</p>
+<p class="ParName">tak_apev2_ItemType_External</p>
+<p class="ParDesc1">
+   These values represent the according information in the APEv2 item header.</p>
+
+   
+<h3><a name="TtakAPEv2ItemDesc">type TtakAPEv2ItemDesc</a></h3>
+<p>
+Information about an APEv2 item.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakAPEv2ItemDesc = packed record
+    ItemType  : TtakAPEv2ItemType;
+    Flags     : TtakUInt32;
+    KeySize   : TtakUInt32;
+    ValueSize : TtakUInt32;
+    ValueNum  : TtakInt32;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct TtakAPEv2ItemDesc {
+    TtakAPEv2ItemType ItemType;
+    TtakUInt32        Flags;
+    TtakUInt32        KeySize;
+    TtakUInt32        ValueSize;
+    TtakInt32         ValueNum;
+} TtakAPEv2ItemDesc;</pre>
+<p>
+Fields:</p>
+
+<p class="ParName">ItemType</p>
+<p class="ParDesc1">
+   The <a href="#TtakAPEv2ItemType">item type</a></p>
+
+<p class="ParName">Flags</p>
+<p class="ParDesc1">
+   The flags from the APEv2 item header.</p>
+
+<p class="ParName">KeySize</p>
+<p class="ParDesc1">
+   The size of the ASCII-coded key values in bytes (without trailing 0).</p>
+
+<p class="ParName">ValueSize</p>
+<p class="ParDesc1">
+   The size of the UTF8-coded item value in bytes.
+   If an item has multiple values, this is the total size.</p>
+
+<p class="ParName">ValueNum</p>
+<p class="ParDesc1">
+   The number of values assigned to a key. Can only be bigger than 1 with text
+   items.</p>
+
+
+<h3><a name="TtakAPEv2TagDesc">type TtakAPEv2TagDesc</a></h3>
+<p>
+Information about an APEv2 tag.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakAPEv2TagDesc = packed record
+    Version   : TtakUInt32;
+    Flags     : TtakUInt32;
+    StreamPos : TtakInt64;
+    TotSize   : TtakInt64;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct TtakAPEv2TagDesc {
+    TtakUInt32 Version;
+    TtakUInt32 Flags;
+    TtakInt64  StreamPos;
+    TtakInt64  TotSize;
+} TtakAPEv2TagDesc;</pre>
+<p>
+Fields:</p>
+
+<p class="ParName">Version</p>
+<p class="ParDesc1">
+   Tag version from the APEv2 tag header.</p>
+
+<p class="ParName">Flags</p>
+<p class="ParDesc1">
+   Flags from the APEv2 tag header.</p>
+
+<p class="ParName">StreamPos</p>
+<p class="ParDesc1">
+   The stream position the Tag begins at, or -1 if the position is unknown.</p>
+
+<p class="ParName">TotSize</p>
+<p class="ParDesc1">
+   The total tag size in bytes.</p>
+
+
+
+<h2>Constants</h2>
+
+  
+<h3><a name="tak_apev2_Version">const tak_apev2_Version = 2000</a></h3>
+<p>
+The library creates tags with this version number and reads tags with this or
+a higher version number (if compatible).</p>
+
+
+<h3><a name="tak_apev2_ItemNumMax">const tak_apev2_ItemNumMax = 100</a></h3>
+<p>
+The maximum number of items supported by the library.</p>
+
+
+<h3><a name="tak_apev2_TagSizeMax"></a>const tak_apev2_TagSizeMax = 16 * 1024 * 1024</h3>
+<p>
+The maximum size of tags supported by the library (in bytes).</p>
+
+
+<h3><a name="tak_res_ape_xxx">const tak_res_ape_xxx</a></h3>
+<p>
+APEv2 tag-specific errors and warnings.</p>
+<p>
+Hierarchy: Higher values = worse.</p>
+<p>
+Warnings:</p>
+
+<p class="ParName">tak_res_ape_NotAvail</p>
+<p class="ParDesc1">
+   The requested information (an item with a particular key)
+   is not contained in the tag.</p>
+   
+<p class="ParName">tak_res_ape_InvalidType</p>
+<p class="ParDesc1">
+   The desired operation cannot be performed on this item type.</p>
+   
+<p class="ParName">tak_res_ape_BufferTooSmall</p>
+<p class="ParDesc1">
+   A buffer given as a parameter is too small to hold the whole desired
+   information.</p>
+   
+<p>
+Fatal errors:</p>
+
+<p class="ParName">tak_res_ape_None</p>
+<p class="ParDesc1">
+   The stream contains no APEv2 tag.</p>
+   
+<p class="ParName">tak_res_ape_Incompatible</p>
+<p class="ParDesc1">
+   The tag contained in the stream is incompatible to this library version.</p>
+   
+<p class="ParName">tak_res_ape_Invalid</p>
+<p class="ParDesc1">
+   The tag structure is erroneous.</p>
+   
+<p class="ParName">tak_res_ape_IoErr</p>
+<p class="ParDesc1">
+   An IO error occurred during stream access.</p>
+   
+   
+<p class="ParName">tak_res_ape_FatalErrorFirst</p>
+<p class="ParDesc1">
+   Codes &gt;= this value are fatal errors.</p>
+   
+   
+   
+</body>
+</html>
+

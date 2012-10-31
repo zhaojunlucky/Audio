@@ -1,0 +1,8 @@
+LIBRARY¡¡"Audio"
+
+EXPORTS
+	CreateZLP		 @1
+	CloseZLP		 @2
+	OpenFile		@3
+	GetTitle		@4
+	GetArtist		@5

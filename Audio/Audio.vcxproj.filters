@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Wav%28h%29">
+      <UniqueIdentifier>{84d98943-c51e-493f-b14e-a0cfad3116e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Wav">
+      <UniqueIdentifier>{05df9ec1-9b49-4e97-be76-029237f3b65f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Flac%28h%29">
+      <UniqueIdentifier>{a29df12d-a57b-400c-87dc-95d48294f4b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ape%28h%29">
+      <UniqueIdentifier>{39e7d05b-1a53-42aa-b685-20cdb2489f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Aac%28h%29">
+      <UniqueIdentifier>{41fcfda9-6361-47d6-84de-2a8756a1a64c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mp3%28h%29">
+      <UniqueIdentifier>{3d389c15-1407-4de2-a856-9c7ccb8edd41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ogg%28h%29">
+      <UniqueIdentifier>{e1c66bbe-a136-46dc-93ff-c670a8820859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Flac">
+      <UniqueIdentifier>{2e116487-b808-43bc-babe-8579a6b5d4a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Ape">
+      <UniqueIdentifier>{f280d617-1911-4619-97c7-67b5e53d4a2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Aac">
+      <UniqueIdentifier>{538691cf-5398-4091-8f7f-1b698c0c7e8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mp3">
+      <UniqueIdentifier>{45788061-a6cf-43eb-9fd5-c16bc033a91c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Ogg">
+      <UniqueIdentifier>{66c3b7c3-3d57-4369-b457-c6517a9be425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mp4%28h%29">
+      <UniqueIdentifier>{5d660e62-3b6b-4fc6-b1c7-ee53fb1dba4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mp4">
+      <UniqueIdentifier>{6f97da80-cb15-4f73-bd34-e257c6c47031}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tta%28h%29">
+      <UniqueIdentifier>{2af77472-2608-4d79-b778-8d19744b2f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tta">
+      <UniqueIdentifier>{3cc28419-da9a-4fd9-915d-717e6a2b19a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tak%28h%29">
+      <UniqueIdentifier>{3f852ace-74de-499f-b13e-3ee14440acfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tak">
+      <UniqueIdentifier>{6b9fb715-4e58-419b-aee1-9e0b8595a34d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Ofr">
+      <UniqueIdentifier>{d2ac81ab-20d0-4814-b764-5e48a211dee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ofr%28h%29">
+      <UniqueIdentifier>{246da20b-f7fb-4f6c-aa7f-149011395479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Wv%28h%29">
+      <UniqueIdentifier>{f3405b70-1657-446f-8e4c-85c113e00494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Wv">
+      <UniqueIdentifier>{5f126621-be79-4bc0-83ce-153f12ca2385}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AUT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioDecoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveDecoder.h">
+      <Filter>Header Files\Wav%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="FlacDecoder.h">
+      <Filter>Header Files\Flac%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="ApeDecoder.h">
+      <Filter>Header Files\Ape%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="AacDecoder.h">
+      <Filter>Header Files\Aac%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Mp3Decoder.h">
+      <Filter>Header Files\Mp3%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="OggDecoder.h">
+      <Filter>Header Files\Ogg%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Mp4Decoder.h">
+      <Filter>Header Files\Mp4%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="AacInfo.h">
+      <Filter>Header Files\Aac%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="TtaDecoder.h">
+      <Filter>Header Files\Tta%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ID3Info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TakDecoder.h">
+      <Filter>Header Files\Tak%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="OfrDecoder.h">
+      <Filter>Header Files\Ofr%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\decoders\OptimFROG\OptimFROGDecoder.h">
+      <Filter>Header Files\Ofr%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="WvDecoder.h">
+      <Filter>Header Files\Wv%28h%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AudioDecoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveDecoder.cpp">
+      <Filter>Source Files\Wav</Filter>
+    </ClCompile>
+    <ClCompile Include="FlacDecoder.cpp">
+      <Filter>Source Files\Flac</Filter>
+    </ClCompile>
+    <ClCompile Include="ApeDecoder.cpp">
+      <Filter>Source Files\Ape</Filter>
+    </ClCompile>
+    <ClCompile Include="AacDecoder.cpp">
+      <Filter>Source Files\Aac</Filter>
+    </ClCompile>
+    <ClCompile Include="Mp3Decoder.cpp">
+      <Filter>Source Files\Mp3</Filter>
+    </ClCompile>
+    <ClCompile Include="OggDecoder.cpp">
+      <Filter>Source Files\Ogg</Filter>
+    </ClCompile>
+    <ClCompile Include="Mp4Decoder.cpp">
+      <Filter>Source Files\Mp4</Filter>
+    </ClCompile>
+    <ClCompile Include="AacInfo.cpp">
+      <Filter>Source Files\Aac</Filter>
+    </ClCompile>
+    <ClCompile Include="TtaDecoder.cpp">
+      <Filter>Source Files\Tta</Filter>
+    </ClCompile>
+    <ClCompile Include="ID3Info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TakDecoder.cpp">
+      <Filter>Source Files\Tak</Filter>
+    </ClCompile>
+    <ClCompile Include="OfrDecoder.cpp">
+      <Filter>Source Files\Ofr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\decoders\OptimFROG\OptimFROGDecoder.cpp">
+      <Filter>Source Files\Ofr</Filter>
+    </ClCompile>
+    <ClCompile Include="WvDecoder.cpp">
+      <Filter>Source Files\Wv</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Audio.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="code.txt" />
+    <None Include="Audio.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

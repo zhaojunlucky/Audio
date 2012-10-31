@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{a6e42651-4238-40cf-8553-5f3a346f2ecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Player">
+      <UniqueIdentifier>{2393aa05-84f0-4dfb-be0b-12d70be3f8e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Decode">
+      <UniqueIdentifier>{3756d5f7-f144-4277-945f-b6c6ef87e4d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Decode\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Core\Decode\Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Core\Player\Source Files">
+      <UniqueIdentifier>{1af804a6-96b3-428c-b321-241b9c810af6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Player\Header Files">
+      <UniqueIdentifier>{f72c09a2-193a-4b3a-8e9b-719dc1030779}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Encode">
+      <UniqueIdentifier>{484a34fa-9a04-4b8c-a28f-a85211042fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Encode\Header Files">
+      <UniqueIdentifier>{0e77c147-7978-4396-b311-c17d0226b407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Encode\Source Files">
+      <UniqueIdentifier>{00b63420-d47a-48b4-989d-43eaf90bd24f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ZPlayer.h">
+      <Filter>Core\Player\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio3D.h">
+      <Filter>Core\Player\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEffect.h">
+      <Filter>Core\Player\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMutex.h">
+      <Filter>Core\Player\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VoiceCallback.h">
+      <Filter>Core\Player\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Decoder.h">
+      <Filter>Core\Decode\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioBase.h">
+      <Filter>Core\Decode\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBase.h">
+      <Filter>Core\Player\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Core\Decode\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Encoder.h">
+      <Filter>Core\Encode\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveEncoder.h">
+      <Filter>Core\Encode\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FlacEncoder.h">
+      <Filter>Core\Encode\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApeEncoder.h">
+      <Filter>Core\Encode\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MP3Encoder.h">
+      <Filter>Core\Encode\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ZPlayer.cpp">
+      <Filter>Core\Player\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMutex.cpp">
+      <Filter>Core\Player\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VoiceCallback.cpp">
+      <Filter>Core\Player\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Decoder.cpp">
+      <Filter>Core\Decode\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Encoder.cpp">
+      <Filter>Core\Encode\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveEncoder.cpp">
+      <Filter>Core\Encode\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FlacEncoder.cpp">
+      <Filter>Core\Encode\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApeEncoder.cpp">
+      <Filter>Core\Encode\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MP3Encoder.cpp">
+      <Filter>Core\Encode\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZLPCore.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

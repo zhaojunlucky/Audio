@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>TAK Winamp Plugin</title>
+</head>
+
+<body>
+
+<h1>TAK Winamp Plugin</h1>
+<p>
+A Winamp playback plugin for files created by TAK ((T)om's lossless (A)udio
+(K)ompressor).</p>
+<p>
+Version: IN_TAK.DLL V2.1.0 / 2011-01-08</p>
+<p>
+Copyright 2006 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.
+</p>
+
+
+<h2>License</h2>
+<p>
+This software is provided as FREEWARE, but only for private, non-commercial use.
+It's also free for educational and scientific use and for use in charity and
+humanitarian organisations.</p>
+
+
+<h2>Disclaimer of warranty</h2>
+<p>
+The software is provided &quot;as is&quot; without warranty of any kind. To the maximum
+extent permitted by applicable law, the author further disclaims all warranties,
+including without limitation any implied warranties of merchantability, fitness
+for a particular purpose, and non-infringement. The entire risk arising out of
+the use or performance of the product and documentation remains with recipient.</p>
+<p>
+To the maximum extent permitted by applicable law, in no event shall the author
+be liable for any consequential, incidental, direct, indirect, special,
+punitive, or other damages whatsoever (including, without limitation, damages
+for loss of business profits, business interruption, loss of business
+information, or other pecuniary loss) arising out of this agreement or the use
+of or inability to use the product, even if the author has been advised of
+the possibility of such damages.</p>
+
+
+<h2>Distribution</h2>
+<p>
+The Software may be freely distributed provided that it is not modified and the
+original archive remains intact with all accompanying files, and provided that
+no fee is charged (except for any reasonable fees necessary to cover costs of
+distribution media).</p>
+
+
+<h2>Contact</h2>
+<p>
+I am frequently active in the Lossless Audio Compression forum at
+<a href="http://www.hydrogenaudio.org/" title="Visit Hydrogen Audio">Hydrogen Audio</a>;
+a good place to ask questions regarding TAK.</p>
+<p>
+My homepage, <a href="http://www.thbeck.de/" title="Visit my homepage">www.thbeck.de</a>, 
+contains some information about TAK, but unfortunately only in german.</p>
+<p>
+If you would like to contact me by email please be aware that i will not
+always have time to answer.</p>
+
+
+<h1>Installation</h1>
+
+<ul>
+  <li>Close Winamp (if running).</li>
+  <li>Copy the file &quot;in_tak.dll&quot; into the Plugins folder of your
+      Winamp installation.</li>
+  <li>Start Winamp, open it's configuration dialog and associate the file
+      extension &quot;tak&quot; with Winamp.</li>	  
+</ul>
+
+
+<h1>Features</h1>
+<ul>
+  <li>Very low cpu usage. Depending on the encoder preset my Pentium 3 with
+      866 MHz decodes at a rate of 60 to 80 times faster than real time...</li>
+  <li>Ultra fast seeking. I am not able to notice any delay on my old Pentium 3
+      with 866 MHz.</li>
+  <li>Maximum error tolerance. It should be possible to playback any file
+      containing at least one intact block of about 2 seconds of audio data.</li>
+  <li>Reading support for APEv2-tags located at the end of the file.</li>
+  <li>Gapless playback.</li>
+</ul>
+<p>
+Some remarks:</p>
+<ul>
+  <li>Seeking in damaged files will not always be possible.</li>
+  <li>Any damaged part of the audio data will be muted (replaced with silence). 
+      If only the last 2 seconds of an 60 minutes file are intact, the plugin
+	  will first output 3598 seconds of silence. If you want to remove damaged
+	  audio parts, decode the file with the TAK application and selcet the 
+	  option &quot;Skip errors&quot;.</li>
+  <li>I tested the plugin with Winamp 2.91, 5.34 and 5.5. When using v 5.34 
+      and higher with the default skin, seeking seemed to be delayed. Most
+	  probably this only regards to the position indicator, the playback
+	  seems to start immediately. After switching to the classic skin, any
+	  delay was gone.</li>
+  <li>Because of my very old sound card, i could not test 24-bit playback. 
+      Futhermore: Some visualization plugins don't support 24-bit data. It has
+	  to be converted to 16 bit before sending it to those plugins. This has
+	  not been implemented yet! It's very easy to do, but i don't want to
+	  include code, which i am not able to test. I will soon buy a better 
+	  soundcard.</li>
+</ul>
+   
+
+
+<h1>History</h1>
+
+
+<h3>V2.1.0 / 11-01-08</h3>
+<p>
+Modifications:</p>
+<ul>
+  <li>The file info dialog now also shows the name of the codec used to
+      compress the file.</li>
+</ul>
+
+
+<h3>V2.0.0 / 10-01-07</h3>
+<p>
+New features:</p>
+<ul>
+  <li>Support for the new codec introduced with TAK 2.0.</li>
+</ul>
+
+
+<h3>V1.1.2 / 9-07-27</h3>
+<p>
+Improvements:</p>
+<ul>
+  <li>Faster decoding and a smaller binary because of the optimizations in
+      TAK 1.1.2.</li>
+</ul>
+
+
+<h3>V1.1.1 / 9-03-11</h3>
+<p>
+Modifications:</p>
+<ul>
+  <li>This version will no longer use seek tables contained in files created
+      with applications prior to TAK 1.1.1.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Smaller binary because of the optimizations in TAK 1.1.1.</li>
+</ul>
+
+
+<h3>V1.1.0 / 9-01-04</h3>
+<p>
+New Features:</p>
+<ul>
+  <li>Support for 192 Khz Audio.</li>
+  <li>Seeking without seek table.</li>
+</ul>
+<p>
+Improvements:</p>
+<ul>
+  <li>Faster decoding because of the optimizations in TAK 1.1.0.</li>
+</ul>
+
+
+<h3>V1.0.8 / 8-03-11</h3>
+<p>
+Modifications:</p>
+<ul>
+  <li>Faster decoding because of the optimizations in TAK 1.0.4.</li>
+</ul>
+
+
+<h3>V1.0.7 / 7-12-14</h3>
+<p>
+Modifications:</p>
+<ul>
+  <li>The decoder had to be modified to guarantee error robustness (decoding
+      through errors) for files created by pipe encoding with the -ihs 
+	  (ignore header size) switch applied.</li>
+  <li>The info dialog displays the seek point interval.</li> 
+</ul>
+
+
+<h3>V1.0.6 / 7-11-12</h3>
+<p>
+Bug fixes:</p>
+<ul>
+  <li>Some compatibility issues with Winamp 5.5 resolved: &quot;<i>If I have
+      any tak file queued in the playlist when I quit winamp, the next time I
+	  try to start winamp it instantly crashes. The only way for me to start
+	  winamp again is to delete the local playlist files from winamp's
+	  directory.</i>&quot;</li> 
+</ul>
+
+
+<h3>V1.0.5 / 7-11-05</h3>
+<p>
+New features:</p>
+<ul>
+  <li>Support for frame sizes of 512, 1024 and 2048 samples which have been
+      introduced with TAK V1.0.2.</li>
+  <li>Support for the additional preset INSANE introduced with TAK V1.0.2.</li>
+</ul>
+<p>
+Bug fixes:</p>
+<ul>
+  <li>The decoder is expected to process any (damaged) data without any
+      problems. But i have found and corrected two cases, where the decoder
+	  could crash. The chance for this was less than 1 : 1000 (for damaged
+	  files only!).</li> 
+  <li>In one place i used an invalid flag combination in a call of Windows' 
+      VirtualFree().</li> 
+</ul>
+
+
+<h3>V1.0.4 / 7-05-14</h3>
+<p>
+Bug fixes:</p>
+<ul>
+  <li>When using the in_zip plugin, Winamp crashed.</li>
+</ul>
+
+
+<h3>V1.0.3</h3>
+<p>
+Non-public version for selected testers.</p>
+
+
+<h3>V1.0.2 / 7-04-14</h3>
+<p>
+Modifications:</p>
+<ul>
+  <li>The APEv2 tag reading functions are a bit more tolerant when reading
+      invalid tag headers not following the official APEv2 specification.</li>
+</ul>
+<p>
+Bug fixes:</p>
+<ul>
+  <li>When playing high resolution audio, the plugin reported wrong values for
+      the current compressed bitrate.</li>
+</ul>
+
+
+<h3>V1.0.1 / 7-04-10</h3>
+<p>
+First stable release.</p>
+<p>
+New features (compared to beta 3):</p>
+<ul>
+  <li>Support for gapless playback.</li>
+</ul>
+
+
+</body>
+</html>
+

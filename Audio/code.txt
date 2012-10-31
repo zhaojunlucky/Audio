@@ -1,0 +1,54 @@
+mpg123_id3v1 *v1;
+	mpg123_id3v2 *v2;
+	int meta = mpg123_meta_check(_handle);
+	
+ 	if(meta & MPG123_ID3 && mpg123_id3(_handle, &v1, &v2) == MPG123_OK)
+	{
+
+		if(v2->title && v2->title->fill > 0)
+		{
+			char *p = &v2->title->p[1];
+			m_id3.title.SetData(p,v2->title->fill-1);
+		}
+		else if(strlen(v1->title) > 0)
+			m_id3.title.SetData(v1->title,strlen(v1->title)>30?30:strlen(v1->title));
+		else
+			m_id3.title.Empty();
+
+		if(v2->album && v2->album->fill > 0)
+			m_id3.album.SetData(v2->album->p,v2->album->fill);
+		else if(strlen(v1->album) > 0)
+			m_id3.album.SetData(v1->album,strlen(v1->album)>30?30:strlen(v1->album));
+		else
+			m_id3.album.Empty();
+
+
+		if(v2->artist && v2->artist->fill > 0)
+			m_id3.artist.SetData(v2->artist->p,v2->artist->fill);
+		else if(strlen(v1->artist) > 0)
+			m_id3.artist.SetData(v1->artist,strlen(v1->artist)>30?30:strlen(v1->artist));
+		else
+			m_id3.artist.Empty();
+
+		if(v2->year&& v2->year->fill > 0)
+			m_id3.year.SetData(v2->year->p,v2->year->fill);
+		else if(strlen(v1->year) > 0)
+			m_id3.year.SetData(v1->year,4);
+		else
+			m_id3.year.Empty();
+
+
+		if(v2->comment && v2->comment->fill > 0)
+			m_id3.comment.SetData(v2->comment->p,v2->comment->fill);
+		else if(strlen(v1->comment) > 0)
+			m_id3.comment.SetData(v1->comment,strlen(v1->comment)>30?30:strlen(v1->comment));
+		else
+			m_id3.comment.Empty();
+
+
+		if(v2->genre && v2->genre->fill > 0)
+			m_id3.genre.SetData(v2->genre->p,v2->genre->fill);
+		else
+			m_id3.genre.Empty();
+
+	}

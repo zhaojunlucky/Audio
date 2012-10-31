@@ -1,0 +1,132 @@
+﻿<Window x:Class="LRC.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="LRC Download -- By ZJSoft" Height="640" Width="900" MaxWidth="900" MaxHeight="640" xmlns:my="clr-namespace:LRC"  ResizeMode="CanMinimize" Closing="Window_Closing" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Background="Red" >
+
+    <Window.Resources>
+        <Style x:Key="ItemContStyle" TargetType="{x:Type ListViewItem}">
+            <Style.Resources>
+                <LinearGradientBrush x:Key="ProfitBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0.1" Color="#AA00CC00" />
+                    <GradientStop Offset="0.8" Color="#55008800" />
+                </LinearGradientBrush>
+                <LinearGradientBrush x:Key="LossBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0.1" Color="#AACC0000" />
+                    <GradientStop Offset="0.8" Color="#55880000" />
+                </LinearGradientBrush>
+               
+                <my:NumberToPolarValueConverter x:Key="PolarValueConv" />
+            </Style.Resources>
+
+            <!-- Stretch the content so that we can right-align values 
+           in the Balance column. -->
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+
+            <Style.Triggers>
+                <!-- When a customer owes money, color them green. -->
+                <DataTrigger Binding="{Binding ID, Converter={StaticResource PolarValueConv}}" Value="+1">
+                    <Setter Property="Background" Value="{StaticResource ProfitBrush}" />
+                </DataTrigger>
+                <!-- When a customer is owed money, color them red. -->
+                <DataTrigger Binding="{Binding ID, Converter={StaticResource PolarValueConv}}" Value="-1">
+                    <Setter Property="Background" Value="{StaticResource LossBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--<SnippetCheckBoxDataTemplate>-->
+        <DataTemplate x:Key="LastCell">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="True" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Tag="{Binding Path}"/>
+            </StackPanel>
+        </DataTemplate>
+        <!--</SnippetCheckBoxDataTemplate>-->
+        
+        
+    </Window.Resources>
+    
+    <Grid Name="mainPanel" Width="880" Height="600" Background="Red">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="167" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="652*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40">
+                
+            </RowDefinition>
+            <RowDefinition Height="250">
+                
+            </RowDefinition>
+            <RowDefinition Height="295*">
+
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <GridSplitter Height="600" VerticalAlignment="Top" Grid.RowSpan="3" >
+            
+        </GridSplitter>
+        <my:DirectoryTreeView HorizontalAlignment="Left" x:Name="directoryTreeView" VerticalAlignment="Top" Grid.RowSpan="3" Height="600" Width="167"  Background="Red"/>
+        <RichTextBox Grid.Column="2" Grid.Row="2" Height="281" HorizontalAlignment="Left" Name="lrcBox" VerticalAlignment="Top" Width="662" Margin="24,4,0,0" FontFamily="Tahoma" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="False">
+            <RichTextBox.Document>
+                <FlowDocument Focusable="True" LineHeight="5">
+                </FlowDocument>
+            </RichTextBox.Document>
+        </RichTextBox>
+        <ListView Grid.Column="2" Grid.Row="1" Height="190" HorizontalAlignment="Left" Margin="374,14,0,0" Name="lrcList" VerticalAlignment="Top" Width="316" MouseDoubleClick="lrcList_MouseDoubleClick"
+                  ItemContainerStyle="{StaticResource ItemContStyle}" ItemsSource="{Binding}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="55" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn Header="Title" Width="120" DisplayMemberBinding="{Binding Title}" />
+                    <GridViewColumn Header="Artist" Width="130" DisplayMemberBinding="{Binding Artist}"/>                      
+                    </GridView>
+                </ListView.View>
+        </ListView>
+        <Expander Grid.Column="2" Height="249" HorizontalAlignment="Left" Name="expander1" VerticalAlignment="Top" Width="359" ExpandDirection="Right" Expanded="expander1_Expanded" Collapsed="expander1_Collapsed" Grid.RowSpan="3" Margin="0,32,0,0">
+            <Grid Height="263" Width="337">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="104*"/>
+                    <ColumnDefinition Width="233*"/>
+                </Grid.ColumnDefinitions>
+                <ListView Height="189" HorizontalAlignment="Left" Margin="0,21,-1,0" Name="fileListView" VerticalAlignment="Top" Width="338" ItemsSource="{Binding}" SelectionChanged="fileListView_SelectionChanged" SelectionMode="Extended" Grid.ColumnSpan="2" >
+                    <ListView.View>
+                        <GridView>
+                           
+                            <GridViewColumn Header="Name" 
+                          DisplayMemberBinding="{Binding Name}" Width="140"/>
+                            <GridViewColumn Header="Title" 
+                          DisplayMemberBinding="{Binding Title}" Width="80"/>
+                            <GridViewColumn Header="Artist"  
+                          DisplayMemberBinding="{Binding Artist}" Width="50"/>
+                            <!--<SnippetGridViewColumnCheckBox>-->
+                            <GridViewColumn Header="Download" CellTemplate="{StaticResource LastCell}"  
+                          Width="60"/>
+                            <!--</SnippetGridViewColumnCheckBox>-->
+                            <GridViewColumn Header="Path"  DisplayMemberBinding="{Binding Path}" Width="50"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Content="Search" Height="23" HorizontalAlignment="Left" Margin="157,218,0,0" Name="searchByDir" VerticalAlignment="Top" Width="75" Click="searchByDir_Click" Grid.Column="1" />
+                <CheckBox Content="Auto Select lrc" Height="16" HorizontalAlignment="Left" Margin="34,226,0,0" Name="autoSelect" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+            </Grid>
+        </Expander>
+        <RichTextBox Grid.Column="2" Height="189" HorizontalAlignment="Left" Margin="21,14,0,47" Width="338" Name="about" Grid.Row="1" IsReadOnly="True" FontFamily="Tahoma" FontWeight="Bold" Foreground="Red">
+            <RichTextBox.Document>
+                <FlowDocument Focusable="True" LineHeight="5">
+                </FlowDocument>
+            </RichTextBox.Document>
+        </RichTextBox>
+        <Label  Grid.Column="2" HorizontalAlignment="Left" Margin="20,7,0,0" Width="649" Visibility="Collapsed" Name="fileInfo" FontFamily="Tahoma" FontWeight="Bold"></Label>
+        <Expander Grid.Column="2" Header="expander2" Height="28" HorizontalAlignment="Left" Margin="20,7,0,0" Name="expander2" VerticalAlignment="Top" ExpandDirection="Left" Width="708" Collapsed="expander2_Collapsed" Expanded="expander2_Expanded" IsExpanded="True">
+            <Grid>
+                <Label Height="28" HorizontalAlignment="Left" Margin="-1,-3,0,0" Name="label1" VerticalAlignment="Top" />
+                <Label Content="Search Title" Height="28" HorizontalAlignment="Right" Margin="0,-4,565,0" Name="label2" VerticalAlignment="Top" Width="80" />
+                <TextBox Height="23" HorizontalAlignment="Right" Margin="0,-1,328,0" Name="titleBox" VerticalAlignment="Top" Width="233" KeyDown="titleBox_KeyDown" />
+                <Label Content="Aritst" Height="28" HorizontalAlignment="Left" Margin="325,-4,0,0" Name="label3" VerticalAlignment="Top" />
+                <TextBox Height="23" HorizontalAlignment="Right" Margin="0,-2,56,0" Name="aritstBox" VerticalAlignment="Top" Width="216" KeyDown="aritstBox_KeyDown" />
+                <Button Content="Go" Height="23" HorizontalAlignment="Right" Margin="0,-1,3,0" Name="searchByEnter" VerticalAlignment="Top" Width="49" Click="searchByEnter_Click" />
+            </Grid>
+        </Expander>
+        <Label Content="" Grid.Column="2" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="375,215,0,0" Name="status" VerticalAlignment="Top" />
+    </Grid>
+</Window>

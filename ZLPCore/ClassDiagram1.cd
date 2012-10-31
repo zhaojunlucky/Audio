@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CMyMutex" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAgQAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>MyMutex.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VoiceCallback" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgABEAAAEQAAAIAAAAAgAAAAAAAEAAAAABAEAAAA=</HashCode>
+      <FileName>VoiceCallback.h</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CZPlayer" Collapsed="true">
+    <Position X="7.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAABJBEAAIAQACAABAQwAIACAAQCQoAgAABgAAAA=</HashCode>
+      <FileName>ZPlayer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDecoder" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIgKAwACAAAhAAgAAAAABIABAAAQACAAAA=</HashCode>
+      <FileName>decoder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CZTag" Collapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAACAAAAAAICCAAAQAAQAAEAQADAAAAAQAAAAABCA=</HashCode>
+      <FileName>ZTag.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTagHelper" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>TagHelper.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="AUDIO_STATE" Collapsed="true">
+    <Position X="3" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAQBAAAAAAAAAAAAAAAiAAAAAAAAA=</HashCode>
+      <FileName>PlayerBase.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="__unnamed_struct_0089_1" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAIAAAgAAAAAAAAAACgAAAAAAAAAAACIAA=</HashCode>
+      <FileName>PlayerBase.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CallbackPara" Collapsed="true">
+    <Position X="4.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>PlayerBase.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PLAYER_CONTROL" Collapsed="true">
+    <Position X="6.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAgAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PlayerBase.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_BMPSIZE" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAQAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TagBase.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="WAVEINFO" Collapsed="true">
+    <Position X="3" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAIAACAgAABAAAAAAAAAAIAAAQICAAAQAAA=</HashCode>
+      <FileName>AudioBase.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="PLAYER_STATE" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PlayerBase.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ZCallbackFunction" Collapsed="true">
+    <Position X="3" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PlayerBase.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="BMPSIZE" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TagBase.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="ZMessage" Collapsed="true">
+    <Position X="4.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAEEgAAQAABAAAAAAAAIAAAAAEAAAAAAEAQBAA=</HashCode>
+      <FileName>PlayerBase.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AudioFormat" Collapsed="true">
+    <Position X="3" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAYDAEBAAAAAAAAAAAAAgAgQgAAAAAAAAACAAgAAAQ=</HashCode>
+      <FileName>AudioBase.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

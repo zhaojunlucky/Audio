@@ -1,0 +1,673 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="ref_Main.css">
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<meta name="Generator" content="1st Page 20000">
+<title>General reference</title>
+</head>
+
+<body>
+
+<h1>General reference</h1>
+<p>
+Copyright 2007 by Thomas Becker, D-49080 Osnabrück.<br>
+All rights reserved.</p>
+
+
+<h2>Elementary types</h2>
+
+<h3><a name="TtakInt64">type TtakInt64</a></h3>
+<p>
+A signed 64-bit integer. Allocates 8 bytes.</p>
+
+<h3><a name="TtakInt32">type TtakInt32</a></h3>
+<p>
+A signed 32-bit integer. Allocates 4 bytes.</p>
+
+<h3><a name="TtakUInt32">type TtakUInt32</a></h3>
+<p>
+An unsigned 32-bit integer. Allocates 4 bytes.</p>
+
+<h3><a name="TtakBool">type TtakBool</a></h3>
+<p>
+Can only take two values:</p>
+  
+<p class="ParName">tak_False</p>
+<p class="ParDesc1">
+   false / no.</p>
+   
+<p class="ParName">tak_True</p>
+<p class="ParDesc1">
+   true / yes.</p>
+
+   
+
+<h2>Function results and errors </h2>
+
+ 
+<h3><a name="TtakResult">type TtakResult</a></h3>
+<p>
+Function result and object status </p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakResult = TtakInt32;</pre>
+<p>
+C:</p>
+<pre>
+typedef TtakInt32 TtakResult;</pre>
+  
+  
+<h3><a name="tak_res_xxx">const tak_res_xxx</a></h3>
+<p>
+General result constants. Every object can define further object-specific results.</p>
+<p>
+Success:</p>
+
+<p class="ParName">tak_res_Ok</p>
+<p class="ParDesc1">
+   OK.</p>
+   
+<p>
+System errors:</p>
+
+<p class="ParName">tak_res_InternalError</p>
+<p class="ParDesc1">
+   TAK's error...</p>
+
+<p class="ParName">tak_res_NotImplemented</p>
+<p class="ParDesc1">
+   This function is not  implemented yet.</p>
+
+<p class="ParName">tak_res_IncompatibleVersion</p>
+<p class="ParDesc1">
+   The  library version currently in use does not support this function. This applies to new codecs, for example </p>
+
+<p class="ParName">tak_res_OutOfMemory</p>
+<p class="ParDesc1">
+   A memory request could not be followed.</p>
+   
+<p>
+User errors:</p>
+
+<p class="ParName">tak_res_InvalidParameter</p>
+<p class="ParDesc1">
+   Invalid function parameter, for example range exceeded or NULL reference.</p>
+
+<p class="ParName">tak_res_InvalidIoInterface</p>
+<p class="ParDesc1">
+   A TtakStreamIoInterface does not provide a requested functionality.</p>
+
+<p class="ParName">tak_res_InvalidMode</p>
+<p class="ParDesc1">
+   The object was in a mode which does not allow execution of the desired function.</p>
+
+<p class="ParName">tak_res_BufferTooSmall</p>
+<p class="ParDesc1">
+   A buffer assigned as a parameter (for strings, for example)
+   was too small.</p>
+
+<p class="ParName">tak_res_NotEnoughAudioData</p>
+<p class="ParDesc1">
+   The encoder was commanded to terminate despite having written less audio data than specified at its initialisation. </p>
+
+<p class="ParName">tak_res_TooMuchAudioData</p>
+<p class="ParDesc1">
+   The encoder was commanded to write more audio data than specified at its initialisation.</p>
+
+   
+
+<h2>Library</h2>
+
+<h3><a name="tak_InterfaceVersion">const tak_InterfaceVersion</a></h3>
+<p>
+The library interface version. By comparison to the version information
+provided by <a href="#tak_GetLibraryVersion">tak_GetLibraryVersion</a>, the
+compatibility to the currently used library DLL can be checked:</p>
+<p>
+<i>tak_InterfaceVersion</i> has to be &lt;= <i>AVersion</i> and &gt;=
+<i>ACompatibility</i>.</p> 
+
+
+<h3><a name="tak_GetLibraryVersion">function tak_GetLibraryVersion</a></h3>
+<p>
+Provides version information of the library.</p>
+<p>
+Pascal:</p>
+<pre>
+function tak_GetLibraryVersion (var AVersion       : TtakInt32;
+                                var ACompatibility : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_GetLibraryVersion (TtakInt32 * AVersion,
+                                  TtakInt32 * ACompatibility);</pre>
+<p>
+<i>AVersion</i> contains the library's three-digit version number, each with a size of 1 byte. The lowest byte is the lowest digit.</p>
+<p>
+Example:  00010000h = 1.0.0</p>
+<p>
+<i>ACompatibility</i> contains the version number of the oldest library the current version is downwards compatible with.</p>
+<p>
+If all parameters are valid, the result is always <i>tak_res_Ok</i>.</p>
+
+
+
+<h2>System</h2>
+
+<h3><a name="TtakCpuOptions">type TtakCpuOptions</a></h3>
+<p>
+Specifies CPU features for optimizations.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakCpuOptions = TtakInt32;</pre>
+<p>
+C:</p>
+<pre>
+typedef TtakInt32 TtakCpuOptions;</pre>
+<p>	
+Following flags can be set and  combined per bit-wise OR, if necessary:</p> 
+
+<p class="ParName">tak_Cpu_Asm</p>
+<p class="ParDesc1">
+   Use Assembler optimizations, utilizing no CPU-specific instructions. Currently ignored.</p>
+
+<p class="ParName">tak_Cpu_MMX</p>
+<p class="ParDesc1">
+   Use MMX (64-Bit).</p>
+
+<p class="ParName">tak_Cpu_SSE</p>
+<p class="ParDesc1">
+   Use SSE1. Currently not implemented.</p>
+
+<p class="ParName">tak_Cpu_None</p>
+<p class="ParDesc1">
+   Use no code optimizations at all.</p>
+   
+<p class="ParName">tak_Cpu_Any</p>
+<p class="ParDesc1">
+   Use all code optimizations supported by your target system.</p>
+   
+<p>	
+TAK automatically deactivates optimizations not supported by the CPU.</p>
+
+
+
+<h3><a name="TtakStreamIoInterface">type TtakStreamIoInterface</a></h3>
+<p>
+Interface for external file access implementations.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  PtakStreamIoInterface = ^TtakStreamIoInterface;
+  TtakStreamIoInterface = packed record
+    CanRead   : function (AUser : Pointer) : TtakBool; cdecl;
+    CanWrite  : function (AUser : Pointer) : TtakBool; cdecl;
+    CanSeek   : function (AUser : Pointer) : TtakBool; cdecl;
+    Read      : function (    AUser    : Pointer;
+                              ABuf     : Pointer;
+                              ANum     : TtakInt32;
+                          var AReadNum : TtakInt32) : TtakBool; cdecl;
+    Write     : function (AUser : Pointer;
+                          ABuf  : Pointer;
+                          ANum  : TtakInt32) : TtakBool; cdecl;
+    Flush     : function (AUser : Pointer) : TtakBool; cdecl;
+    Truncate  : function (AUser : Pointer) : TtakBool; cdecl;
+    Seek      : function (AUser : Pointer;
+                          APos  : TtakInt64) : TtakBool; cdecl;
+    GetLength : function (    AUser   : Pointer;
+                          var ALength : TtakInt64) : TtakBool; cdecl;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct TtakStreamIoInterface {
+    TtakBool (*CanRead)  (void * AUser);
+    TtakBool (*CanWrite) (void * AUser);
+    TtakBool (*CanSeek)  (void * AUser);
+    TtakBool (*Read)     (void *      AUser,
+                          void *      ABuf,
+                          TtakInt32   ANum,
+                          TtakInt32 * AReadNum );
+    TtakBool (*Write)    (void *       AUser,
+                          const void * ABuf,
+                          TtakInt32    ANum);
+    TtakBool (*Flush)    (void * AUser);
+    TtakBool (*Truncate) (void * AUser);
+    TtakBool (*Seek)     (void *    AUser,
+                          TtakInt64 APos);
+    TtakBool (*GetLength)(void *      AUser,
+                          TtakInt64 * ALength);
+} TtakStreamIoInterface;
+typedef TtakStreamIoInterface* PtakStreamIoInterface;</pre>
+<p>
+Functions:</p>
+
+<p class="ParName">CanRead</p>
+<p class="ParName">CanWrite</p>
+<p class="ParName">CanSeek</p>
+<p class="ParDesc1">
+   Can be read / written / seeked?</p>
+
+<p class="ParName">Read</p>
+<p class="ParDesc1">
+   Reads a maximum of <i>ANum</i> Bytes into <i>ABuf</i>. <i>AReadNum</i> contains the number of bytes actually read.</p>
+<p class="ParDesc1">
+   ATTENTION: Currently  <i>AReadNum</i> may be less than
+   <i>ANum</i> only at the end of a file!</p>
+
+<p class="ParName">Write</p>
+<p class="ParDesc1">
+   Writes <i>ANum</i> bytes out of <i>ABuf</i> into the file. The user might have to buffer manually, as writing less than <i>ANum</i> bytes is not possible. </p>
+
+<p class="ParName">Flush</p>
+<p class="ParDesc1">
+   Writes all buffer content into the file. Usually used by TAK only once at the end of a file.</p>
+
+<p class="ParName">Truncate</p>
+<p class="ParDesc1">
+   Erases everything from the current position on. Results in truncation of the file. Probably necessary for APEv2 tag updates. </p>
+
+<p class="ParName">Seek</p>
+<p class="ParDesc1">
+   Sets the file pointer on absolute position <i>APos</i>.</p>
+
+<p class="ParName">GetLength</p>
+<p class="ParDesc1">
+   Outputs the file size (in bytes) to <i>ALength</i>.</p>
+<p class="ParDesc1">
+   ATTENTION:  On repeated function calls, the file size may only change according to writing operations requested by TAK! </p>
+
+<p>
+In the first parameter, every function is supplied user data by means of the pointer
+<i>AUser</i>, specified at the interface handoff to a TAK object.</p>
+<p>
+Unless otherwise specified, every error is reported by means of the function result
+<i>tak_False</i>. Furthermore, every error is considered fatal, thus terminating all file operation.</p>
+
+
+
+<h2>Audio format </h2>
+
+<h3><a name="tak_AudioFormat_xxx">const tak_AudioFormat_xxx</a></h3>
+<p>
+Specification of the audio data format:</p>
+
+<p class="ParName">tak_AudioFormat_DataType_PCM</p>
+<p class="ParDesc1">
+   PCM audio.</p>
+
+   
+<h3><a name="TtakAudioFormat">type TtakAudioFormat</a></h3>
+<p>
+Specification of the audio format.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakAudioFormat = packed record
+    DataType   : TtakInt32;
+    SampleRate : TtakInt32;
+    SampleBits : TtakInt32;
+    ChannelNum : TtakInt32;
+    BlockSize  : TtakInt32;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct TtakAudioFormat {
+    TtakInt32 DataType;
+    TtakInt32 SampleRate;
+    TtakInt32 SampleBits;
+    TtakInt32 ChannelNum;
+    TtakInt32 BlockSize;
+} TtakAudioFormat;</pre>
+
+<p>
+Fields:</p>
+
+<p class="ParName">DataType</p>
+<p class="ParDesc1">
+   Currently always = tak_AudioFormat_DataType_PCM.</p>
+
+<p class="ParName">SampleRate</p>
+<p class="ParDesc1">
+   Samples per second (per channel).</p>
+
+<p class="ParName">SampleBits</p>
+<p class="ParDesc1">
+   Bits per sample.</p>
+
+<p class="ParName">ChannelNum</p>
+<p class="ParDesc1">
+   Number of channels.</p>
+
+<p class="ParName">BlockSize</p>
+<p class="ParDesc1">
+   = ChannelNum * ((SampleBits + 7) / 8)</p>
+   
+<p>
+This structure will be extended for more than 2 channels.</p>
+
+
+
+<h2>Codecs and presets</h2>
+	
+	
+<h3><a name="tak_GetCodecName">function tak_GetCodecName</a></h3>
+<p>
+Provides the name of a codec.</p>
+<p>
+Pascal:</p>
+<pre>
+function tak_GetCodecName (ACodec    : TtakInt32;
+                           AName     : PChar;
+                           ANameSize : TtakInt32) : TtakResult; cdecl;</pre>
+<p>
+C:</p>
+<pre>
+TtakResult tak_GetCodecName (TtakInt32 ACodec,
+                             char *    AName,
+                             TtakInt32 ANameSize);</pre>
+<p><i>AName</i> contains a plain text name for ACodec. <i>ANameSize</i> is the size of <i>AName</i> in bytes and should be <i>tak_CodecNameLenSize</i>
+at least.</p>
+<p>
+Special function results:</p>
+
+<p class="ParName">tak_res_IncompatibleVersion</p>
+<p class="ParDesc1">
+   <i>ACodec</i> is unknown, <i>AName</i> is not defined.</p>
+
+   
+<h3><a name="TtakPresets">type TtakPresets</a></h3>
+<p>
+Encoder presets.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakPresets = TtakInt32;</pre>
+<p>
+C:</p>
+<pre>
+typedef TtakInt32 TtakPresets;</pre>
+
+
+<h3><a name="TtakPresetEvaluations">type TtakPresetEvaluations</a></h3>
+<p>
+Preset evaluations.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakPresetEvaluations = TtakInt32;</pre>
+<p>
+C:</p>
+<pre>
+typedef TtakInt32 TtakPresetEvaluations;</pre>
+<p>
+Following values are possible:</p>  
+
+<p class="ParName">tak_PresetEval_Standard</p>
+<p class="ParName">tak_PresetEval_Extra</p>
+<p class="ParName">tak_PresetEval_Max</p>
+<p class="ParDesc1">
+   TAK's Preset evaluations (Standard to Max).</p>
+
+
+<h2>Stream / Container</h2>
+
+<h3>const tak_FrameSizeMax = 16384</h3>
+<p>
+Maximum number of samples in a frame.</p>
+
+
+<h3>const tak_FrameDurationMax = 250</h3>
+<p>
+Maximum length of a frame (in ms).</p>
+
+
+<h3><a name="tak_str_SimpleWaveDataSizeMax">const tak_str_SimpleWaveDataSizeMax = 1024 * 1024</a></h3>
+<p>
+Maximum size of Wave metadata.</p>
+
+
+<h3><a name="Ttak_str_EncoderInfo">type Ttak_str_EncoderInfo</a></h3>
+<p>
+Information about the used codec.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  Ttak_str_EncoderInfo = packed record
+    Codec   : TtakInt32;
+    Profile : TtakPresets;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct Ttak_str_EncoderInfo {
+    TtakInt32   Codec;
+    TtakPresets Profile;
+} Ttak_str_EncoderInfo;</pre>
+<p>
+Fields:</p>
+  
+<p class="ParName">Codec</p>
+<p class="ParDesc1">
+   Codec type. Range: 0-63.</p>
+<p class="ParDesc1">
+   In TAK 1.0 this value is always 0. Other values are possible when  new codecs are added or an existing codec's error correction leads to incompatibilities with older decoders.</p>
+<p class="ParDesc1">
+   <a href="#tak_GetCodecName">tak_GetCodecName</a> provides the name of a codec.</p>
+
+<p class="ParName">Profile</p>
+<p class="ParDesc1">
+   Hardware profile, codec-specific where appropriate.</p>
+<p class="ParDesc1">
+   In case the user uses the standard settings of the pre-defined presets, the value matches the chosen preset. </p>
+<p>
+Profiles define performance requirements for the decoder. The relevant
+parameters are:</p>
+<ul>
+  <li>The frame length  (memory requirements)</li>
+  <li>The number of predictors  (CPU performance)</li>
+  <li>Usage of the method  'Channel decorrelation - Prediction'. (CPU performance)</li>
+  <li>Usage of the  prefilter. (CPU performance)</li>
+</ul>
+<p>
+Example: If the user chooses the TURBO preset and increases the number of predictors from
+16 to 128, HIGH is saved as the profile.</p>
+   
+   
+<h3><a name="TtakFrameSizeTypes">type TtakFrameSizeTypes</a></h3>
+<p>TAK defines a limited number of frame size types, specifying either the frame length in ms or the frame size in samples.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  TtakFrameSizeTypes = TtakInt32;</pre>
+<p>
+C:</p>
+<pre>
+typedef TtakInt32 Ttak_str_FrameSizeTypes;</pre>
+<p>
+Possible values:</p>
+  
+<p class="ParName">tak_FrameSizeType_94_ms</p>
+<p class="ParName">tak_FrameSizeType_125_ms</p>
+<p class="ParName">tak_FrameSizeType_188_ms</p>
+<p class="ParName">tak_FrameSizeType_250_ms</p>
+<p class="ParDesc1">
+   Frame size in ms.</p>
+
+<p class="ParName">tak_FrameSizeType_4096</p>
+<p class="ParName">tak_FrameSizeType_8192</p>
+<p class="ParName">tak_FrameSizeType_16384</p>
+<p class="ParName">tak_FrameSizeType_512</p>
+<p class="ParName">tak_FrameSizeType_1024</p>
+<p class="ParName">tak_FrameSizeType_2048</p>
+<p class="ParDesc1">
+   Frame size in samples.</p>
+<p>
+Frame sizes are specified as time values by default. There are only two exceptions:</p>
+<ul>
+  <li>With  high sample rates the desired frame length cannot be achieved without exceeding the maximum number of samples per frame. In this case <i>tak_FrameSizeType_16384</i> is set.</li>
+  <li>A hardware decoder  only has limited memory available, thus it might not be able to cope with frame sizes higher than, for example, 4096.
+	  In this case the frame size can be limited accordingly during encoding. </li>
+</ul>    
+
+   
+<h3><a name="Ttak_str_SizeInfo">type Ttak_str_SizeInfo</a></h3>
+<p>
+Information about size parameters.</p>   
+<p>
+Pascal:</p>
+<pre>
+type
+  Ttak_str_SizeInfo = packed record
+    FrameSize          : TtakFrameSizeTypes;
+    FrameSizeInSamples : TtakInt32;
+    SampleNum          : TtakInt64;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct Ttak_str_SizeInfo {
+    Ttak_str_FrameSizeTypes FrameSize;
+    TtakInt32               FrameSizeInSamples;
+    TtakInt64               SampleNum;
+} Ttak_str_SizeInfo;</pre>
+<p>
+Fields:</p>
+  
+<p class="ParName">FrameSize</p>
+<p class="ParDesc1">
+   Frame size type.</p>
+
+<p class="ParName">FrameSizeInSamples</p>
+<p class="ParDesc1">
+   Frame size in samples. Range: 1 to 16384.</p>
+
+<p class="ParName">SampleNum</p>
+<p class="ParDesc1">
+   Stream length in samples.</p>
+<p class="ParDesc1">
+   The maximum stream length for TAK 1.0 always fits into an unsigned long.</p>
+<p>
+See also:</p>
+<p>
+<a href="#TtakFrameSizeTypes">TtakFrameSizeTypes</a></p>
+
+   
+<h3><a name="Ttak_str_StreamInfo">type Ttak_str_StreamInfo</a></h3>
+<p>
+Summarizes all stream information
+necessary for decoding.</p>
+<p>
+Pascal:</p>  
+<pre>
+type
+  Ttak_str_StreamInfo = packed record
+    Encoder : Ttak_str_EncoderInfo;
+    Sizes   : Ttak_str_SizeInfo;
+    Audio   : TtakAudioFormat;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct Ttak_str_StreamInfo {
+    Ttak_str_EncoderInfo Encoder;
+    Ttak_str_SizeInfo    Sizes;
+    TtakAudioFormat      Audio;
+} Ttak_str_StreamInfo;</pre>
+<p>
+See also:</p>
+<p>
+<a href="#Ttak_str_EncoderInfo">Ttak_str_EncoderInfo</a>,
+<a href="#Ttak_str_SizeInfo">Ttak_str_SizeInfo</a>,
+<a href="#TtakAudioFormat">TtakAudioFormat</a></p>
+
+  
+<h3><a name="Ttak_str_SimpleWaveDataHeader">type Ttak_str_SimpleWaveDataHeader</a></h3>
+<p>  
+Description of the metadata block of a Wave file.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  Ttak_str_SimpleWaveDataHeader = packed record
+    HeadSize : TtakInt32;
+    TailSize : TtakInt32;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct Ttak_str_SimpleWaveDataHeader {
+    TtakInt32 HeadSize;
+    TtakInt32 TailSize;
+} Ttak_str_SimpleWaveDataHeader;</pre>
+<p>  
+Fields:</p>
+  
+<p class="ParName">HeadSize</p>
+<p class="ParDesc1">
+   Size of the Wave header (in Bytes).</p>
+
+<p class="ParName">TailSize</p>
+<p class="ParDesc1">
+   Size of the metadata following the audio data at the end of a file (where applicable).</p>
+
+   
+<h3><a name="Ttak_str_MetaEncoderInfo">type Ttak_str_MetaEncoderInfo</a></h3>
+<p>  
+Information about the used encoder.</p>
+<p>
+Pascal:</p>
+<pre>
+type
+  Ttak_str_MetaEncoderInfo = packed record
+    Version    : TtakInt32;
+    Preset     : TtakPresets;
+    Evaluation : TtakPresetEvaluations;
+  end;</pre>
+<p>
+C:</p>
+<pre>
+typedef struct Ttak_str_MetaEncoderInfo {
+    TtakInt32             Version;
+    TtakPresets           Preset;
+    TtakPresetEvaluations Evaluation;
+} Ttak_str_MetaEncoderInfo;</pre>
+<p>  
+Fields:</p>
+  
+<p class="ParName">Version</p>
+<p class="ParDesc1">
+   The encoder's three-digit version number, each with a size of 1 byte.
+   The lowest byte is the lowest digit.
+   Example:  00010000h = 1.0.0</p>
+   
+<p class="ParName">Preset</p>
+<p class="ParDesc1">
+   Encoder preset.</p>
+
+<p class="ParName">Evaluation</p>
+<p class="ParDesc1">
+   Preset evaluation.</p>
+
+<p>
+See also:</p>
+<p>
+<a href="#TtakPresets">TtakPresets</a>,
+<a href="#TtakPresetEvaluations">TtakPresetEvaluations</a></p>
+   
+
+   
+</body>
+</html>
